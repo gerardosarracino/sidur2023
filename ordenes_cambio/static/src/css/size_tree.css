@@ -1,0 +1,19 @@
+.tree_sizex {
+overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 15px;
+    max-height: 54px;
+    -webkit-line-clamp: 4; /* Write the number of
+                              lines you want to be
+                              displayed */
+    -webkit-box-orient: vertical;
+
+}
+
+.tree_sizex2 {
+
+  font-size: 10px;
+
+
+}

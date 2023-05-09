@@ -1,0 +1,85 @@
+<odoo>
+    <data>
+        <record id="observacion" model="ir.actions.act_window">
+            <field name="name">Observación</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditoria.observacion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="observacion_tree_view" model="ir.ui.view">
+            <field name="name">Observación</field>
+            <field name="model">auditoria.observacion</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="numero"/>
+                    <field name="auditoria"/>
+                    <field name="contrato"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_termino"/>
+                    <field name="estado_resp" string="Estado de respuesta"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="observacion_search_view" model="ir.ui.view">
+            <field name="name">Observación</field>
+            <field name="model">auditoria.observacion</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="auditoria"/>
+                    <field name="numero"/>
+                    <field name="contrato"/>
+                    <field name="descripcion"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="observacion_form_view" model="ir.ui.view">
+            <field name="name">Observación</field>
+            <field name="model">auditoria.observacion</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="numero" placeholder="Número"/>
+
+                            </h1>
+                        </div>
+
+                        <div class="oe_button_box oe_read_only">
+                             <button class="oe_stat_button" type="action" name="%(respuesta_observacion)d" context="{'search_default_observacion': active_id, 'default_observacion': active_id}"  icon="fa-folder-open">
+                                <field icon="fa-folder-open" string="Respuestas"  name="respuesta" widget="statinfo" />
+                             </button>
+                        </div>
+
+                            <h6>
+                                Estado: <field name="estado_resp" widget="label_selection"/>
+                            </h6>
+
+
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+
+                                    <field name="auditoria"/>
+                                    <field name="contrato"/>
+                                    <field name="descripcion"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Observación" id="observacion_menuitem"
+              parent="menu_auditorias"
+              action="observacion" sequence="3"/>
+    </data>
+</odoo>

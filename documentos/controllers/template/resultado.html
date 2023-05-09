@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Documentos</title>
+</head>
+ 
+<body>
+	<div class="container-fluid">
+		 
+		<div class="list-group" style="padding: 23px;">
+			<a href="#" style="text-align: center;" class="list-group-item list-group-item-action active">
+			 <h4>Seleccione su documento!</h4>
+			</a>
+			{% for p in data %}
+			<a href="http://sidur.galartec.com/documento/{{ p.tipo_documento.name }}/{{ id }}/idplantilla/{{ p.id }}" class="list-group-item list-group-item-action list-group-item-secondary">{{ p.nombre_documento }}</a>
+			 
+			{% endfor %}
+		  </div>
+	</div> 
+</body>
+</html>

@@ -1,0 +1,395 @@
+<odoo>
+  <data>
+
+
+    <record id="filtro_search_expediente_revision" model="ir.ui.view">
+         <field name="name">Filtro de busqueda para Revision</field>
+         <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+             <search string="Busqueda en Partidas">
+             <filter name="group_nombre_programa" string="Programa de Inversion" context="{'group_by':'programaInversion'}"/>
+             <filter name="group_tipo_estado_obra" string="Estado Semaforo" context="{'group_by':'tipo_estado_obra'}"/>
+             <filter name="group_municipio" string="Municipio" context="{'group_by':'municipio'}"/>
+             <filter string="Responsable" name="responsable_revision_exp" context="{'group_by':'responsable_revision_exp'}" />
+
+
+            <separator/>
+            <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                 <separator orientation="vertical" />
+                 <filter string="2021" name="ejercicio" domain="[('ejercicio.name', '=', '2021')]" />
+            <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" /> 
+            <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+            <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+            <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+            <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+            <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+            <separator/>
+
+             <separator string="Tipo de la Obra"/>
+             <filter string=" --- Tipo de Obra ---" name="tipo_obra"/>
+                 <separator orientation="vertical" />
+             <filter string="OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'OBRA')]" />
+             <filter string="ESTUDIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ESTUDIOS')]" />
+             <filter string="EQUIPO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'EQUIPO')]" />
+             <filter string="PROYECTO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'PROYECTO')]" />
+             <filter string="SUPERVISIÓN EXTERNA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SUPERVISIÓN EXTERNA')]" />
+             <filter string="REMODELACIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'REMODELACIÓN')]" />
+             <filter string="SERVICIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SERVICIOS')]" />
+             <filter string="VERIFICACIÓN ELÉCTRICA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'VERIFICACIÓN ELÉCTRICA')]" />
+             <filter string="CONTROL DE CALIDAD" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'CONTROL DE CALIDAD')]" />
+             <filter string="DIRECTOR RESPONSABLE DE OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'DIRECTOR RESPONSABLE DE OBRA')]" />
+             <filter string="ADQUISICIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ADQUISICIÓN')]" />
+             <separator/>
+
+             <separator string="Verificado/Revisado"/>
+                <filter string=" --- Verificado/Revisado ---" name="reviso_expediente"/>
+             <separator orientation="vertical" />
+              <filter string="Revisado" name="reviso_expediente" domain="[('reviso_expediente', '=', True)]" />
+              <filter string="Verificado" name="verificado_expediente" domain="[('verificado_expediente', '=', True)]" />
+
+              <field name="nombre_partida" string="Nombre de la Partida"/>
+              
+              
+              <field name="obra"/>
+               <field name="responsable_revision_exp"/>
+              <field name="reviso_expediente"/>
+              <field name="verificado_expediente"/>
+              <field name="nombre_contrato" string="Nombre del Contrato"/>
+
+              <field name="programaInversion"/>
+              <field name="contratista"/>
+              <field name="ejercicio"/>
+              <field name="municipio"/>
+              <field name="tipo_obra"/>
+              <field name="residente_obra"/>
+             </search>
+         </field>
+      </record>
+
+<report
+        id="estatus_expediente_docs"
+        model="partidas.partidas"
+        string="ESTATUS EXPEDIENTE"
+        report_type="qweb-html"
+        name="libros_blancos.reportex"
+        menu="False"
+    />
+
+    <report
+        id="reporte_incidencia"
+        model="partidas.partidas"
+        string="REPORTE INCIDENCIAS"
+        report_type="qweb-html"
+        name="libros_blancos.reporte_incidencias_qweb"
+        menu="False"
+    />
+
+
+    <report
+        id="reporte_ficha"
+        model="libros.blancos"
+        string="FICHA TECNICA"
+        report_type="qweb-html"
+        name="libros_blancos.reporte_ficha_libros"
+        menu="False"
+    />
+
+
+        <!-- VISTA REVISION DOCUMENTOS -->
+    <record id="revision_expediente_vista_form" model="ir.ui.view">
+        <field name="name">Revision Expediente Único Form</field>
+        <field name="model">partidas.partidas</field>
+        <field name="arch" type="xml">
+            <form string="" create="false" delete="false" >
+            <header>
+                   <button name="%(estatus_expediente_docs)d" string="ESTATUS DE EXPEDIENTE" type="action"  icon="fa-copy" />
+                   <button name="%(reporte_incidencia)d" string="REPORTE INCIDENCIAS" type="action"  icon="fa-copy" />
+                   <button name="%(reporte_ficha_libros)d" string="FICHA TECNICA" type="action"  icon="fa-copy" />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="reviso_expediente"/>
+                        <field name="fecha_revisado_exp" attrs="{'invisible': [('reviso_expediente','=', False)],
+                            'required': [('reviso_expediente','=', True)]}" class="oe_inline"/>
+                    </group>
+                    <hr/>
+                    <group attrs="{'invisible': [('reviso_expediente','=', False)]}">
+                        
+                        <field name="verificado_expediente"/>
+                        <field name="fecha_verificado_exp" attrs="{'invisible': [('verificado_expediente','=', False)],
+                            'required': [('verificado_expediente','=', True)]}" class="oe_inline"/>
+                    </group>
+
+                    <hr/>
+
+                    <group>
+                        <field name="responsable_revision_exp" required="1" class="oe_inline"/>
+                    </group>
+
+                    <group>
+                        <field name="comentarios_expediente" placeholder="AGREGAR COMENTARIO..."/>
+                    </group>
+
+                    <hr/>
+
+                    <group>
+                        <field name="porcentaje_existencia" readonly="1" force_save="1"/>
+                    </group>
+
+                    <group>
+                    <button name="%(librosb_action)d" type="action" string="Ver lista de documentos" class="btn btn-info"
+                    style="float:right;"/>
+                    </group>
+
+
+                    <group>
+                        <field name="tabla_libros_blancos" widget="one2many" nolabel="1">
+                            <tree editable="bottom" create="false" delete="false" decoration-danger="aplica == 'Si' and existe == 'No'">
+                                <field name="numero_documento" readonly="1"/>
+                                <field name="etapa" readonly="1"/>
+                                <field name="nombre_documento" readonly="1"/>
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                <field name="Observaciones"/>
+                                <field name="p_id" readonly="1" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM DE LOS DOCUMENOS -->
+    <record id="ventana_tabla_librosblancos" model="ir.ui.view">
+          <field name="name">Ventana Libros Blancos</field>
+          <field name="model">expediente.libros_blancos</field>
+          <field name="arch" type="xml">
+              <form string="">
+                   <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> Contrato:  <field name="p_id" readonly="1"/> </h3>
+                      </div>
+                  </div>
+                  <sheet>
+                      <group col="4">
+                            <field name="numero_documento" />
+                            <field name="nombre_documento" readonly="1"/>
+                            <field name="aplica" readonly="1"/>
+                            <field name="existe"/>
+                            <field name="Observaciones"/>
+
+                             <field name="verificado_expediente" />
+
+                      </group>
+                   
+                  </sheet>
+                  <!--div class="oe_chatter">
+                         <field name="message_follower_ids" widget="mail_followers"/>
+                         <field name="message_ids" widget="mail_thread"/>
+                    </div-->
+
+              </form>
+          </field>
+      </record>
+
+
+    <!-- VISTA TREE DE LOS DOCUMENOS -->
+    <record model="ir.ui.view" id="libross_tree">
+      <field name="name">tree libros</field>
+      <field name="model">expediente.libros_blancos</field>
+      <field name="arch" type="xml">
+        <tree create="false">
+            <field name="numero_documento" readonly="1"/>
+            <field name="etapa" readonly="1"/>
+            <field name="nombre_documento" readonly="1"/>
+            <field name="aplica"/>
+            <field name="existe"/>
+            <field name="Observaciones"/>
+            <field name="p_id" invisible="1"/>
+             <field name="verificado_expediente" invisible="1"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="libross_tree_search">
+      <field name="name">tree libros search</field>
+      <field name="model">expediente.libros_blancos</field>
+      <field name="arch" type="xml">
+        <search>
+             <field name="nombre_documento"/>
+            <field name="numero_documento"/>
+            <field name="etapa"/>
+            <field name="aplica"/>
+            <field name="existe"/>
+            <field name="Observaciones"/>
+            <field name="p_id"/>
+        </search>
+      </field>
+    </record>
+
+
+    <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="revision_expediente_tree">
+      <field name="name">Revision de Documentos al Expediente Único Tree</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false">
+            <field name="nombre_partida" string="# Contrato"/>
+            <field name="contratista" string="Contratista" />
+            <field name="obra" string="Obra"/>
+            <field name="fecha_revisado_exp"/>
+            <field name="fecha_verificado_exp"/>
+            <field name="responsable_revision_exp"/> 
+            <field name="tipo_contrato"/> 
+            <field name="reviso_expediente" />
+            <field name="verificado_expediente" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="documentos_libros_blancos_tree" model="ir.ui.view">
+          <field name="name">documentos libros blancos tree</field>
+          <field name="model">expediente.libros_blancos</field>
+          <field name="arch" type="xml">
+              <tree string="" decoration-danger="aplica == 'Si' and existe == 'No'">
+                  <field name="numero_documento" readonly="1" force_save="1"/>
+                    <field name="nombre_documento" readonly="1" force_save="1"/>
+                    <field name="etapa" readonly="1" force_save="1"/>
+                    <field name="aplica" force_save="1" readonly="1"/>
+                    <field name="existe" force_save="1" readonly="1"/>
+                    <field name="Observaciones" force_save="1" readonly="1"/>
+                    <field name="p_id" readonly="1" invisible="1" force_save="1"/>
+              </tree>
+          </field>
+      </record>
+
+      <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="revision_expediente_action">
+      <field name="name">Revision Fisica</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">tree,form</field>
+       <field name="search_view_id" ref="filtro_search_expediente_revision"/>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('revision_expediente_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('revision_expediente_vista_form')})]"/>
+    </record>
+
+     <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="librosb_action">
+      <field name="name">LIBROS BLANCOS</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">expediente.libros_blancos</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'search_default_p_id': active_id}</field>
+      <field name="limit">100</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('libross_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('ventana_tabla_librosblancos')})]"/>
+    </record>
+
+
+
+      <!--  Formulario de control de expediente  -->
+        <record id="libro_blanco_form" model="ir.ui.view">
+            <field name="name">Docuementos Del Libro Blanco form</field>
+            <field name="model">expediente.documentos_revision</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Agregar Documento:">
+                            <field name="etapa"/>
+                            <field name="nombre_documento"/>
+                            <field name="nombre_sevi" /> 
+                            <field name="numero_documento"/>
+                            <field name="unidadadminsol"/> 
+
+                            
+                        </group>
+                        <group>
+                            <field name="relevancia" class="oe_inline"/>
+                             <field name="sevi" class="oe_inline"/> 
+                             
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!--  Formulario de control de expediente  -->
+        <record id="documentos_librosblancos_form" model="ir.ui.view">
+            <field name="name">Docuementos Del Libro Blanco form</field>
+            <field name="model">expediente.libros_blancos</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="nombre_documento" readonly="1"  invisible="1"/>
+
+                        <group string="Agregar Documento:" col="4">
+                                <field name="numero_documento"/>
+
+                                <field name="etapa"/>
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                <field name="Observaciones"/>
+                                <field name="p_id" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!--  vista tree      -->
+        <record id="libro_blanco_tree" model="ir.ui.view">
+            <field name="name">Docuementos Del Libro Blanco tree</field>
+            <field name="model">expediente.documentos_revision</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="etapa"/>
+                    <field name="numero_documento"/> 
+                    <field name="nombre_documento"/>
+                    
+                    <field name="unidadadminsol"/> 
+                    <field name="sevi" />
+                    <field name="nombre_sevi" />
+                    
+
+
+                </tree>
+            </field>
+        </record>
+
+        <!--  action view      -->
+        <record id="libro_blanco_action" model="ir.actions.act_window">
+            <field name="name">DOCUMENTOS DE LOS LIBROS BLANCOS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">expediente.documentos_revision</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Agregar Documentos
+              </p>
+            </field>
+        </record>
+
+
+
+    <menuitem name="Libros Blancos" id="revision_expedientes_menu" sequence="0" web_icon="libros_blancos,static/description/icon.png" />
+
+        <menuitem name="Documentos de Revision" id="documentos_revision_exp"
+              parent="revision_expedientes_menu"
+              action="libro_blanco_action" sequence="3"/>
+      <!--menuitem name="Revision Fisica" id="revision_expediente_menus"
+              parent="revision_expedientes_menu"
+              action="revision_expediente_action" sequence="1"/>
+
+      
+
+        <menuitem name="Documentos de Libros Blancos" id="libros_blancos_docs_menu"
+              parent="revision_expedientes_menu"
+              action="librosb_action" sequence="3"/-->
+
+  </data>
+</odoo>

@@ -1,0 +1,80 @@
+<odoo>
+    <data>
+
+        <record id="oficio_notificacion" model="ir.actions.act_window">
+            <field name="name">Oficio de notificación</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditorias.oficio_noti</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="oficio_notificacion_tree_view" model="ir.ui.view">
+            <field name="name">Oficio de notificación</field>
+            <field name="model">auditorias.oficio_noti</field>
+            <field name="arch" type="xml">
+                <tree string="V">
+                    <field name="numero_auditoria"/>
+                    <field name="num_oficio_noti"/>
+                    <field name="tipo_auditoria"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="desc_inf_solic"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="oficio_notificacion_search" model="ir.ui.view">
+           <field name="name">Oficio de notificación</field>
+           <field name="model">auditorias.oficio_noti</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="numero_auditoria"/>
+                    <field name="num_oficio_noti"/>
+                    <field name="tipo_auditoria"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="desc_inf_solic"/>
+                </search>
+           </field>
+        </record>
+
+        <record id="oficio_notificacion_form" model="ir.ui.view">
+            <field name="name">Oficio de notificación</field>
+            <field name="model">auditorias.oficio_noti</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="num_oficio_noti" placeholder="Oficio de notiticación"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+                                    <field name="tipo_auditoria"/>
+                                    <field name="numero_auditoria"/>
+                                    <field name="fecha_inicio"/>
+                                    <field name="fecha_vencimiento"/>
+                                </group>
+                            </page>
+                            <page string="Detalles">
+                                <group>
+                                    <field name="desc_inf_solic"/>
+                                    <field name="subir_oficio"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Auditorias" id="menu_auditorias" sequence="1" web_icon="auditorias,static/description/icon.png"/>
+        <menuitem name="Oficio de notificación" id="auditorias_menuitem"
+              parent="menu_auditorias"
+              action="oficio_notificacion" sequence="1"/>
+    </data>
+</odoo>

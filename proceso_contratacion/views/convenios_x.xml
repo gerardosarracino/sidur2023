@@ -1,0 +1,105 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="proceso_convenios">
+          <field name="name">proceso.convenios_modificados.form</field>
+          <field name="model">proceso.convenios_modificado</field>
+          <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                       <group string="Convenios Modificatorios" colspan="2" col="2">
+                           <field name="contrato"/>
+                           <field name="fecha_convenios"/>
+                           <field name="name_convenios"/>
+                           <field name="referencia"/>
+                           <field name="observaciones"/>
+                           <field name="fecha_dictamen"/>
+
+                           <field name="convenio_fecha_fianza"/>
+                           <field name="convenio_numero_fianza"/>
+                           <field name="convenio_afianzadora"/>
+                           <field name="convenio_monto_afianzadora"/>
+                      </group>
+                    </group>
+
+                        <group string="">
+                            <field name="tipo_convenio" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <hr/>
+                               <!-- PLAZO -->
+                           <group string="Plazo" attrs="{'invisible': [('tipo_convenio','!=', 'PL')]}" colspan="2" col="2">
+                           <field name="plazo_fecha_inicio" />
+                           <field name="plazo_fecha_termino" />
+                           </group>
+
+                                <!-- OBJETO -->
+                           <group string="Objeto" attrs="{'invisible': [('tipo_convenio','!=', 'OB')]}" colspan="2" col="2">
+                           <field name="objeto_nuevo_objeto" />
+                           </group>
+
+                           <!-- MONTO -->
+                           <group string="Monto" attrs="{'invisible': [('tipo_convenio','!=', 'MT')]}" colspan="2" col="2">
+                           <field name="tipo_monto" />
+                           <field name="monto_importe" />
+                           <field name="monto_iva" />
+                           <field name="monto_total" />
+                           </group>
+
+                           <!-- MONTO/PLAZO -->
+                           <group string="Monto/Plazo" attrs="{'invisible': [('tipo_convenio','!=', 'BOTH')]}" >
+                               <group colspan="2" col="4">
+                                    <field name="plazo_fecha_inicio" />
+                                    <field name="plazo_fecha_termino" />
+                               </group>
+                               <group colspan="2" col="2">
+                                   <field name="tipo_monto" />
+                                   <field name="monto_importe" />
+                                   <field name="monto_iva" />
+                                   <field name="monto_total" />
+                               </group>
+                           </group>
+                </sheet>
+            </form>
+          </field>
+        </record>
+
+    <record model="ir.ui.view" id="proceso_convenios_modificado_search">
+         <field name="name">convenios modificados</field>
+         <field name="model">proceso.convenios_modificado</field>
+         <field name="arch" type="xml">
+            <search>
+                   <field name="contrato"/>
+                   <field name="fecha_convenios"/>
+                   <field name="referencia"/>
+                   <field name="observaciones"/>
+
+                   <field name="tipo_convenio"/>
+                   <field name="monto_total" string="Monto"/>
+                   <field name="plazo_fecha_inicio" />
+                   <field name="plazo_fecha_termino" />
+            </search>
+         </field>
+      </record>
+
+        <!-- tree view -->
+    <record model="ir.ui.view" id="proceso_convenios_modificados_tree">
+      <field name="name">proceso.convenios_modificados.tree</field>
+      <field name="model">proceso.convenios_modificado</field>
+      <field name="arch" type="xml">
+        <tree>
+           <field name="contrato"/>
+           <field name="fecha_convenios"/>
+           <field name="referencia"/>
+           <field name="observaciones"/>
+
+           <field name="tipo_convenio" widget="radio"/>
+           <field name="monto_total" string="Monto" sum="TOTAL"/>
+           <field name="plazo_fecha_inicio" />
+           <field name="plazo_fecha_termino" />
+        </tree>
+      </field>
+    </record>
+
+
+    </data>
+</odoo>

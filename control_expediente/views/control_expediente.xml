@@ -1,0 +1,493 @@
+<odoo>
+  <data>
+
+      
+
+
+
+
+      <record id="form_control_expediente" model="ir.ui.view">
+          <field name="name">Control de Expediente Form</field>
+          <field name="model">control.expediente</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group colspan="2" col="4">
+                          <field name="url" readonly="1" invisible="1"/> <!-- attrs="{'invisible': [('ejercicio','=', 7)]}" -->
+                          
+                      </group>
+                       <group>
+                        <!--button name="agregar_expedientes" type="object" string="AGREGAR EXPEDIENTES"
+                                           class="btn btn-outline-primary btn-lg" /-->
+                    </group>
+                      <group>
+                          <field name="auxiliar_documentos_categoria" force_save="1" invisible="1"/>
+                          <field name="auxiliar_documentos_categoria2" force_save="1" invisible="1"/>
+                          <field name="id_documento_categoria" force_save="1" invisible="1"/>
+                          <field name="categoria_documento" force_save="1" string="Categoria Documento"/>
+                          <field name="contrato_id" force_save="1" invisible="1"/>
+                          <field name="ejercicio" invisible="1"/>
+                          <field name="etapa" force_save="1" readonly="1"/>
+                          <field name="nombre_documento" force_save="1"/>
+                          <field name="nombre" force_save="1" invisible="1"/>
+                          <field name="responsable" readonly="1"/>
+                          <field name="existe"/>
+                          <field name="aplica"/>
+                          <field name="revisado" />
+                          <field name="fecha" />
+                          <field name="comentarios"/>
+                          <!--field name="documento" filename="nombre_documento"/>
+                          <field name="nombre_documento"/-->
+                      </group>
+                      <group>
+                          <field name="tabla_control" nolabel="1" widget='one2many' attrs="{'invisible':[('nombre_documento','=',False)]}"
+
+                            context="{'default_categoria_documento': 'categoria_documento',
+                                     'default_contrato_id': 'contrato_id',
+                                     'default_documento_comprimido_id': active_id,
+                                     }">
+                            <tree delete="false" editable="bottom" create="false" default_order="orden asc" decoration-danger="existe == False and orden != 61
+                                and orden != 62 and orden != 63 and orden != 64 and orden != 45 and orden != 48"
+                                decoration-success="existe == True" decoration-warning="orden == 61 or
+                                orden == 62 or orden == 63 or
+                                orden == 64 or orden == 45 or orden == 48"
+                               >
+
+                                <field name="contrato_id" force_save="1" invisible="1" />
+                                <field name="categoria_documento" string="Categoria Documento" invisible="1"/>
+                                <field name="orden" string="No." readonly="1" />
+                                <field name="p_id" readonly="1" force_save="1" invisible="1"/>
+                                <field name="etapa" readonly="1" force_save="1" invisible="1"/>
+                                <field name="nombre_documento" readonly="1" force_save="1"/>
+                                <field name="responsable" readonly="1" invisible="1" />
+
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                 <field name="revisado" />
+                                 <field name="comentarios" placeholder="..."/>
+
+                                <field name="url" invisible="1"/>
+                                <field name="ejercicio" invisible="1"/>
+                                <!--field name="documento" readonly="1" filename="nombre_documento"/>
+                                <field name="nombre_documento" readonly="1"/-->
+
+                                <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO"/>
+
+                                <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                                attrs="{'invisible': [('url','=', False)]}"/>
+
+
+
+                                <button name="vista_expediente" type="object" string="EDITAR"/>
+                                <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar este registro?" />
+                            </tree>
+                        </field>
+                      </group>
+                      <group col="3">
+                            <button name="eliminar_documento" type="object" string="ELIMINAR DOCUMENTO" class="btn btn-danger"
+                            confirm="Esta seguro de borrar este documento?" attrs="{'invisible':[('categoria_documento','!=',False)]}"/>
+                            <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO" class="btn btn-info" attrs="{'invisible':[('categoria_documento','!=',False)]}"/>
+                            <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                            attrs="{'invisible': ['|',('url','=', False),('categoria_documento','!=',False)]}" class="btn btn-success" />
+
+                           
+
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
+       <record id="form_agregar_control_expediente" model="ir.ui.view">
+          <field name="name">Control de Expediente Form</field>
+          <field name="model">control.expediente</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group colspan="2" col="4">
+                          <field name="url" readonly="1" invisible="1"/> <!-- attrs="{'invisible': [('ejercicio','=', 7)]}" -->
+
+                      </group>
+                      <!--button name="agregar_expedientes" type="object" string="AGREGAR EXPEDIENTES"
+                                           class="btn btn-outline-primary btn-lg" /-->
+                       <group>
+
+                    </group>
+                      <group>
+                          <field name="auxiliar_documentos_categoria" force_save="1" invisible="1"/>
+                          <field name="auxiliar_documentos_categoria2" force_save="1" invisible="1"/>
+                          <field name="contrato_id" force_save="1" readonly="1" invisible="1"/>
+                          <field name="p_id" force_save="1" readonly="1" invisible="1"/>
+                          <field name="auxiliar" force_save="1" readonly="1" invisible="1"/>
+                          <field name="numeracion" force_save="1" invisible="1"/>
+                      </group>
+                      <group>
+                          <field name="categoria_documento" force_save="1" string="Categoria"
+
+                                 />
+
+                          <field name="ejercicio" invisible="1"/>
+
+                          <!--field name="nombre" force_save="1" attrs="{'invisible':[('categoria_documento','!=',False)]}" string="Documento"/ attrs="{'invisible':[('nombre','!=', False)]}"-->
+                     </group>
+                          <hr/>
+                     <group>
+                          <field name="nombre_documento" attrs="{'invisible':[('categoria_documento','=',False)]}" string="Nombre del Documento"/>
+
+                          <field name="etapa" force_save="1" readonly="1"/>
+                          <field name="responsable" readonly="1"/>
+                          <!--field name="existe"/-->
+                          <field name="aplica" invisible="1"/>
+                          <!--field name="revisado" /-->
+                          <field name="fecha" />
+                          <field name="comentarios"/>
+
+
+                          <!--  attrs="{'invisible': ['|', ('ejercicio','=', 7), ('url','=', False)]}" -->
+
+                          <!--field name="documento" filename="nombre_documento"/>
+                          <field name="nombre_documento"/-->
+                      </group>
+                      <group>
+                          <field name="tabla_control" nolabel="1" widget='one2many' attrs="{'invisible':[('categoria_documento','=',False)]}"
+                            context="{'default_categoria_documento': 'categoria_documento',
+                                     'default_contrato_id': 'contrato_id',
+                                     'default_documento_comprimido_id': active_id,
+                                     }">
+                            <tree create="false" delete="false" default_order="orden asc" decoration-danger="existe == False and orden != 61
+                            and orden != 62 and orden != 63 and orden != 64 and orden != 45 and orden != 48"
+                            decoration-success="existe == True" decoration-warning="orden == 61 or
+                                orden == 62 or orden == 63 or
+                                orden == 64 or orden == 45 or orden == 48">
+                                <!--control> editable="bottom" and existe != True
+                                    <create string="Agregar Documento" context="{'form_view_ref': 'control_expediente.form_control_expediente',
+                                    'default_p_id': active_id}"/>
+                                </control -->
+                                <field name="contrato_id" force_save="1" invisible="1"/>
+                                <field name="categoria_documento" string="Categoria Documento" invisible="1"/>
+                                <field name="orden" string="No." readonly="1"/>
+                                <field name="p_id" readonly="1" force_save="1" invisible="1"/>
+                                <field name="etapa" readonly="1" force_save="1" invisible="1"/>
+                                <field name="nombre" readonly="1" force_save="1"/>
+                                <field name="responsable" readonly="1" invisible="1"/>
+
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                 <field name="revisado" />
+                                 <field name="comentarios" placeholder="..."/>
+
+                                <field name="url" invisible="1"/>
+                                <field name="ejercicio" invisible="1"/>
+                                <!--field name="documento" readonly="1" filename="nombre_documento"/>
+                                <field name="nombre_documento" readonly="1"/-->
+
+                                <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO"/>
+
+                                <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                                attrs="{'invisible': [('url','=', False)]}"/>
+
+
+
+                                <button name="vista_expediente" type="object" string="EDITAR"/>
+
+                            </tree>
+                        </field>
+                      </group>
+                      <group col="3">
+                            <button name="eliminar_documento" type="object" string="ELIMINAR DOCUMENTO" class="btn btn-danger"
+                            confirm="Esta seguro de borrar este documento?" attrs="{'invisible':[('categoria_documento','!=',False)]}"/>
+                            <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO" class="btn btn-info" attrs="{'invisible':[('categoria_documento','!=',False)]}"/>
+                            <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                            attrs="{'invisible': ['|',('url','=', False),('categoria_documento','!=',False)]}" class="btn btn-success" />
+
+
+
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
+       <!--record id="form_control_expediente_comprimido" model="ir.ui.view">
+          <field name="name">Control de Expediente Form</field>
+          <field name="model">control.expediente_comprimido</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group colspan="2" col="4">
+
+                      </group>
+
+                      <group>
+                          <field name="categoria_documento" force_save="1" invisible="1"/>
+                          <field name="contrato_id" force_save="1" invisible="1"/>
+                          <field name="ejercicio" invisible="1"/>
+                          <field name="etapa" force_save="1" readonly="1"/>
+                          <field name="nombre" domain="[('categoria_documento', '=', categoria_documento)]" />
+                          <field name="responsable" readonly="1"/>
+                          <field name="existe"/>
+                          <field name="aplica"/>
+                          <field name="revisado" />
+                          <field name="fecha" />
+                          <field name="comentarios"/>
+
+                      </group>
+                      <group col="3">
+                            <button name="eliminar_documento" type="object" string="ELIMINAR DOCUMENTO" class="btn btn-danger"
+                            confirm="Esta seguro de borrar este documento?"/>
+                            <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO" class="btn btn-info"/>
+                            <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                            attrs="{'invisible': [('url','=', False)]}" class="btn btn-success"/>
+
+
+
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record-->
+
+
+
+
+    <record id="exp_import" model="ir.ui.view">
+        <field name="name">control expediente import</field>
+        <field name="model">control.expediente</field>
+        <field name="arch" type="xml">
+            <tree string="" editable="bottom" create="false">
+                <field name="contrato_id" />
+                <field name="orden" />
+                <field name="etapa" readonly="1" force_save="1" />
+                <field name="nombre" readonly="1" force_save="1"/>
+                <field name="responsable" readonly="1"/>
+                
+                <field name="aplica"/>
+                <field name="existe"/>
+                    <field name="revisado" />
+                    <field name="comentarios" placeholder="..."/>
+
+                <field name="url" invisible="1"/>
+                <field name="ejercicio" invisible="1"/>
+                <!--field name="documento" readonly="1" filename="nombre_documento"/>
+                <field name="nombre_documento" readonly="1"/-->
+
+                <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO"/> 
+
+                <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                attrs="{'invisible': [('url','=', False)]}"/>
+                <button name="vista_expediente" type="object" string="EDITAR"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="expediente_search_view" model="ir.ui.view">
+        <field name="name">control expediente search</field>
+        <field name="model">control.expediente</field>
+        <field name="arch" type="xml">
+            <search>
+            <filter name="etapa" string="Etapa" context="{'group_by':'etapa'}"/>
+            <filter name="ejercicio" string="Ejercicio" context="{'group_by':'ejercicio'}"/>
+            <filter name="tipo_obra" string="Tipo de Obra" context="{'group_by':'tipo_obra'}"/>
+
+            <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                 <separator orientation="vertical" />
+            <filter string="2021" name="ejercicio" domain="[('ejercicio.name', '=', '2021')]" />
+            <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+            <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+            <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+            <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+            <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+            <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+            <separator/>
+             <separator string="Tipo de la Obra"/>
+             <filter string=" --- Tipo de Obra ---" name="tipo_obra"/>
+                 <separator orientation="vertical" />
+             <filter string="OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'OBRA')]" />
+             <filter string="ESTUDIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ESTUDIOS')]" />
+             <filter string="EQUIPO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'EQUIPO')]" />
+             <filter string="PROYECTO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'PROYECTO')]" />
+             <filter string="SUPERVISIÓN EXTERNA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SUPERVISIÓN EXTERNA')]" />
+             <filter string="REMODELACIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'REMODELACIÓN')]" />
+             <filter string="SERVICIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SERVICIOS')]" />
+             <filter string="VERIFICACIÓN ELÉCTRICA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'VERIFICACIÓN ELÉCTRICA')]" />
+             <filter string="CONTROL DE CALIDAD" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'CONTROL DE CALIDAD')]" />
+             <filter string="DIRECTOR RESPONSABLE DE OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'DIRECTOR RESPONSABLE DE OBRA')]" />
+             <filter string="ADQUISICIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ADQUISICIÓN')]" />
+
+                <field name="contrato_id" />
+                <field name="etapa" />
+                <field name="nombre" />
+                <field name="responsable" />
+                
+                <field name="aplica"/>
+                <field name="existe"/>
+                <field name="revisado" />
+                <field name="comentarios" />
+                <field name="ejercicio" />  
+
+
+            </search>
+        </field>
+    </record>
+
+      <record id="exp_action" model="ir.actions.act_window">
+          <field name="name">control expediente import act</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">control.expediente</field>
+          <field name="view_mode">tree</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+              <!-- Add Text Here -->
+            </p><p>
+              <!-- More details about what a user can do with this object will be OK -->
+            </p>
+          </field>
+      </record>
+
+    <record id="reporte_expedientes_tree" model="ir.ui.view">
+        <field name="name">Reporte de Expedientes</field>
+        <field name="model">control.expediente</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="numeracion" invisible="1" />
+                <field name="contrato_id" />
+                <field name="tipo_obra" />
+                <field name="obra" />
+                <field name="contratista" />
+                <field name="residente_obra_2" />
+                <field name="total_siva" />
+                <field name="orden" string="No." />
+                <field name="p_id" readonly="1" force_save="1" invisible="1"/>
+                <field name="etapa" readonly="1" force_save="1"/>
+                <field name="nombre" readonly="1" force_save="1"/>
+                <field name="categoria_documento" readonly="1" invisible="1"/>
+                <field name="responsable" readonly="1"/>
+                <field name="existe"/>
+                <field name="revisado" />
+                <field name="comentarios" placeholder="..."/>
+                <field name="url" invisible="1"/>
+                <field name="ejercicio" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="reporte_control_expediente_action" model="ir.actions.act_window">
+        <field name="name">Reporte Expedientes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">control.expediente</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <field name="view_ids" eval="[(5, 0, 0),
+         (0, 0, {'view_mode': 'tree', 'view_id': ref('reporte_expedientes_tree')})]"/>
+        </field>
+    </record>
+
+    <record id="reporte_expediente_form" model="ir.ui.view">
+        <field name="name">Reporte Expediente</field>
+        <field name="model">expediente.memorandum</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button string="IMPRIMIR REPORTE" name="imprimir_memorandum_excel" type="object"
+                            icon="fa-book" class="btn btn-outline-success"/>
+                </header>
+                <sheet>
+
+                    <sheet>
+                     <group col="2">
+                         <h1><field name="fecha_memo" placeholder="Fecha del Memo" class="oe_inline"/></h1>
+                         <h1><field name="id_reporte" readonly="1" class="oe_inline" style="float:right;"/></h1>
+                     </group>
+                 </sheet>
+                    <p>&#160;</p>
+                    <p>&#160;</p>
+                    <p>&#160;</p>
+                    <p>&#160;</p>
+                    <p>&#160;</p>
+                    <group>
+                        <field name="comentarios"/>
+                    </group>
+                    <group>
+                         <field name="tabla_reporte" widget="one2many" context="{
+                                   'default_memorandum_id': active_id,
+                                   }" attrs="{'readonly': [('id','=', False)]}" nolabel="1">
+                            <tree delete="false" editable="bottom" default_order="id_numeracion asc">
+                                <field name="id_numeracion" readonly="1"/>
+                                <field name="memorandum_id" readonly="1" force_save="1" invisible="1"/>
+                                <field name="contrato_id"/>
+                                <field name="nombre_documento" domain="[('contrato_id', '=', contrato_id)]"/>
+                                <field name="observaciones"/>
+                                <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                            confirm="Esta seguro de borrar este registro?" style="float:right;"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="reporte_expediente_tree" model="ir.ui.view">
+        <field name="name">Reporte Expediente Tree</field>
+        <field name="model">expediente.memorandum</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="id_reporte"/>
+                <field name="fecha_memo"/>
+                <field name="comentarios"/>
+                <field name="tabla_reporte" string="# Documentos"/>
+            </tree>
+        </field>
+    </record>
+
+    
+
+    <record id="reporte_memo_action" model="ir.actions.act_window">
+        <field name="name">Memorándum</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expediente.memorandum</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+    </record>
+      
+        <record model="ir.actions.act_window" id="lista_documento_action">
+      <field name="name">LISTA DE DOCUMENTOS</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">control.expediente</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'search_default_group_etapa': True}</field>
+       <field name="view_ids" eval="[(5, 0, 0),
+         (0, 0, {'view_mode': 'tree', 'view_id': ref('exp_import')}),
+         (0, 0, {'view_mode': 'form', 'view_id': ref('form_control_expediente')})]"/>
+    </record>
+
+    <menuitem name="Control de Expediente Único" id="control_expediente.menu_root" sequence="0" web_icon="control_expediente,static/description/icon.png"/>
+
+    <!--menuitem name="Ingreso de Documentos al Expediente Único" id="control_expediente_documentos"
+              parent="control_expediente.menu_root"
+              action="control_expediente_actionx" sequence="1"/-->
+
+    <menuitem name="Reporte de Expedientes" id="reporte_expedientes_menu"
+              parent="control_expediente.menu_root"
+              action="reporte_control_expediente_action" sequence="2"/>
+
+      <menuitem name="Memorándum" id="reporte_memo_menu"
+              parent="control_expediente.menu_root"
+              action="reporte_memo_action" sequence="4"/>
+
+      <!--menuitem name="EXPE IMPORT" id="exp_importmenu"
+              parent="control_expediente.menu_root"
+              action="exp_action" sequence="2"/-->
+
+  </data>
+</odoo>

@@ -1,0 +1,174 @@
+<odoo>
+  <data>
+
+
+      
+      <!-- VISTA CON BOTONES HACIA ESTIMACION -->
+    <record id="control_expediente_contrato_form" model="ir.ui.view">
+        <field name="name">Ingreso de Documentos al Expediente Único Form</field>
+        <field name="model">control.expediente_contrato</field>
+        <field name="arch" type="xml">
+            <form string="" create="false" delete="false" >
+                <sheet>
+
+
+                     <group col="4">
+                         <field name="contrato_id"/>
+                         <field name="obra" readonly="1"/>
+
+                    </group>
+
+                    <!--group>
+                    <group>
+                        <button name="agregar_expedientes" type="object" string="ACTUALIZAR EXPEDIENTES"
+                                            class="btn btn-outline-info" />
+                    </group>
+                        <button string="BORRAR EXPEDIENTES" name="borrar_expedientes" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar los expedientes?" />
+                    </group-->
+
+                    <group>
+                        <button name="expediente_crear" type="object" string="Agregar Documento (ESTIMACION, CONVENIO, FP, ESCALATORIA)" class="btn btn-success"
+                    style="float:right;" context="{'default_contrato_id': contrato_id}"/>
+                    </group>
+                    <group>
+                        <button name="%(lista_documento_action)d" type="action" string="Ver lista de documentos" class="btn btn-info"
+                        style="float:right;" context="{
+                        'search_default_contrato_id': contrato_id
+                         }"/>
+                    </group>
+                    <group>
+                        <field name="tabla_control" nolabel="1" widget='one2many' >
+                            <tree delete="false" create="false" default_order="numeracion asc" limit = "1000" decoration-danger="existe == False and orden != 61
+                                and orden != 62 and orden != 63 and orden != 64 and
+                                nombre_documento != 'ESTIMACIONES' and nombre_documento != 'CONVENIOS' and
+                                nombre_documento != 'FPS' and nombre_documento != 'ESCALATORIAS'"
+                                decoration-success="existe == True"
+                                decoration-primary="nombre_documento == 'ESTIMACIONES' or nombre_documento == 'CONVENIOS' or
+                                nombre_documento == 'FPS' or nombre_documento == 'ESCALATORIAS'"
+                                decoration-warning="orden == 61 or orden == 62 or orden == 63 or orden == 64">
+
+                                    <field name="numeracion" invisible="1"/>
+                                    <field name="contrato_id" invisible="1" />
+                                    <field name="orden" string="No." attrs="{'invisible': [('orden','=', 0)]}" />
+                                    <field name="p_id" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="etapa" readonly="1" force_save="1"/>
+                                    <field name="nombre_documento" readonly="1" force_save="1"/>
+                                    <field name="categoria_documento" readonly="1" invisible="1"/>
+                                    <field name="responsable" readonly="1"
+                                    attrs="{'invisible': ['|','|','|','|',('nombre_documento','=', 'ESTIMACIONES'),
+                                    ('nombre_documento','=', 'CONVENIOS'),('nombre_documento','=', 'FPS')
+                                    ,('nombre_documento','=', 'ESCALATORIAS'),('categoria_documento','!=', False)]}"/>
+                                    <field name="existe"
+                                    attrs="{'invisible': ['|','|','|','|',('nombre_documento','=', 'ESTIMACIONES'),
+                                    ('nombre_documento','=', 'CONVENIOS'),('nombre_documento','=', 'FPS')
+                                    ,('nombre_documento','=', 'ESCALATORIAS'),('categoria_documento','!=', False)]}"/>
+                                     <field name="revisado"
+                                     attrs="{'invisible': ['|','|','|','|',('nombre_documento','=', 'ESTIMACIONES'),
+                                    ('nombre_documento','=', 'CONVENIOS'),('nombre_documento','=', 'FPS')
+                                    ,('nombre_documento','=', 'ESCALATORIAS'),('categoria_documento','!=', False)]}"/>
+                                     <field name="comentarios" placeholder="..."/>
+                                    <field name="url" invisible="1"/>
+                                    <field name="ejercicio" invisible="1"/>
+                                    <button name="cargar_documento" type="object" string="CARGAR DOCUMENTO"
+                                    attrs="{'invisible': ['|','|','|','|',('nombre_documento','=', 'ESTIMACIONES'),
+                                    ('nombre_documento','=', 'CONVENIOS'),('nombre_documento','=', 'FPS')
+                                    ,('nombre_documento','=', 'ESCALATORIAS'),('categoria_documento','!=', False)]}"/>
+                                    <button name="descargar_documento" type="object" string="DESCARGAR DOCUMENTO"
+                                    attrs="{'invisible': ['|','|','|','|','|',('url','=', False),
+                                    ('nombre_documento','=', 'ESTIMACIONES'),
+                                    ('nombre_documento','=', 'CONVENIOS'),('nombre_documento','=', 'FPS')
+                                    ,('nombre_documento','=', 'ESCALATORIAS'),('categoria_documento','!=', False)]}"/>
+                                    <button name="vista_expediente" type="object" string="EDITAR"
+                                    attrs="{'invisible': ['|','|','|','|',('nombre_documento','=', 'ESTIMACIONES'),
+                                    ('nombre_documento','=', 'CONVENIOS'),('nombre_documento','=', 'FPS')
+                                    ,('nombre_documento','=', 'ESCALATORIAS'),('categoria_documento','!=', False)]}" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="control_expediente_contrato_tree">
+      <field name="name">Ingreso de Documentos al Expediente Único Tree</field>
+      <field name="model">control.expediente_contrato</field>
+      <field name="arch" type="xml">
+        <tree>
+           <field name="fechainicio"/>
+            <field name="fechatermino"/>
+            <field name="contrato_id" string="Contrato"/>
+            <field name="tipo_obra" />
+            <field name="contratista" />
+            <field name="obra"/>
+            <field name="total_contrato" />
+        </tree>
+      </field>
+    </record>
+
+     <record id="expediente_contrato_search_view" model="ir.ui.view">
+        <field name="name">control expediente search</field>
+        <field name="model">control.expediente_contrato</field>
+        <field name="arch" type="xml">
+            <search>
+            <filter name="ejercicio" string="Ejercicio" context="{'group_by':'ejercicio'}"/>
+            <filter name="tipo_obra" string="Tipo de Obra" context="{'group_by':'tipo_obra'}"/>
+
+            <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                 <separator orientation="vertical" />
+            <filter string="2021" name="ejercicio" domain="[('ejercicio.name', '=', '2021')]" />
+            <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+            <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+            <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+            <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+            <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+            <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+            <separator/>
+             <separator string="Tipo de la Obra"/>
+             <filter string=" --- Tipo de Obra ---" name="tipo_obra"/>
+                 <separator orientation="vertical" />
+             <filter string="OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'OBRA')]" />
+             <filter string="ESTUDIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ESTUDIOS')]" />
+             <filter string="EQUIPO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'EQUIPO')]" />
+             <filter string="PROYECTO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'PROYECTO')]" />
+             <filter string="SUPERVISIÓN EXTERNA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SUPERVISIÓN EXTERNA')]" />
+             <filter string="REMODELACIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'REMODELACIÓN')]" />
+             <filter string="SERVICIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SERVICIOS')]" />
+             <filter string="VERIFICACIÓN ELÉCTRICA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'VERIFICACIÓN ELÉCTRICA')]" />
+             <filter string="CONTROL DE CALIDAD" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'CONTROL DE CALIDAD')]" />
+             <filter string="DIRECTOR RESPONSABLE DE OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'DIRECTOR RESPONSABLE DE OBRA')]" />
+             <filter string="ADQUISICIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ADQUISICIÓN')]" />
+
+                <field name="contrato_id" />
+                <field name="ejercicio" />
+                <field name="tipo_obra" />
+            </search>
+        </field>
+    </record>
+
+
+
+<!-- ACCIONES VENTANA  -->
+    <record model="ir.actions.act_window" id="control_expediente_contrato_action">
+      <field name="name">Ingreso de Documentos al Expediente Único</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">control.expediente_contrato</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('control_expediente_contrato_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('control_expediente_contrato_form')})]"/>
+    </record>
+
+
+      <menuitem name="Ingreso de Documentos al Expediente Único" id="expediente_menu"
+              parent="control_expediente.menu_root"
+              action="control_expediente_contrato_action" sequence="1"/>
+
+      <!--menuitem name="EXPE IMPORT" id="exp_importmenu"
+              parent="control_expediente.menu_root"
+              action="exp_action" sequence="2"/-->
+
+  </data>
+</odoo>

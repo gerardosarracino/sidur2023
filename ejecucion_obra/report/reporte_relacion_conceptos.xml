@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="estimacion_report_relacion_con"
+            model="control.estimaciones"
+            string="Relación de Conceptos"
+            report_type="qweb-html"
+            paperformat="paperformat_estimaciones"
+            print_report_name="object.ide_estimacion + '/' + 'Relacion-de-conceptos_' + object.obra.numero_contrato.contrato"
+            name="report_estimaciones.report_conceptos"
+            
+        />
+    </data>
+</odoo>

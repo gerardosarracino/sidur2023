@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="reporte_incidencia_conf"
+            model="libros.blancos"
+            string="Reporte Incidencia"
+            report_type="qweb-html"
+            paperformat="libros_blancos.paperformat_libros"
+            name="libros_blancos.reporte_incidencias_qweb"
+            print_report_name="'Reporte_Incidencia /' + object.nombre_partida"
+            menu="False"
+        />
+    </data>
+</odoo>

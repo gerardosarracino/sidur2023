@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_penas_con" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+        
+					<style>
+                            body {
+                                font-size: 14px;
+                                font-family: Arial, Helvetica, sans-serif;
+                            }
+
+                            #header {
+                                text-align: center;
+                                border-bottom: 1px solid #666;
+                                padding-bottom: 2px;
+                            }
+
+                            h3,
+                            h4,
+                            h5 {
+                                margin: 0;
+                                line-height: 20px;
+                            }
+
+                            table,
+                            td,
+                            th {
+                                border-color: #eee;
+                                font-size: 12px;
+                            }
+
+                            caption {
+                                font-weight: 700;
+                                margin-bottom: 20px;
+                                margin-top: 10px;
+                            }
+
+                            #footer h5 {
+                                text-align: center;
+                                border-bottom: 1px solid #eee;
+                            }
+
+                            #opciones {
+                                position: fixed;
+                                top: 0;
+                                background-color: #999;
+                                padding: 5px;
+                                right: 0;
+                                z-index: 99999;
+                                margin-right: 8px;
+                                display: inline-block;
+                                -moz-box-shadow: 0 0 3px #999;
+                                -webkit-box-shadow: 0 0 3px #999;
+                                box-shadow: 0 0 3px #999;
+                            }
+
+                            #opciones a {
+                                border-right: 1px solid #ccc;
+                                padding-right: 5px;
+                                color: #fff;
+                                text-decoration: none;
+                            }
+
+                            #opciones a:last-child {
+                                border: none;
+                            }
+
+                            #opciones a:before {
+                                content: " ";
+                            }
+                        </style>
+
+    <div id="header" style="position:relative;">
+		<div style="position:absolute; top:1; left:50;">
+			<img t-att-src="'http://sidur.galartec.com/report_estimaciones/static/src/img/logo-sidur.png'"  title="logoEnte" t-att-alt="logo" width="265" height="65" />
+		</div>
+
+        <h3>GOBIERNO DEL ESTADO DE SONORA</h3>
+        <h4>
+            SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO			</h4>
+        <h5>PENAS CONVENCIONALES</h5>
+    </div>
+
+    <div style="float:left; width:50%; border-right:1px solid #eee;">
+        <table width="100%" border="0" cellpadding="3" cellspacing="0">
+            <tbody><tr>
+                <td width="21%">CONTRATO:</td>
+                <td rowspan="2" valign="top">
+                    <span t-field="o.descripcion_contrato"/> <br/> <span t-field="o.nombre_partida"/> 			</td>
+            </tr>
+            <tr>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>CONTRATISTA:</td>
+                <td>
+                    <span t-field="o.contratista_contrato"/>					</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+
+
+    <div style="float:left; width:49.8%;">
+        <table width="100%" border="0" cellpadding="3" cellspacing="0">
+            <tbody><tr>
+                <td width="21%" valign="top">PROGRAMA:</td>
+                <td width="33%">
+                    <span t-field="o.programa"/>					</td>
+                <td width="16%">ESTIMACION:</td>
+                <td width="30%" style="font-size:16px;">
+                    <span t-field="o.idobra"/>					</td>
+            </tr>
+            <tr>
+                <td>PERIODO DEL:</td>
+                <td>
+                    <span t-field="o.fecha_inicio_estimacion" t-options='{"format": "d MMMM y"}'
+					style="text-transform:uppercase;"/>					</td>
+                <td>AL:</td>
+                <td>
+                    <span t-field="o.fecha_termino_estimacion" t-options='{"format": "d MMMM y"}'
+					style="text-transform:uppercase;"/>				</td>
+            </tr>
+            <tr>
+                <td>FORMULADA EL:</td>
+                <td>
+                   <span t-field="o.fecha_presentacion" t-options='{"format": "d MMMM y"}'
+                                           style="text-transform:uppercase;"/>		</td>
+                <td>ID ESTIMACION:</td>
+                <td><span t-field="o.ide_estimacion"/></td>
+            </tr>
+        </tbody></table>
+    </div>
+
+
+    <div style="margin-top:25px;">
+		<!-- PARA METODO ONCHANGE -->
+		<table width="100%" border="1" cellpadding="3" cellspacing="0" t-if="o.nuevo_metodo == true">
+			<tbody><tr>
+				<th colspan="6" bgcolor="#CCCCCC">DATOS DE CONTRATACIÓN</th>
+			</tr>
+			<tr>
+				<th bgcolor="#CCCCCC">CONTRATO</th>
+				<th bgcolor="#CCCCCC">DE LA FECHA</th>
+				<th bgcolor="#CCCCCC">IMPORTE TOTAL SIN I.V.A</th>
+				<th bgcolor="#CCCCCC">ANTICIPO SIN I.V.A</th>
+				<th bgcolor="#CCCCCC">FECHA INICIO DEL PROGRAMA</th>
+				<th bgcolor="#CCCCCC">FECHA TERMINO DEL PROGRAMA</th>
+			</tr>
+			<tr>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.numero_contrato"/>				</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.fecha_contrato"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.obra.total"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.anticipo_contrato"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.fecha_inicio_programa"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.fecha_termino_programa"/>					</td>
+			</tr>
+			<tr>
+				<th colspan="6">&#160;</th>
+			</tr>
+			<tr>
+				<th colspan="6" bgcolor="#CCCCCC">ESTIMACIÓN DENTRO DE PROGRAMA</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO PROGRAMADO PARA ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_programado_est" t-options='{"widget": "float", "precision": 2}'/>					</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.diasdif"/> (Días)</span>
+				</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO EJECUTADO REAL PARA ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.montoreal" t-options='{"widget": "float", "precision": 2}'/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO DIARIO PROGRAMADO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_programado_est"/>						</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">/
+						<span t-field="o.diasdif"/> (Días)</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.montodiario_programado"/>					</span>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">DIAS EJECUTADOS REALES CON RELACION AL MONTO DIARIO PROGRAMADO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.montoreal" t-options='{"widget": "float", "precision": 2}'/>					</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">/
+						<span t-field="o.montodiario_programado"/> 					</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.diasrealesrelacion"/> (Días)</span>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">DIAS DE DESFASAMIENTO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.diasdif"/>(Días)</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">-
+						<span t-field="o.diasrealesrelacion"/> (Días)</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.dias_desfasamiento"/> (Días)</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO DE ATRASO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.dias_desfasamiento"/> (Días)</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">*
+						<span t-field="o.montodiario_programado"/>					</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_atraso"/>					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">PORCENTAJE DE RETENCION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.retencion"/> %
+						<span t-field="o.periodicidadretencion"/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">TOTAL DE LA RETENCION HASTA ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_atraso" t-if="o.si_aplica_estimacion == False"/>
+						<span t-if="o.si_aplica_estimacion == True"> 0.00	</span>					</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">*
+						<span t-field="o.porc_total_ret" t-if="o.si_aplica_estimacion == False"/>
+						<span t-if="o.si_aplica_estimacion == True"> 0.00	</span>	%</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.total_ret_est" t-if="o.si_aplica_estimacion == False"/>
+						<span t-if="o.si_aplica_estimacion == True"> 0.00	</span>						</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">RETENIDO ANTERIORMENTE</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.retenido_anteriormente"/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">RETENCION NETA A APLICAR EN ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma" >
+
+						<t t-set="condicion2" t-value="0"/>
+						<t t-set="condicion2" t-value="condicion2 + o.ret_neta_est * (-1)" />
+						<t t-esc="condicion2" t-if="o.devolucion_est == 0"  t-options='{"widget": "float", "precision": 2}' />
+
+
+					<!--span t-field="o.ret_neta_est" t-if="o.devolucion_est == 0" /-->
+					<span t-if="o.devolucion_est > 0">0.00</span>
+					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">DEVOLUCION A EFECTUAR EN ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.devolucion_est"/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<th colspan="3" bgcolor="#CCCCCC">FIN DE PROGRAMA</th>
+				<th colspan="4" bgcolor="#CCCCCC">FUERA DE PROGRAMA</th>
+			</tr>
+			<tr>
+				<td colspan="3" align="left" valign="middle" class="finalp">Sanción por incumplimiento de plazo:
+									</td>
+				<td colspan="4" align="left" valign="middle">
+					<table width="100%" border="0" cellpadding="3" cellspacing="0">
+						<tbody t-if="o.sancion > 0">
+							<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Periodicidad sanción: </strong>
+								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									MENSUAL								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									<strong>Porcentaje:</strong>
+								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									3 %								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Porcentaje diario sanción: </strong>
+								</span>
+							</td>
+							<td colspan="3">
+								<span class="fueraProgra">
+									0.1 %								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Días de atraso:</strong>
+								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									<span t-field="o.dias_atraso_sancion"/>							</span>
+							</td>
+							<td colspan="2">
+								<span class="fueraProgra">
+									<span t-field="o.fecha_termino_programa"/> - <span t-field="o.fecha_termino_estimacion"/>											</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Sanción =</strong>
+								</span>
+							</td>
+							<td colspan="3">
+								<span class="fueraProgra">
+									<span t-field="o.sancion"/>							</span>
+							</td>
+						</tr>
+					</tbody></table>
+				</td>
+			</tr>
+		</tbody></table>
+
+
+		<!-- PARA METODO API.ONE -->
+		<table width="100%" border="1" cellpadding="3" cellspacing="0" t-if="o.nuevo_metodo == false">
+			<tbody><tr>
+				<th colspan="6" bgcolor="#CCCCCC">DATOS DE CONTRATACIÓN</th>
+			</tr>
+			<tr>
+				<th bgcolor="#CCCCCC">CONTRATO</th>
+				<th bgcolor="#CCCCCC">DE LA FECHA</th>
+				<th bgcolor="#CCCCCC">IMPORTE TOTAL SIN I.V.A</th>
+				<th bgcolor="#CCCCCC">ANTICIPO SIN I.V.A</th>
+				<th bgcolor="#CCCCCC">FECHA INICIO DEL PROGRAMA</th>
+				<th bgcolor="#CCCCCC">FECHA TERMINO DEL PROGRAMA</th>
+			</tr>
+			<tr>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.numero_contrato"/>				</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.fecha_contrato"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.obra.total"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.anticipo_contrato"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.fecha_inicio_programa"/>					</td>
+				<td align="center" nowrap="nowrap" bgcolor="#CCCCCC">
+					<span t-field="o.fecha_termino_programa"/>					</td>
+			</tr>
+			<tr>
+				<th colspan="6">&#160;</th>
+			</tr>
+			<tr>
+				<th colspan="6" bgcolor="#CCCCCC">ESTIMACIÓN DENTRO DE PROGRAMA</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO PROGRAMADO PARA ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_programado_estqweb" t-options='{"widget": "float", "precision": 2}'/>					</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.diasdifqweb"/> (Días)</span>
+				</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO EJECUTADO REAL PARA ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.montorealqweb" t-options='{"widget": "float", "precision": 2}'/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO DIARIO PROGRAMADO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_programado_estqweb"/>						</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">/
+						<span t-field="o.diasdifqweb"/> (Días)</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.montodiario_programadoqweb"/>					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">DIAS EJECUTADOS REALES CON RELACION AL MONTO DIARIO PROGRAMADO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.montorealqweb" t-options='{"widget": "float", "precision": 2}'/>					</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">/
+						<span t-field="o.montodiario_programadoqweb"/> 					</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.diasrealesrelacionqweb"/> (Días)</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">DIAS DE DESFASAMIENTO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.diasdifqweb"/>(Días)</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">-
+						<span t-field="o.diasrealesrelacionqweb"/> (Días)</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.dias_desfasamientoqweb"/> (Días)</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">MONTO DE ATRASO</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.dias_desfasamientoqweb"/> (Días)</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">*
+						<span t-field="o.montodiario_programadoqweb"/>					</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_atrasoqweb"/>					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">PORCENTAJE DE RETENCION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.retencion"/> %
+						<span t-field="o.periodicidadretencion"/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">TOTAL DE LA RETENCION HASTA ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.monto_atrasoqweb"/>					</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">*
+						<span t-field="o.porc_total_retqweb"/>%</span>
+					<span class="dentroPrograma" style="float:right;">=</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.total_ret_estqweb"/>					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">RETENIDO ANTERIORMENTE</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.retenido_anteriormenteqweb"/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">RETENCION NETA A APLICAR EN ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma" >
+
+						<t t-set="condicion2" t-value="0"/>
+						<t t-set="condicion2" t-value="condicion2 + o.ret_neta_estqweb * (-1)" t-field-options='{"widget": "monetary"}'/>
+						<t t-esc="condicion2" t-if="o.devolucion_estqweb == 0" t-options='{"widget": "float", "precision": 2}'/>
+
+					<!--span t-field="o.ret_neta_estqweb" t-if="o.devolucion_estqweb == 0" /-->
+					<span t-if="o.devolucion_estqweb > 0">0.00</span>
+					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span class="dentroPrograma">DEVOLUCION A EFECTUAR EN ESTA ESTIMACION</span>
+				</td>
+				<td>
+					<span class="dentroPrograma">
+						<span t-field="o.devolucion_estqweb"/>					</span>
+				</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<th colspan="3" bgcolor="#CCCCCC">FIN DE PROGRAMA</th>
+				<th colspan="4" bgcolor="#CCCCCC">FUERA DE PROGRAMA</th>
+			</tr>
+			<tr>
+				<td colspan="3" align="left" valign="middle" class="finalp">Sanción por incumplimiento de plazo:
+									</td>
+				<td colspan="4" align="left" valign="middle">
+					<table width="100%" border="0" cellpadding="3" cellspacing="0">
+						<tbody t-if="o.fecha_termino_estimacion > o.fecha_termino_programa">
+							<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Periodicidad sanción: </strong>
+								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									MENSUAL								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									<strong>Porcentaje:</strong>
+								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									3 %								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Porcentaje diario sanción: </strong>
+								</span>
+							</td>
+							<td colspan="3">
+								<span class="fueraProgra">
+									0.1 %								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Días de atraso:</strong>
+								</span>
+							</td>
+							<td>
+								<span class="fueraProgra">
+									0								</span>
+							</td>
+							<td colspan="2">
+								<span class="fueraProgra">
+									x								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="fueraProgra">
+									<strong>Sanción =</strong>
+								</span>
+							</td>
+							<td colspan="3">
+								<span class="fueraProgra">
+									0.00								</span>
+							</td>
+						</tr>
+					</tbody></table>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+
+<div style="border:1px solid #eee; margin-top:5px;">
+		<table width="100%" border="0" cellpadding="3" cellspacing="0">
+			<tbody><tr>
+				<th width="20%" style="border-right:1px solid #eee;">CONTRATISTA</th>
+				<td width="26%">&#160;</td>
+				<td width="26%">&#160;</td>
+				<td width="26%">&#160;</td>
+			</tr>
+			<tr>
+				<td style="border-right:1px solid #eee;">&#160;</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td style="border-right:1px solid #eee;">&#160;</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+				<td>&#160;</td>
+			</tr>
+			<tr>
+				<td align="center" style="border-right:1px solid #eee;">
+					<span t-field="o.obra.representante_legal" t-if="o.obra.representante_legal"/>  
+                            <span t-field="o.contratista_contrato.nombre_representante" t-if="not o.obra.representante_legal"/>				</td>
+				<td align="center">
+					<span t-foreach="o.obra.residente_obra" t-as="s" t-field="s.name" />					</td>
+				<td align="center"><span t-field="o.obra.supervision_externa.contratista.name" t-if="o.obra.supervision_externa"/></td>
+				<td align="center">&#160;</td>
+			</tr>
+			<tr>
+				<td align="center" style="border-right:1px solid #eee;">
+					<span t-field="o.contratista_contrato"/>				</td>
+				<td align="center">
+					SUPERVISOR DE OBRA			</td>
+				<td align="center"><span t-if="o.obra.supervision_externa">SUPERVISIÓN EXTERNA </span>	</td>
+				<td align="center">&#160;</td>
+			</tr>
+		</tbody></table>
+	</div>
+           
+
+                     </t>
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

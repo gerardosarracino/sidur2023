@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_estado_cuenta1" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                          <div class="page text-center">
+                               <h4>GOBIERNO DEL ESTADO DE SONORA</h4>
+                               <h5>SISTEMA DE CONTROL Y SEGUIMIENTO DE OBRAS PÚBLICAS</h5>
+                               <h6>Reporte de Estado de Cuenta</h6>
+                          </div>
+
+                            <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <div class="text-center">
+                             <b>CONTRATO:  </b> <span t-field="o.numero_contrato"/>
+                         </div>
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <div style="font-size: 12px;">
+
+                             <table class="table table-sm table-borderless" style="border-bottom: 1px solid white !important;">
+                                 <thead>
+                                     <tr class="text-center">
+                                         <th colspan="2" class="table-active" style="width:65%">RESUMEN</th>
+                                        <th colspan="2" class="table-active" style="width:35%">ANTICIPO</th>
+                                     </tr>
+                                 </thead>
+
+                                 <tbody>
+                                    <tr class="text-right">
+                                        <td style="width:35%">IMPORTE DEL CONTRATO ORIGINAL = - clave</td>
+                                        <td style="width:15%"> <span t-field="o.monto_sin_iva"/> </td>
+                                        <td style="width:30%">ANTICIPO OTORGADO =</td>
+                                        <td style="width:20%"> <span t-field="o.anticipo_a"/> </td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>IMPORTE DE CONVENIOS DE AMPLIACION =</td>
+                                        <td> 0.0 </td>
+                                        <td>ANTICIPO AMORTIZADO =</td>
+                                        <td> 0.0 </td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>IMPORTE DE CONVENIOS DE REDUCCION =</td>
+                                        <td> 0.0 </td>
+                                        <td>ANTICIPO POR AMORTIZAR = 0</td>
+                                        <td> 0.0 </td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>IMPORTE TOTAL DEL CONTRATO =</td>
+                                        <td> 0.0 </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>IMPORTE DE LAS ESTIMACIONES ANTERIORES =</td>
+                                        <td> 0.0 </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>IMPORTE DE ESTA ESTIMACION =</td>
+                                        <td> 0.0 </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>ACUMULADO DE ESTIMACIONES = </td>
+                                        <td> 0.0 </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td>SALDO POR ESTIMAR =</td>
+                                        <td> 0.0 </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                             </table>
+                         </div>
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <div class="text-center" style="font-size: 9px;">
+                             <table class="table table-sm table-striped">
+                            <tbody>
+                                <tr class="table-active">
+                                    <th>#</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>FechaTermino</th>
+                                    <th>Estimado</th>
+                                    <th>Amort ANT</th>
+                                    <th>Sub-Total </th>
+                                    <th>I.V.A.</th>
+                                    <th>Facturado</th>
+                                    <th>Deducciones</th>
+                                    <th>Retenciones</th>
+                                    <th>Sancion</th>
+                                    <th>A Pagar</th>
+                                </tr>
+
+                                <tr>
+                                    <td>0</td>
+                                    <td>ANTICIPO</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><span t-field="o.anticipo_a"/></td>
+                                    <td><span t-field="o.iva_anticipo"/></td>
+                                    <td><span t-field="o.total_anticipo"/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><span t-field="o.total_anticipo"/></td>
+                                </tr>
+
+                                <tr t-foreach="o.esti" t-as="l">
+
+                                    <td><span t-field="l.idobra"/></td>
+                                    <td><span t-field="l.tipo_estimacion"/></td>
+                                    <td><span t-field="l.fecha_inicio_estimacion" /></td>
+                                    <td><span t-field="l.fecha_termino_estimacion" /></td>
+                                    <td><span t-field="l.estimado" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.amort_anticipo" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.estimacion_subtotal" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.estimacion_iva" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.estimacion_facturado" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.estimado_deducciones" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.ret_neta_est" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.sancion" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td><span t-field="l.a_pagar" t-options='{"widget": "float", "precision": 2}'/></td>
+                                </tr>
+
+                                <tr>
+                                    <td>x</td>
+                                    <td></td>
+                                    <td>x</td>
+                                    <td><strong>TOTALES=</strong></td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.estimado" />
+                                        </t>
+                                        <strong><t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.amort_anticipo" />
+                                        </t>
+                                        <strong><t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.estimacion_subtotal" />
+                                        </t>
+                                        <strong><t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right" >
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.estimacion_iva " />
+                                        </t>
+                                        <strong><t t-esc="suma + o.iva_anticipo" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.estimacion_facturado " />
+                                        </t>
+                                        <strong><t t-esc="suma + o.total_anticipo" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.estimado_deducciones" />
+                                        </t>
+                                        <strong><t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.ret_neta_est" />
+                                        </t>
+                                        <strong><t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.sancion" />
+                                        </t>
+                                        <strong><t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <t t-set="suma" t-value="0" />
+                                        <t t-foreach="o.esti" t-as="x">
+                                        <t t-set="suma" t-value="suma + x.a_pagar " />
+                                        </t>
+                                        <strong><t t-esc="suma + o.total_anticipo" t-options='{"widget": "float", "precision": 2}'/></strong>
+                                    </td>
+
+
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                     </t>
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

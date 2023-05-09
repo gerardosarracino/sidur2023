@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="tramite_estimacion"
+            model="control.estimaciones"
+            string="Generar Tramite"
+            report_type="qweb-html"
+            paperformat="paperformat_pago"
+            print_report_name="object.ide_estimacion + '/' + 'Tramite' + object.obra.numero_contrato.contrato"
+            name="report_estimaciones.report_estimaciones_tramite"
+        />
+
+
+
+    </data>
+</odoo>

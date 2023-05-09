@@ -1,0 +1,286 @@
+<odoo>
+  <data>
+
+    <!-- VISTA CON BOTONES HACIA ESTIMACION -->
+    <record id="vista_form_ordenes_cambio" model="ir.ui.view">
+        <field name="name">vista form ordenes cambio</field>
+        <field name="model">ordenes.ordenes_cambio</field>
+        <field name="arch" type="xml">
+            <form string="" >
+                <sheet>
+                    <div class="text-right" >
+
+                        <button name="OrdenesLista" class="btn btn-outline-primary btn-lg " type="object"
+                            string="ORDENES DE CAMBIO" context="{'default_id_partida': id_partida, 'default_id_orden': active_id}"
+                            icon="fa-compress"/>
+
+                    </div>
+
+                    <group  colspan="2" col="4">
+                            <div>
+                            <b>Contrato: </b>
+                        </div>
+                        <p>&#160;</p>
+                    </group>
+                    <group>
+                        <field name="id_partida" nolabel="1" />
+                    </group>
+
+
+                    <group  colspan="2" col="4">
+                            <div>
+                            <b>Nombre de la Obra: </b>
+                        </div>
+                        <p>&#160;</p>
+                    </group>
+                    <group>
+                        <field name="obra" nolabel="1" readonly="1"/>
+                    </group>
+
+                    <field name="ordenes_conceptos_espejo" string="# Concepto de Ordenes de Cambio En Espejo" widget="one2many"
+                    readonly="1" force_save="1">
+                        <tree decoration-info="precio_unitario == 0"
+                        decoration-bf="precio_unitario == 0">
+                            <field name="clave_linea"/>
+                            <field name="related_categoria_padre" string="Grupo"/>
+                            <field name="categoria" invisible="1"/>
+                            <field name="concepto"/>
+                            <field name="medida"/>
+
+                            <field name="id_partida" force_save="1" invisible="1" />
+
+                            <field name="cantidad" attrs="{'invisible':[('cantidad','=',0)]}"/>
+                            <field name="precio_unitario" attrs="{'invisible':[('precio_unitario','=',0.0)]}"/>
+                            <field name="importe" sum="importe" attrs="{'invisible':[('importe','=',0.0)]}"/>
+                        </tree>
+                    </field>
+
+                    <group class="oe_subtotal_footer">
+                            <h6 style="position:relative;
+                                          display: inline-block;
+                                             left: -90px;
+                                              top: -50px;
+                                      white-space: nowrap;"> TOTAL:  </h6>
+                    </group>
+
+
+                    <group colspan="2" col="6">
+                        <field name="total_contratado" readonly="1"/>
+                        <field name="total_catalogo" readonly="1"/>
+                        <field name="diferencia"  class="o_light_label" attrs="{'invisible':[('diferencia','=',0)]}"
+                               style="color: #0553D4; font-size: 15px;"/>
+                        <field name="diferencia"  class="o_light_label" attrs="{'invisible':[('diferencia','!=',0)]}"
+                               style="color: #D40505; font-size: 15px;"/>
+                    </group>
+
+                    <sheet>
+                         <field name="ordenes_conceptos_related" string="# Ordenes de Cambio" widget="one2many"
+                            readonly="1" force_save="1" nolabel="1">
+                            <tree decoration-muted="completo == True"
+                            decoration-warning="completo == False">
+                                <field name="clave_linea"/>
+                                <field name="related_categoria_padre" string="Grupo"/>
+                                <field name="categoria" invisible="1"/>
+                                <field name="concepto"/>
+                                <field name="medida"/>
+
+                                <field name="id_partida" force_save="1" invisible="1" />
+
+                                <field name="cantidad" attrs="{'invisible':[('cantidad','=',0)]}"/>
+                                <field name="precio_unitario" attrs="{'invisible':[('precio_unitario','=',0.0)]}"/>
+                                <field name="importe" sum="importe" attrs="{'invisible':[('importe','=',0.0)]}"/>
+
+                                <field name="completo" invisible="1" force_save="1" />
+                                <button string="APLICADO" name="boton_aplicar" type="object" class="btn btn-secondary"
+                                       attrs="{'invisible': [('completo','=', False)]}"/>
+                                <button string="NO APLICADO" name="boton_no_aplicar" type="object" class="btn btn-warning"
+                                          attrs="{'invisible': [('completo','=', True)]}" />
+
+                            </tree>
+                        </field>
+                    </sheet>
+
+                    <group>
+                        <field name="total_catalogo" force_save="1" readonly="1" string="Subtotal Ordenes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+     <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="ordenes_cambio_tree">
+      <field name="name">ordenes cambio Tree</field>
+      <field name="model">ordenes.ordenes_cambio</field>
+      <field name="arch" type="xml">
+        <tree default_order="obra desc">
+            <field name="id_partida" string="Subcontrato"/>
+            <field name="tipo_obra" />
+            <field name="obra"/>
+            <field name="contratista" />
+        </tree>
+      </field>
+    </record>
+
+    <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="ordenes_cambio_action_window">
+      <field name="name">ORDENES DE CAMBIO</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ordenes.ordenes_cambio</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('ordenes_cambio_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('vista_form_ordenes_cambio')})]"/>
+    </record>
+
+
+    <!-- ORDENES DE CAMBIO LISTA -->
+
+    <!-- VISTA CON BOTONES HACIA ESTIMACION -->
+    <record id="vista_form_ordenes_lista_cambio" model="ir.ui.view">
+        <field name="name">vista form ordenes lista cambio</field>
+        <field name="model">ordenes.lista_ordenes_cambio</field>
+        <field name="arch" type="xml">
+            <form string="" >
+                <sheet>
+                    <div class="text-right" >
+
+                    <button name="AplicarCambios" class="btn btn-outline-primary btn-lg " type="object"
+                        string="APLICAR ORDEN DE CAMBIO"
+                        icon="fa-refresh" confirm="Esta seguro aplicar estos cambios?" attrs="{'invisible':[('aplicado','=',True)]}"/>
+
+                </div>
+
+                    <field name="aplicado" invisible="1" force_save="1"/>
+
+                     <group  colspan="2" col="4">
+                            <div>
+                            <b>Contrato: </b>
+                        </div>
+                        <p>&#160;</p>
+                   </group>
+                    <group>
+                        <field name="id_partida" nolabel="1" readonly="1" force_save="1"/>
+                    </group>
+
+                    <group>
+                      <field name="comentario_orden"/>
+                    </group>
+
+
+
+                    <field name="id_orden" nolabel="1" readonly="1" invisible="1"/>
+                    <field name="numero_orden" nolabel="1" readonly="1" invisible="1"/>
+
+
+                    <field name="ordenes_conceptos" string="# Concepto de Ordenes de Cambio" widget="one2many"
+                    context="{'default_id_partida': id_partida, 'default_id_orden': id_orden}" attrs="{'readonly':[('aplicado','=',True)]}">
+                        <tree decoration-info="precio_unitario == 0"
+                        decoration-bf="precio_unitario == 0">
+                            <field name="clave_linea"/>
+                            <field name="related_categoria_padre" string="Categoria"/>
+                            <field name="categoria" invisible="1"/>
+                            <field name="concepto"/>
+                            <field name="medida"/>
+                            <field name="id_partida" force_save="1" invisible="1"/>
+                            <field name="id_orden" force_save="1" invisible="1"/>
+
+                            <field name="cantidad" attrs="{'invisible':[('cantidad','=',0)]}"/>
+                            <field name="precio_unitario" attrs="{'invisible':[('precio_unitario','=',0.0)]}"/>
+                            <field name="comentario"/>
+                            <field name="importe" sum="importe" attrs="{'invisible':[('importe','=',0.0)]}" force_save="1"/>
+                            <button string="Quitar" name="borrar" type="object" class="btn btn-danger"
+                                    attrs="{'invisible':[('parent.aplicado','=',True)]}"/>
+                        </tree>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                            <h6 style="position:relative;
+                                          display: inline-block;
+                                             left: -90px;
+                                              top: -50px;
+                                      white-space: nowrap;"> TOTAL:  </h6>
+                    </group>
+
+                    <group>
+                        <field name="monto_orden" force_save="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+     <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="ordenes_cambio_lista_tree">
+      <field name="name">ordenes cambio lista Tree</field>
+      <field name="model">ordenes.lista_ordenes_cambio</field>
+      <field name="arch" type="xml">
+        <tree default_order="numero_orden asc">
+            <field name="numero_orden" />
+            <field name="id_partida" string="Contrato" invisible="1"/>
+            <field name="comentario_orden"/>
+            <field name="ordenes_conceptos" widget="many2many_tags"/>
+            <field name="monto_orden" sum="Total de Orden de Cambio"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- VENTANA EMERGENTE CONCEPTOS -->
+
+    <record id="form_ventana_conceptos_ordeneslista" model="ir.ui.view">
+          <field name="name">Ordenes Lista Ventana</field>
+          <field name="model">ordenes.conceptos_lista</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <field name="id_partida" force_save="1" invisible="1"/>
+
+
+                      <group>
+                          <p>AGREGAR CONCEPTO EXISTENTE</p>
+                          <field name="concepto_partida" domain="[('id_partida.id', '=', id_partida)]"/>
+                      </group>
+                        <hr/>
+                      <group colspan="2" col="4">
+                        <field name="categoria"
+                        context="{'form_view_ref': 'proceso_contratacion.categoria_nivel_form', 'default_id_partida': id_partida}"
+                        domain="[('id_partida.id', '=', id_partida)]" string="Seleccionar Categoria"/>  <!-- domain="[('id', '=', id)]" -->
+
+                        <field name="related_categoria_padre" force_save="1" string="Seleccionar Subcategoria"
+                        domain="[('id_partida.id', '=', id_partida)]"/>
+
+                        <field name="clave_linea"/>
+
+                      </group>
+                      <group>
+                        <field name="concepto" />
+                      </group>
+                       <group >
+                        <field name="medida" />
+                        <field name="cantidad" />
+                        <field name="precio_unitario" widget="monetary" />
+                      </group>
+                      <group class="oe_subtotal_footer">
+                        <field name="importe" class="oe_subtotal_footer_separator" string="IMPORTE" force_save="1"/>
+                      </group>
+                      <hr/>
+                      <group>
+                          <field name="comentario"/>
+                      </group>
+
+                      <field name="id_partida" invisible="1" force_save="1"/>
+                      <field name="id_orden" invisible="1" force_save="1"/>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
+    <menuitem name="Ordenes de Cambio" id="ordenes_cambio.menu_root" sequence="0" web_icon="ordenes_cambio,static/description/icon.png"/>
+
+    <menuitem name="Ordenes de Cambio" id="ordenes_cambio_menu" parent="ordenes_cambio.menu_root"
+              action="ordenes_cambio_action_window" sequence="2"/>
+
+  </data>
+</odoo>

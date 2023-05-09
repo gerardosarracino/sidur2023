@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+
+         <record id="respuesta_notificacion" model="ir.actions.act_window">
+            <field name="name">Respuesta de notificación</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditorias.resp_noti</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="respuesta_notificacion_tree_view" model="ir.ui.view">
+            <field name="name">Respuesta de notificación</field>
+            <field name="model">auditorias.resp_noti</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="respuesta_notif"/>
+                    <field name="oficio_notificacion"/>
+                    <field name="resp_info_solic"/>
+                    <field name="responsable"/>
+                    <field name="fecha"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="respuesta_notificacion_search" model="ir.ui.view">
+            <field name="name">Respuesta de notificación</field>
+            <field name="model">auditorias.resp_noti</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="respuesta_notif"/>
+                    <field name="oficio_notificacion"/>
+                    <field name="resp_info_solic"/>
+                    <field name="responsable"/>
+                    <field name="fecha"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="responsable_tree" model="ir.ui.view">
+            <field name="name">Auditoria responsable</field>
+            <field name="model">auditorias.responsable</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="responsable"/>
+                    <field name="funcion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="respuesta_notificacion_form" model="ir.ui.view">
+            <field name="name">Respuesta de notificación</field>
+            <field name="model">auditorias.resp_noti</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="respuesta_notif" placeholder="Número de respuesta de notificación"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+                                    <field name="oficio_notificacion"/>
+                                    <field name="responsable">
+                                        <tree>
+                                            <field name="responsable"/>
+                                            <field name="funcion"/>
+                                        </tree>
+                                    </field>
+                                    <field name="fecha"/>
+                                </group>
+                            </page>
+                            <page string="Detalles">
+                                <group>
+                                     <field name="resp_info_solic"/>
+                                     <field name="subir_oficio"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Respuesta de notificación" id="resp_not_menuitem"
+              parent="menu_auditorias"
+              action="respuesta_notificacion" sequence="2"/>
+    </data>
+</odoo>

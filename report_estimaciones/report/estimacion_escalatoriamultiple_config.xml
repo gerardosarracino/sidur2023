@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="estimacion_report_multiple"
+            model="control.estimaciones"
+            string="Reporte Escalatoria Multiple"
+            report_type="qweb-html"
+            paperformat="paperformat_estimacion"
+            print_report_name="object.ide_estimacion + '/' + 'Estimacion_multiple_' + object.obra.numero_contrato.contrato"
+            name="report_estimaciones.report_escalatoria_multiple"
+            menu="False"
+        />
+    </data>
+</odoo>

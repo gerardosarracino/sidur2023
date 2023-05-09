@@ -1,0 +1,513 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="proceso_rutac_form">
+    <field name="name">Proceso Ruta Critica</field>
+    <field name="model">partidas.partidas</field>
+    <field name="arch" type="xml">
+        <form>
+             <sheet>
+                         <div class="panel panel-default">
+                              <div class="panel-body">
+                                <h3 colspan="2" align="center"> PROGRAMA DE FRENTES DE TRABAJO</h3>
+                              </div>
+                          </div>
+                            <sheet>
+                          <group>
+
+                                <field name="numero_contrato" invisible="1"/>
+
+                               <field name="ruta_critica" string="# Concepto de partidas" widget='one2many'
+                               context="{'default_id_partida': active_id}">
+                                    <tree editable="bottom" delete="false">
+                                        <control>
+                                            <create string="Agregar programa de trabajo"  context="{'default_id_partida': active_id}"/>
+                                        </control>
+                                            <field name="id_partida" invisible="1" force_save="1"/>
+                                            <field name="frente" string="FRENTE" force_save="1" context="{'default_id_partida': id_partida}" domain="[('id_partida.id', '=', id_partida)]" /> <!-- domain="[('id_partida.id', '=', id_partida)]" -->
+                                            <field name="name"/>
+                                            <field name="porcentaje_est" />
+                                            <field name="avance_fisico" invisible="1" />
+                                     </tree>
+                                </field>
+
+                               
+                         </group>
+                      </sheet>
+                      <group>
+                          <field string="PORCENTAJE PROGRAMADO" readonly="1" force_save="1" widget="Percent" name="total_" class="oe_subtotal_footer_separator" />
+                      </group>
+             </sheet>
+        </form>
+    </field>
+   </record>
+
+
+    <record model="ir.ui.view" id="proc_contratacion_elaboracion_contrato_3">
+      <field name="name">proceso.elaboracion_contrato.tree3</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false" default_order="obra desc">
+            <field name="fechainicio" string="f. Inicio"/>
+            <field name="fechatermino" string="f. Termino"/>
+            <field name="ruta_critica" invisible="1"/>
+            <field name="nombre_partida" string="# Contrato"/>
+            <field name="tipo_obra"/>
+            <field name="contratista"/>
+            <field name="obra"/>
+            <field name="residente_obra" string="Residente" widget="many2many_tags"/>
+            <field name="total_partida" string="Total"/>
+
+            <field name="a_fis" string="A.fis"/>
+
+            <field name="a_fin" string="A.fin"/>
+
+            <field name="contar_estimaciones" string="#Est"/>
+            
+        </tree>
+      </field>
+    </record>
+
+ <record model="ir.actions.act_window" id="proceso_rutac">
+      <field name="name">Ruta critica</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="target">current</field>
+      <field name="view_mode">tree</field>
+     <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('proc_contratacion_elaboracion_contrato_3')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('proceso_rutac_form')})]"/>
+ </record>
+
+    <record model="ir.actions.act_window" id="proceso_informe_avance">
+          <field name="name">Informe de avance</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">proceso.iavance</field>
+          <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('proceso_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('proceso_ivance_form')})]"/>
+    </record>
+
+      <record model="ir.ui.view" id="proceso_tree">
+      <field name="name">proceso.elaboracion_contrato.tree3</field>
+      <field name="model">proceso.iavance</field>
+      <field name="arch" type="xml">
+        <tree default_order="fecha_actual desc">
+            <field name="fecha_actual" string="Fecha"/>
+            <field name="num_avance" string="# Avance"/>
+            <field name="situacion_contrato" string="Situación"/>
+            <field name="com_avance_obra" string="Comentario de Avance"/>
+            <field name="porcentajeProgramado" string="% Programado" invisible="1"/>
+            <field name="porcentaje_estimado" string="% Fisico"/>
+            <field name="avance_financiero" string="% Financiero"/>
+            <field name="create_date" />
+            <field name="create_uid" /> 
+        </tree>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="proceso_ivance_form">
+    <field name="name">Información de avance</field>
+    <field name="model">proceso.iavance</field>
+    <field name="arch" type="xml">
+        <form>
+             <sheet>
+
+               <div class="text-right" modifiers="{}">
+			         <button class="btn btn-outline-primary btn-lg" type="object"
+                     string=" Subir Galeria"
+                     icon="fa-camera"
+                     name="galeria_imagenes"
+                     />
+
+                <!--button name="galeria" class="btn btn-outline-primary btn-lg " type="object"
+                             string="GALERÍA DE IMÁGENES" context="{
+                       'search_default_informe_avance': active_id,
+                       }"
+                             icon="fa-clock-o"/-->
+
+		        </div>
+
+                 <div class="panel panel-default">
+                              <div class="panel-body">
+                                <h3 colspan="2" align="left"> Elija la situación del contrato:</h3>  <field name="situacion_contrato"/>
+                              </div>
+                 </div>
+                 <div class="panel panel-default">
+                              <div class="panel-body">
+                                <h3 colspan="2" align="left"> Comentarios generales:</h3><field name="comentarios_generales" placeholder='CAPTURAR COMENTARIOS GENERALES'/>
+                              </div>
+                 </div>
+
+
+                 <div class="panel panel-default">
+                              <div class="panel-body">
+                                <h3 colspan="2" align="center"> Informes de Avance del contrato: <field name="numero_contrato" readonly="1"/> A la fecha: <field name="fecha_actual" placeholder='CAPTURAR FECHA'/>  </h3>
+                              </div>
+                          </div>
+                            <sheet>
+                          <field name="obra"  invisible="1"/>
+                                <group>
+                                    <field name="porcentajeProgramado" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="porcentaje_estimado" readonly="1" force_save="1" invisible="1"/>
+                                </group>
+
+                          <group>
+                              
+
+                               <field name="ruta_critica" string="# Concepto de partidas" widget="one2many">
+                                    <tree editable="bottom" delete="false" create="false">
+                                      <field name="numero_informe" invisible="1" /> 
+                                      <field name="numero_contrato" invisible="1" />
+                                      <field name="frente" string="FRENTE" force_save="1" readonly="1" domain="[('id_partida.id', '=', numero_contrato)]"/>
+                                      <field name="name" readonly="1" force_save="1" string="ACTIVIDADES PRINCIPALES"/>
+                                      <field name="porcentaje_est" sum="PORCENTAJE PROGRAMADO" force_save="1" readonly="1"/>
+                                      
+                                      <field name="avance_fisico" force_save="1" />
+                                      <!--field name="ejercicio" /-->
+                                      <field name="avance_fisico_ponderado" sum="% AVANCE TOTAL" readonly="1" force_save="1"/>
+                                     </tree>
+                                </field>
+
+                                <group class="oe_subtotal_footer">
+                                        <h6 style="position:relative;
+                                                      display: inline-block;
+                                                         left: -43px;
+                                                          top: -50px;
+                                                  white-space: nowrap;"> % AVANCE TOTAL:  </h6>
+                                </group>
+
+                                <group>
+                                        <h6 style=" position:relative;
+                                                    display: inline-block;
+                                                       left: 310px;
+                                                        top: -47px;
+                                                  white-space: nowrap;"> PORCENTAJE PROGRAMADO:  </h6>
+                                </group>
+
+                         </group>
+                                 <div class="panel panel-default">
+                                  <div class="panel-body">
+                                    <h3 colspan="2" align="left"> Comentarios sobre los avances de obra:</h3><field name="com_avance_obra" placeholder='CAPTURAR COMENTARIOS SOBRE LOS AVANCES DE LA OBRA'/>
+                                  </div>
+                                </div>
+                      </sheet>
+             </sheet>
+          
+        </form>
+    </field>
+   </record>
+
+    <!--TRABAJANDO-->
+     <record model="ir.ui.view" id="proceso_rc">
+      <field name="name">Ruta critica</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <form create="false" edit="false" delete="false">
+          <sheet>
+                      <div class="oe_button_box oe_read_only" name="button_box" >
+
+                          
+                         <button name="ruta_critica_over" type="object" class="oe_stat_button">
+                                    <field name="total_"
+                                        string="Ruta critica"
+                                        widget="percentpie" />
+                                    </button>
+
+                                  <button  name="%(proceso_informe_avance)d" type="action"
+                                    context="{'search_default_numero_contrato': active_id,
+                                    'default_numero_contrato': active_id}" string="Informe de avance"
+                                    icon="fa-book" attrs="{'invisible': [('total_', '&lt;', 100)]}"
+                                />
+                                <p attrs="{'invisible': [('total_', '=', 100)]}"
+                                   style="color: #DF0101; font-size: 15px;"> LA RUTA CRITICA NO ESTA AL 100%</p>
+
+                      </div>
+
+                  <div>
+                            <b>Nombre de la Obra: </b>
+                        </div>
+                        <group>
+
+                            <field name="obra" nolabel="1" readonly="1"/>
+                        </group>
+                            <hr/>
+                        <group colspan="2" col="5" context="{'default_ejercicio': obra.id}">
+                            <b>Programa</b>
+                            <b>Ejercicio</b>
+                            <b>Monto</b>
+                            <b>Municipio</b>
+                            <b>Localidad</b>
+                        </group>
+                        <group colspan="2" col="6">
+                            <field name="programaInversion" readonly="True" string="" nolabel="1"/>
+                            <field name="ejercicio" string="" nolabel="1" readonly="True"/>
+                            <field name="total_partida" widget="monetary" string="" nolabel="1" readonly="True"/>
+                            <field name="municipio" string="" nolabel="1" readonly="True"/>
+                            <field name="localidad" string="" nolabel="1"/>
+                        </group>
+                          <hr/>
+                        <group colspan="2" col="5">
+                            <b>Fecha del Anticipo</b>
+                            <b>Fecha del contrato</b>
+                            <b>Fecha de Inicio Contractual</b>
+                            <b>Fecha de Termino Contractual</b>
+                            <b>Supervision Externa</b>
+                        </group>
+
+
+
+                        <group colspan="2" col="6">
+                          <field name="fecha_anticipos" readonly="1" string="" nolabel="1"/>
+                          <field name="fecha" string="" nolabel="1"/>
+                          <field name="fechainicio" string="" nolabel="1"/>
+                          <field name="fechatermino" string="" nolabel="1"/>
+                          <field name="supervisionexterna1" string="" nolabel="1"/>
+                  </group>
+          </sheet>
+         
+        </form>
+      </field>
+    </record>
+
+
+      <record model="ir.ui.view" id="proceso_ivance__search">
+        <field name="name">Información de avance</field>
+        <field name="model">proceso.iavance</field>
+        <field name="arch" type="xml">
+             <search>
+                <field name="numero_contrato" />
+                <field name="com_avance_obra" string="Comentario de Avance" />
+                <field name="situacion_contrato" />
+             </search>
+        </field>
+      </record>
+
+   
+      <record model="ir.ui.view" id="search_view_rutainforme">
+        <field name="name">Informe de avance</field>
+        <field name="model">partidas.partidas</field>
+        <field name="arch" type="xml">
+             <search>
+                <field name="create_uid"/>
+              <field name="create_date"/>
+              <field name="write_date"/>
+             </search>
+        </field>
+      </record>
+
+    <!-- ACCION HACIA EL TREEVIEW PARA ACCESAR A LOS INFORMES Y RUTA -->
+    <record model="ir.actions.act_window" id="proceso_supervicion_obra">
+      <field name="name">RUTA CRITICA E INFORMES DE AVANCE</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">tree,form</field>
+       <field name="domain">[('residente_obra','=', uid)]</field>
+        <field name="search_view_id" ref="search_view_rutainforme"/>
+        <!--field name="context">{'search_default_create_uid': 2}</field-->
+      <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('proc_contratacion_elaboracion_contrato_3')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('proceso_rc')})]"/>
+    </record>
+
+    <record id="cat_ruta_tree" model="ir.ui.view">
+      <field name="name">categoria ruta</field>
+      <field name="model">proceso.frente</field>
+      <field name="arch" type="xml">
+        <tree string="">
+          <field name="nombre"/>
+          <field name="id_partida" force_save="1"/>
+        </tree>
+      </field>
+    </record>
+
+      <record id="ruta_critica_form" model="ir.ui.view">
+        <field name="name">Ruta Critica form</field>
+        <field name="model">proceso.frente</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="nombre"/>
+                        <field name="id_partida" force_save="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+      </record>
+
+      <record id="cat_ruta_action" model="ir.actions.act_window">
+          <field name="name">cat ruta action</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">proceso.frente</field>
+          <field name="view_mode">tree</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+              <!-- Add Text Here -->
+            </p><p>
+              <!-- More details about what a user can do with this object will be OK --> 
+            </p>
+          </field>
+      </record>
+
+      <record id="ruta_tree" model="ir.ui.view">
+          <field name="name">ruta critica import</field>
+          <field name="model">proceso.rc</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="frente"/>
+                  <field name="name"/>
+                  <field name="porcentaje_est"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="ruta_action" model="ir.actions.act_window">
+          <field name="name">ruta action</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">proceso.rc</field>
+          <field name="view_mode">tree</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+              <!-- Add Text Here -->
+            </p><p>
+              <!-- More details about what a user can do with this object will be OK --> 
+            </p>
+          </field>
+      </record>
+
+      <record id="rca_tree" model="ir.ui.view">
+          <field name="name">rca tree</field>
+          <field name="model">proceso.rc_a</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="numero_contrato"/>
+                  <field name="frente" />
+                  <field name="porcentaje_est"/>
+                  <field name="avance_fisico"/>
+                  <field name="avance_fisico_ponderado"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="rca_Action" model="ir.actions.act_window">
+          <field name="name">rca action import</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">proceso.rc_a</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+              <!-- Add Text Here -->
+            </p><p>
+              <!-- More details about what a user can do with this object will be OK -->
+            </p>
+          </field>
+      </record>
+
+      <!-- FORMULARIO DE GALERIA -->
+      <record model="ir.ui.view" id="avance_fisico_financiero_form">
+      <field name="name">Avances Físicos Financieros</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+             
+
+                    <hr/>
+                    <field name="verif_programa" readonly="1" invisible="1"/>
+
+                   <group  colspan="2" col="4">
+                            <div>
+                            <b>Nombre de la Obra: </b>
+                        </div>
+                        <field name="obra" nolabel="1" readonly="1"/>
+                         <p attrs="{'invisible': [('verif_programa', '=', True)]}"
+                            align="right" style="color: #DE0C0C">No hay Programa Para La Estimación*</p>
+                   </group>
+                            <hr/>
+                        <group colspan="2" col="5" context="{'default_ejercicio': obra.id}">
+                            <b>Programa</b>
+                            <b>Ejercicio</b>
+                            <b>Monto</b>
+                            <b>Municipio</b>
+                            <b>Localidad</b>
+                        </group>
+                        <group colspan="2" col="6">
+                            <field name="programaInversion" readonly="True" string="" nolabel="1"/>
+                            <field name="ejercicio" string="" nolabel="1" readonly="1"/>
+                            <field name="total_partida" widget="monetary" string="" nolabel="1" readonly="1"/>
+                            <field name="municipio" string="" nolabel="1" readonly="1"/>
+                            <field name="localidad" string="" nolabel="1"/>
+                        </group>
+                          <hr/>
+                        <group colspan="2" col="5">
+                            <b>Fecha del Anticipo</b>
+                            <b>Fecha del contrato</b>
+                            <b>Fecha de Inicio Contractual</b>
+                            <b>Fecha de Termino Contractual</b>
+                            <b>Supervision Externa</b>
+                        </group>
+
+                        <group colspan="2" col="6">
+                          <field name="fecha_anticipos" readonly="1" string="" nolabel="1"/>
+                          <field name="fecha" string="" nolabel="1"/>
+                          <field name="fechainicio" string="" nolabel="1"/>
+                          <field name="fechatermino" string="" nolabel="1"/>
+                          <field name="supervisionexterna1" string="" nolabel="1"/>
+                  </group>
+
+               <group>
+                  <field name="galleria" nolabel="1"  widget="one2many_list" context="{'default_id_partida': active_id}">
+                      <tree>
+                        <field name="frente" domain="[('id_partida.id', '=', id_partida)]" />
+                        <field name="imagen" widget="image_multi" />
+                          <field name="id_partida" invisible="1" />
+                      </tree>
+                    </field>
+               </group>
+               </sheet>
+        </form>
+      </field>
+    </record>
+
+      <record id="avances_fisico_financieros_tree" model="ir.ui.view">
+          <field name="name">Avances Físicos Financieros</field>
+          <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+              <tree string="" default_order="obra desc">
+                  <field name="galleria"/>
+                  <field name="nombre_partida"/>
+                    <field name="obra"/>
+                    <field name="programaInversion" />
+              </tree>
+          </field>
+      </record>
+
+      <record id="avances_fisicos_financieros_action" model="ir.actions.act_window">
+          <field name="name">Avances Físicos Financieros</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">partidas.partidas</field>
+          <field name="view_mode">tree,form</field>
+          <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'tree', 'view_id': ref('avances_fisico_financieros_tree')}),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('avance_fisico_financiero_form')})]"/>
+      </record>
+
+    <menuitem name="Supervisión de Obra" id="supervicion_obra" parent="ejecucion_obra.menu_root"
+              action="proceso_supervicion_obra" sequence="4"/>
+
+      <menuitem name="Avances Físicos Financieros" id="avances_fisicos_financieros_menu" parent="ejecucion_obra.menu_root"
+              action="avances_fisicos_financieros_action" sequence="4"/>
+
+              <!-- menuitem name="IMPORT CAT RUTA" id="cat_ruta2" parent="ejecucion_obra.menu_root"
+              action="cat_ruta_action" sequence="7"/>
+
+              <menuitem name="IMPORT RUTA" id="cat_ruta" parent="ejecucion_obra.menu_root"
+              action="ruta_action" sequence="8"/ -->
+
+      <!--menuitem name="IMPORT RCA" id="rca_actione" parent="ejecucion_obra.menu_root"
+              action="rca_Action" sequence="9"/-->
+
+  </data>
+</odoo>

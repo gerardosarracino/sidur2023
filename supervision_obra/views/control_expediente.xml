@@ -1,0 +1,115 @@
+<odoo>
+  <data>
+
+      <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="supervision_obra_control_expediente_tree">
+      <field name="name">Ingreso de Documentos al Expediente Único Tree</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false">
+            <field name="fecha" string="Fecha"/>
+            <field name="nombre_partida" string="# Contrato"/>
+            <field name="objeto" string="Objeto" />
+            <field name="contratista" string="Contratista" />
+            <field name="obra" string="Obra"/>
+            <field name="residente_obra" string="Residente"/>
+        </tree>
+      </field>
+    </record>
+
+      <!-- VISTA CON BOTONES HACIA ESTIMACION -->
+    <record id="supervision_obra_control_expediente_vista_form" model="ir.ui.view">
+        <field name="name">Ingreso de Documentos al Expediente Único Form</field>
+        <field name="model">partidas.partidas</field>
+        <field name="arch" type="xml">
+            <form string="" create="false" delete="false" >
+                <sheet>
+
+                    <field name="prueba_expediente"/>
+
+                    <group>
+                        <button name="expediente_crear" type="object" string="Agregar Documento" class="btn btn-info"
+                    style="float:right;"/>
+                    </group>
+
+
+                    <group>
+                        <field name="tabla_control" nolabel="1" widget='one2many'>
+                            <tree editable="bottom" delete="false" create="false">
+                                <!--control>
+                                    <create string="Agregar Documento" context="{'form_view_ref': 'control_expediente.supervision_obra_form_control_expediente',
+                                    'default_p_id': active_id}"/>
+                                </control -->
+                                <field name="p_id" readonly="1" force_save="1"/>
+                                <field name="etapa" readonly="1" force_save="1"/>
+                                <field name="nombre" readonly="1" force_save="1"/>
+                                <field name="referencia" readonly="1"/>
+                                <field name="fecha" readonly="1"/>
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                <field name="url" invisible="1"/>
+                                <field name="ejercicio" invisible="1"/>
+                                <field name="documento" readonly="1" filename="nombre_documento" attrs="{'invisible': [('ejercicio','&lt;', 7)]}"/>
+                                <field name="nombre_documento" readonly="1" attrs="{'invisible': [('ejercicio','&lt;', 7)]}"/>
+
+                                <button name="descargar_documento" type="object" string="Descargar"
+                                attrs="{'invisible': ['|', ('ejercicio','&gt;=', 7), ('url','=', False)]}"/>
+
+                                <button name="vista_expediente" type="object" string="Editar"/>
+
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+      <record id="supervision_obra_form_control_expediente" model="ir.ui.view">
+          <field name="name">Control de Expediente Form</field>
+          <field name="model">control.expediente</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group colspan="2" col="4">
+                          <field name="url" readonly="1" attrs="{'invisible': [('ejercicio','&gt;=', 7)]}"/>
+                          <button name="descargar_documento" type="object" string="Descargar"
+                                attrs="{'invisible': ['|', ('ejercicio','&gt;=', 7), ('url','=', False)]}"/>
+                      </group>
+                      <group>
+                          <field name="p_id" force_save="1" invisible="1"/>
+                          <field name="ejercicio" invisible="1"/>
+                          <field name="etapa" force_save="1"/>
+                          <field name="nombre" force_save="1"/>
+                          <field name="referencia"/>
+                          <field name="existe"/>
+                          <field name="aplica"/>
+                          <field name="fecha" />
+                          <field name="comentarios"/>
+                          <field name="documento" filename="nombre_documento"/>
+                          <field name="nombre_documento"/>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
+<!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="supervision_obra_control_expediente_action">
+      <field name="name">Ingreso de Documentos al Expediente Único</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+        <field name="domain">['|', ('residente_obra','=', uid), ('super_residente','=', uid)]</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('supervision_obra_control_expediente_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('supervision_obra_control_expediente_vista_form')})]"/>
+    </record>
+
+    <menuitem name="Expediente Único" id="control_expediente_documentos"
+              parent="supervision_obra.menu_root"
+              action="control_expediente.control_expediente_contrato_action" sequence="6"/>
+
+  </data>
+</odoo>

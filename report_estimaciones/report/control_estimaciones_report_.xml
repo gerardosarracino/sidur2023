@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_estimaciones" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+
+                        <style>
+                            body {
+                                font-size: 12px;
+                                font-family: Arial, Helvetica, sans-serif;
+                            }
+
+                            #header {
+                                text-align: center;
+                                border-bottom: 1px solid #666;
+                                padding-bottom: 2px;
+                            }
+
+                            h3,
+                            h4,
+                            h5 {
+                                margin: 0;
+                                line-height: 20px;
+                            }
+
+                            table,
+                            td,
+                            th {
+                                border-color: #eee;
+                                font-size: 12px;
+                            }
+
+                            caption {
+                                font-weight: 650;
+                                margin-bottom: 18px;
+                                margin-top: 9px;
+                            }
+
+                            #footer h5 {
+                                text-align: center;
+                                border-bottom: 1px solid #eee;
+                            }
+
+                            #opciones {
+                                position: fixed;
+                                top: 0;
+                                background-color: #999;
+                                padding: 5px;
+                                right: 0;
+                                z-index: 99999;
+                                margin-right: 8px;
+                                display: inline-block;
+                                -moz-box-shadow: 0 0 3px #999;
+                                -webkit-box-shadow: 0 0 3px #999;
+                                box-shadow: 0 0 3px #999;
+                            }
+
+                            #opciones a {
+                                border-right: 1px solid #ccc;
+                                padding-right: 5px;
+                                color: #fff;
+                                text-decoration: none;
+                            }
+
+                            #opciones a:last-child {
+                                border: none;
+                            }
+
+                            #opciones a:before {
+                                content: " ";
+                            }
+                        </style>
+
+                         <body>
+
+                            <div id="header" style="position:relative;">
+
+                                <div style="position:absolute; top:1; left:50;">
+                                    <img t-att-src="'http://sidur.galartec.com/report_estimaciones/static/src/img/logo-sidur.png'"  title="logoEnte" t-att-alt="logo" width="265" height="65" />
+                                </div>
+                                <h3>GOBIERNO DEL ESTADO DE SONORA</h3>
+                                <h4>
+                                    SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO <br/> DIRECCIÓN DE EJECUCIÓN DE OBRA</h4>
+                                <h5>CONTROL DE ESTIMACIONES</h5>
+                            </div>
+
+                            <div id="datosObra" style="margin-top:7px;">
+                                <table width="100%" border="1" cellpadding="1" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody><tr>
+                                        <th width="7%" rowspan="2" colspan="2">OBRA:</th>
+                                        <td colspan="3" rowspan="2" valign="top" style="font-size:10px;">
+                                            <span t-field="o.obra.objeto"/> <br/>  <span t-field="o.obra.obra"/></td>
+                                        <th width="6%" rowspan="2">LUGAR:</th>
+                                        <td colspan="2" rowspan="2" align="center">
+                                            <span t-field="o.municipio_contrato"/>				</td>
+                                        <th width="13%" colspan="2">FECHA</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                           <span t-field="o.fecha_presentacion" t-options='{"format": "d MMMM y"}'
+                                           style="text-transform:uppercase;"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4" rowspan="2">
+                                             &#160;
+                                        </th>
+                                        <th>&#160;</th>
+                                        <th>ID ESTIMACIÓN</th>
+                                        <th>ESTIMACIÓN No</th>
+                                        <th colspan="3" width="10%">POR OBRA EFECTUADA EN EL PERIODO DE:</th>
+                                    </tr>
+                                    <tr>
+                                        <td>&#160;</td>
+                                        <td align="center">
+                                            <span t-field="o.ide_estimacion" />
+                                        </td>
+                                        <td align="center" style="font-size:15px;">
+                                            <span t-field="o.idobra"/>				</td>
+                                        <td colspan="3" align="center">
+                                            <span t-field="o.fecha_inicio_estimacion" t-options='{"format": "d MMMM y"}'
+                                                  style="text-transform:uppercase;"/> AL
+                                            <span t-field="o.fecha_termino_estimacion" t-options='{"format": "d MMMM y"}'
+                                                  style="text-transform:uppercase;"/></td>
+                                    </tr>
+                                </tbody></table>
+                            </div>
+                            <div id="datosContratacion" style="margin-top:13px;">
+                                <table width="100%" border="1" cellpadding="1" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody><tr>
+                                        <th colspan="9">DATOS DE CONTRATACION</th>
+                                    </tr>
+                                    <tr>
+                                        <th>CONTRATO</th>
+                                        <th>FECHA</th>
+                                        <th>IMPORTE TOTAL</th>
+                                        <th>ANTICIPO</th>
+                                        <th colspan="2">FECHAS</th>
+                                        <th colspan="2">AVANCES</th>
+                                        <th>TIPO DE INVERSION</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" align="center" valign="middle">
+                                            <p class="m-0" t-field="o.numero_contrato"/>		</td>
+                                        <td rowspan="2" align="center" valign="middle">
+                                            <p t-field="o.fecha_contrato"/>			</td>
+                                        <td rowspan="2" align="center" valign="middle">
+                                            <p t-field="o.obra.total"/>				</td>
+                                        <td rowspan="2" align="center" valign="middle">
+                                            <span t-field="o.obra.anticipo_a" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        <th>INICIO</th>
+                                        <th>TERMINO</th>
+                                        <th>FISICO</th>
+                                        <th>FINANC</th>
+                                        <td rowspan="2" align="center" valign="middle"><span t-field="o.tipobra_contrato"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <p t-field="o.fecha_inicio_programa"/>	</td>
+                                        <td align="center">
+                                            <p t-field="o.fecha_termino_programa"/>	</td>
+                                        
+                                        <td align="center">
+                                            <span t-field="o.a_fin" t-options='{"widget": "float", "precision": 2}'> </span> %</td>
+                                        <td align="center">
+                                            <span t-field="o.a_fin" t-options='{"widget": "float", "precision": 2}'> </span> % </td>
+                                    </tr>
+                                </tbody></table>
+                            </div>
+
+                            <div id="datosEstimacion" style="margin-top:15px; border:1px solid #eee;">
+                                <div style="float:left; width:25%;">
+                                    <table width="100%" border="0" cellpadding="3" cellspacing="0">
+                                        <caption>ESTADO DE CUENTA ANTICIPO</caption>
+                                        <tbody><tr>
+                                            <td align="center">ESTA ESTIMACION</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.amort_anticipo" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">ACUMULADO ANTERIOR</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.acum_anterior_anti" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">ACUMULADO TOTAL</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.acum_total_anti" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">ANTICIPO OTORGADO</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.obra.anticipo_a" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">SALDO ANTICIPO</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.saldo_contrato_anti" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+
+                                <div style="float:left; width:50%; border-left:1px solid #eee; border-right:1px solid #eee;">
+                                    <table width="100%" border="0" cellpadding="2" cellspacing="0" style="border-collapse:collapse;">
+                                        <caption>
+                                            LIQUIDACION
+                                        </caption>
+                                        <tbody><tr>
+                                            <td>IMPORTE ESTIMACIÓN</td>
+                                            <td align="right">
+                                                <span t-field="o.estimado" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <!--<tr>
+                                      <td>IMPORTE ESTIMACIÓN</td>
+                                      <td align="right">86,065.25				</td>
+                                        </tr> -->
+                                        <tr>
+                                            <td>AMORTIZACION ANTICIPO</td>
+                                            <td align="right">
+                                               <span t-field="o.amort_anticipo" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SUBTOTAL</td>
+                                            <td align="right">
+                                                <span t-field="o.estimacion_subtotal" t-options='{"widget": "float", "precision": 2}'/> 	</td>
+                                        </tr>
+                                        <tr>
+                                            <td>16 % I.V.A.</td>
+                                            <td align="right">
+                                                <span t-field="o.estimacion_iva" t-options='{"widget": "float", "precision": 2}' />					</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TOTAL</td>
+                                            <td align="right">
+                                                <span t-field="o.estimacion_facturado" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <strong>DEDUCCIONES</strong>
+                                            </td>
+                                        </tr>
+                                        <tr t-foreach="o.deducciones" t-as="l" >
+                                        <td><span t-field="l.name" class="float-left"/></td>
+                                        <td align="right"><span t-field="l.valor" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr><td>SANCIÓN POR INCUMPLIMIENTO DE PLAZO</td><td align="right">
+                                            <span t-field="o.sancion" t-options='{"widget": "float", "precision": 2}'/> </td></tr>
+                                            <tr>
+                                            <td>RETENCIÓN/DEVOLUCIÓN POR ATRASO</td>
+                                            <td align="right">
+                                                <span t-field="o.ret_neta_est" t-options='{"widget": "float", "precision": 2}' />	</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>ALCANCE LIQUIDO</b>
+                                            </td>
+                                            <td align="right">
+                                                <b>
+                                                    <span t-field="o.a_pagar" t-options='{"widget": "float", "precision": 2}'/>						</b>
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+
+                                <div style="float:left; width:24.7%;">
+                                    <table width="100%" border="0" cellpadding="3" cellspacing="0">
+                                        <caption>ESTADO CUENTA DE OBRA</caption>
+                                        <tbody>
+                                        <tr>
+                                            <td align="center">ESTA ESTIMACION</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.estimado" t-options='{"widget": "float", "precision": 2}'/>	</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">ACUMULADO ANTERIOR</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.acum_anterior" t-options='{"widget": "float", "precision": 2}'/>						</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">ACUMULADO TOTAL</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.acum_total" t-options='{"widget": "float", "precision": 2}'/>						</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">MONTO CONTRATO</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.monto_contrato" t-options='{"widget": "float", "precision": 2}'/>					</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">SALDO DE CONTRATO</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.saldo_contrato" t-options='{"widget": "float", "precision": 2}'/>						</td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+
+                                <div style="clear:both; height:1%;"></div>
+                            </div>
+
+                            <div id="footer" style="border-bottom:1px solid #eee; border-left:1px solid #eee; border-right:1px solid #eee;">
+                                <div style="float:left; width: 30%; border-right:1px solid #eee; box-sizing: border-box;">
+                                    <h5>FORMULO</h5>
+                                    <table width="100%" style="margin-top:15px;">
+                                        <tbody><tr>
+                                            <td align="center"> <span t-field="o.obra.contratista.nombre_representante"/><br/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <span t-field="o.contratista_contrato"/><br/> 	</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="font-size:11px;">CONTRATISTA</td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+                                <div style="float:left; width: 70%; box-sizing: border-box;">
+                                    <h5>REVISO</h5>
+                                    <table width="100%" style="margin-top:15px;">
+                                        <tbody><tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" t-if="o.obra.supervision_externa"><span t-field="o.obra.supervision_externa.contratista.nombre_representante"/>	</td>
+
+                                            <td align="center">
+                                                <span t-foreach="o.obra.residente_obra" t-as="s" t-field="s.name" />		</td>
+                                            <td align="center">
+                                                <span t-field="o.obra.director_obras"/>		</td>
+                                            <td align="center">
+                                                ING. ROMÁN VALENZUELA LEÓN </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" t-if="o.obra.supervision_externa" style="font-size:11px;"><span t-field="o.obra.supervision_externa.contratista.name"/> <br/>SUPERVISIÓN EXTERNA</td>
+
+                                            <td align="center" style="font-size:11px;">SUPERVISOR
+                                                <br/>
+                                                SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO					</td>
+                                            <td align="center" style="font-size:11px;">
+                                                DIRECTOR DE CONSTRUCCION DE OBRAS VIALES<br/> SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO					</td>
+                                            <td align="center" style="font-size:11px;">
+                                                DIRECTOR GENERAL DE EJECUCIÓN DE OBRA<br/> SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO					</td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+                                
+                            </div>
+                             <p style="page-break-before:always;"> </p>
+                        </body>
+                     </t>
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,96 @@
+<odoo>
+    <data>
+        <record id="seguimiento" model="ir.actions.act_window">
+            <field name="name">Seguimiento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditoria.seguimiento</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="seguimiento_tree_view" model="ir.ui.view">
+            <field name="name">Seguimiento</field>
+            <field name="model">auditoria.seguimiento</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="auditoria"/>
+                    <field name="tipo_acta"/>
+                    <field name="numero_documento"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_cierre"/>
+                    <field name="descripcion"/>
+                    <field name="responsable"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="seguimiento_search_view" model="ir.ui.view">
+            <field name="name">Seguimiento</field>
+            <field name="model">auditoria.seguimiento</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="auditoria"/>
+                    <field name="tipo_acta"/>
+                    <field name="numero_documento"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_cierre"/>
+                    <field name="descripcion"/>
+                    <field name="responsable"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </search>
+            </field>
+        </record>
+
+         <record id="responsable_tree" model="ir.ui.view">
+            <field name="name">Auditoria responsable</field>
+            <field name="model">auditoria.responsable</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="responsable"/>
+                    <field name="funcion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="seguimiento_form_view" model="ir.ui.view">
+            <field name="name">Seguimiento</field>
+            <field name="model">auditoria.seguimiento</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+                                    <field name="auditoria"/>
+                                    <field name="numero_documento"/>
+                                    <field name="tipo_acta" string="Tipo de documento"/>
+                                    <field name="fecha_inicio"/>
+                                    <field name="fecha_cierre"/>
+
+                                </group>
+                            </page>
+                            <page string="Detalles">
+                                <group>
+                                    <field name="descripcion"/>
+                                    <field name="documento"/>
+                                </group>
+                            </page>
+                            <page string="Responsable">
+                                <group>
+                                    <field name="responsable"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Seguimiento" id="seguimiento_menuitem"
+              parent="menu_auditorias"
+              action="seguimiento" sequence="2"/>
+    </data>
+</odoo>

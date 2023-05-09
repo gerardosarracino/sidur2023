@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+
+       <!-- FORMULARIO DE INFORME PREELIMINAR  -->
+    <record model="ir.ui.view" id="informe_preeliminar_tree">
+      <field name="name">Informe Preeliminar Tree</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false" delete="false" default_order="obra desc" >
+            <field name="clave_pep" string="Pep"/>
+            <field name="nombre_contrato" string="Contrato"/>
+            <field name="obra" string="Obra"/>
+            <field name="a_fis" string="Av. Fis"/>
+            <field name="a_fin" string="Av. Fin"/>
+        </tree>
+      </field>
+    </record>
+
+   <record model="ir.actions.act_window" id="informe_preeliminar_action">
+      <field name="name">Informe</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('informe_preeliminar_tree')})]"/>
+    </record>
+
+       <menuitem name="Informe Preeliminar" id="menu_informe_preeliminar" parent="semaforo.menu_root" action="informe_preeliminar_action" sequence="8"/>
+
+
+  </data>
+</odoo>

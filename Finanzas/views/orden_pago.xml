@@ -1,0 +1,307 @@
+<odoo>
+  <data>
+
+
+ 
+   <record id="ordenes_tree" model="ir.ui.view">
+       <field name="name">tree ordenes</field>
+       <field name="model">control.ordenes_cambio</field>
+       <field name="arch" type="xml">
+           <tree string="" decoration-danger="activador_color == True">
+            <field name="vinculo_estimaciones" string="ID est"/>
+            <field name="no_estimacion" string="# Est."/>
+            <field name="numero_contrato" string="Contrato"/>
+            <field name="orden_pago" string="OP"/>
+            <field name="contratista_contrato" string="Contratista"/>
+            <field name="tipo_pago" string="Tipo"/>
+            <field name="a_pagar" string="Importe líquido"/> 
+            <field name="monto_total_" />
+            <field name="fecha" string="Fecha de expedición"/>
+            <field name="fecha_recibido" string="Fecha de recibido"/>
+            <field name="fecha_pago" string="Fecha de pago"/>
+
+            <field name="programa_inversion" string="Recurso"/>
+            <field name="estatus_orden_pago" string="Estatus"/>
+            <field name="obra" string="Obra"/>
+
+            <field name="monto_contrato" string="Total Contrato"/>
+            <field name="amort_anticipo" string="Amort. anticipo"/>
+            <field name="dias_transcurridos" invisible="1" />
+            <field name="color_orden"/>
+            <field name="activador_color" invisible="1"/>
+
+           </tree>
+       </field>
+   </record>
+
+
+      <record id="ordenes_search" model="ir.ui.view">
+         <field name="name">search ordenes</field>
+         <field name="model">control.ordenes_cambio</field>
+          <field name="arch" type="xml">
+              <search string="">
+                  <separator/>
+                    <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                  <separator orientation="vertical" />
+                    <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+                    <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+                    <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+                    <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+                    <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+                    <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+
+                  <separator/>
+                    <filter string=" --- Tipo de Pago ---" name="tipo_pago"/>
+                  <separator orientation="vertical" />
+                    <filter string="Estimacion" name="tipo_pago" domain="[('tipo_pago', '=', 'Estimacion')]" />
+                    <filter string="Anticipo" name="tipo_pago" domain="[('tipo_pago', '=', 'Pago')]" />
+
+                  <separator/>
+                    <filter string=" --- Estatus ---" name="estatus_orden_pago"/>
+                  <separator orientation="vertical" />
+                    <filter string="Expedida" name="estatus_orden_pago" domain="[('estatus_orden_pago', '=', 'orden_pago')]" />
+                    <filter string="Recibido" name="estatus_orden_pago" domain="[('estatus_orden_pago', '=', 'recibido')]" />
+                    <filter string="Pagado" name="estatus_orden_pago" domain="[('estatus_orden_pago', '=', 'pagado')]" />
+
+                  <filter name="programa_inversion" string="Programa de Inversion" context="{'group_by':'programa_inversion'}"/>
+                  <filter name="numero_contrato" string="Contrato" context="{'group_by':'numero_contrato'}"/>
+                  <filter name="estatus_orden_pago" string="Estatus de la Orden" context="{'group_by':'estatus_orden_pago'}"/>
+
+                  <field name="orden_pago" string="OP"/>
+              <field name="numero_contrato" string="Contrato"/>
+              <field name="vinculo_estimaciones" string="Estimación"/>
+
+            <field name="contratista_contrato" string="Contratista"/>
+            <field name="tipo_pago" string="Tipo Pago"/>
+            <field name="ejercicio" string="Ejercicio"/>
+            <field name="fecha" string="Fecha de expedición"/>
+            <field name="fecha_recibido" string="Fecha de recibido"/>
+            <field name="fecha_pago" string="Fecha de pago"/>
+            <field name="programa_inversion" string="Recurso"/>
+            <field name="estatus_orden_pago" string="Estatus"/>
+            <field name="obra" string="Obra"/>
+          </search>
+         </field>
+      </record>
+
+
+
+<record model="ir.ui.view" id="orden_cambio_form">
+       <field name="name">Orden de cambio</field>
+       <field name="model">control.ordenes_cambio</field>
+       <field name="arch" type="xml">
+         <form>
+             <header>
+                   <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_orden_pago', '=', 'orden_pago')]}"/>
+                   <button string="Marcar como recibido" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_orden_pago','=','recibido'),('estatus_orden_pago','=','pagado')]}"/>
+                   <button string="Pagado" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_orden_pago','!=','recibido'),('estatus_orden_pago','=','pagado')]}"/>
+                   <field name="estatus_orden_pago" widget="statusbar"/>
+               </header>
+
+             <sheet>
+
+
+                 <sheet>
+                     <group col="2">
+                         <h1><field name="orden_pago" placeholder="Orden de pago" class="oe_inline"/></h1>
+                         <h1><field name="clave_obra" placeholder="Clave de Obra" class="oe_inline" readonly="1" style="float:right;"/></h1>
+                     </group>
+                 </sheet>
+
+                 <br/>
+
+                 <h4>TIPO DE PAGO:</h4>
+                 <field name="tipo_pago"  widget="radio"/>
+
+                 <hr/>
+
+                 <group colspan="1" col="4" attrs="{'invisible': [('tipo_pago', '=', False)]}">
+
+                     <h1>
+                         <h2>Contrato: <field name="numero_contrato" placeholder="Seleccionar Partida"
+                      attrs="{'readonly': ['|',('tipo_pago', '=', False), ('vinculo_estimaciones', '=', True)],
+                      'required': [('tipo_pago', '!=', 'Estimacion')]}" force_save="1"
+                         context="{'form_view_ref': 'ejecucion_obra.control_estimaciones_estimaciones_form'}"/></h2>
+                     </h1>
+
+                     <h1>
+                         <h2 attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}">Estimación:
+                             <field name="vinculo_estimaciones" force_save="1"
+                            domain="[('obra', '=', numero_contrato)]" placeholder="Seleccionar Estimación"
+                            attrs="{'invisible': [('tipo_pago', '=', 'Pago')], 'required': [('tipo_pago', '=', 'Estimacion')]}"
+                         context="{'form_view_ref': 'ejecucion_obra.control_estimaciones_estimaciones_form'}"/></h2>
+                     </h1>
+
+                 <!--field name="clave_pep" string="No. de la Obra"/>
+                    <field name="obra" string="Nombre o Denominacion de la Obra"/>
+                    <field name="fecha" string="Fecha del Contrato"/>
+                    <field name="numero_contrato" string="No. del Contrato"/>
+                    <field name="referencia_convenio" string="Convenios"/>
+                    <field name="total" string="Importe del Contrato"/>
+                    <field name="convenios_" string="Importe del Convenio Decrementos e Incrementos"/>
+                    <field name="total_estimacion" string="Importe Ejercido a la Fecha" />
+                    <field name="contratista" string="Nombre del Contratista"/>
+                    <field name="tipo_adjudicacion" string="Tipo de Adjudicacion"/>
+                    <field name="programaInversion" string="Origen del Recurso"/>
+                    <field name="a_fis" string="Porcentaje de Avance Fisico"/>
+                    <field name="a_fin" string="Porcentaje de Avance Financiero"/-->
+
+
+
+                 </group>
+
+
+                 <br/>
+                  <group colspan="1" col="4" attrs="{'invisible': [('tipo_pago', '=', False)]}">
+                     <field name="programa_inversion" class="oe_inline"/>
+                     <!--field name="doc_logistico" class="oe_inline"/-->
+                     <!--field name="orden_compra" class="oe_inline"/-->
+                      <field name="fecha" class="oe_inline"/>
+                      <field name="monto_total" class="oe_inline"/>
+                      <!--field name="monto_total_" class="oe_inline" attrs="{'required': [('monto_total_', '=', 0.0)]}"/-->
+                 </group>
+
+                <group string="Observaciones">
+                     <field name="observaciones_"/>
+                 </group>
+
+
+                 <hr/>
+                 <separator string="Estado del pago"/>
+
+                 <group>
+                      <field name="fecha_recibido" class="oe_inline" />
+                 </group>
+
+                 <group>
+                      <field name="fecha_pago" class="oe_inline" />
+                 </group>
+                
+             </sheet>
+         </form>
+       </field>
+     </record>
+
+
+
+      <record model="ir.ui.view" id="orden_cambio_form2">
+       <field name="name">Orden de cambio</field>
+       <field name="model">control.ordenes_cambio</field>
+       <field name="arch" type="xml">
+         <form>
+             <header>
+                   <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_orden_pago', '=', 'orden_pago')]}"/>
+                   <button string="Marcar como recibido" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_orden_pago','=','recibido'),('estatus_orden_pago','=','pagado')]}"/>
+                   <button string="Pagado" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_orden_pago','!=','recibido'),('estatus_orden_pago','=','pagado')]}"/>
+                   <field name="estatus_orden_pago" widget="statusbar"/>
+               </header>
+
+             <sheet>
+
+
+                 <sheet>
+                     <group col="2">
+                         <h1><field name="orden_pago" placeholder="Orden de pago" class="oe_inline"/></h1>
+                         <h1><field name="clave_obra" placeholder="Clave de Obra" class="oe_inline" readonly="1" style="float:right;"/></h1>
+                     </group>
+                 </sheet>
+
+                 <br/>
+
+                 <group colspan="1" col="4" >
+
+                     <h1>
+                         <h2>Estimación:
+                             <field name="vinculo_estimaciones" force_save="1"
+                             placeholder="Seleccionar Estimación" context="{'form_view_ref': 'ejecucion_obra.control_estimaciones_estimaciones_form'}"
+
+                         /> <!-- ('con_orden', '=', False) --></h2>
+                     </h1>
+
+                     <h1>
+                         <h2>Contrato: <field name="numero_contrato" placeholder="Seleccionar Partida" readonly="1"
+                      force_save="1"/></h2>
+                     </h1>
+
+                 </group>
+
+                 <br/>
+                  <group colspan="1" col="4" >
+                     <field name="programa_inversion" class="oe_inline"/>
+                     <!--field name="doc_logistico" class="oe_inline"/>
+                     <field name="orden_compra" class="oe_inline"/-->
+                      <field name="fecha" class="oe_inline"/>
+                      <field name="monto_total" class="oe_inline"/>
+                      <field name="monto_total_" class="oe_inline"/>
+                 </group>
+
+                 <group string="Observaciones">
+                     <field name="observaciones_"/>
+                 </group>
+
+                 <hr/>
+                 <separator string="Estado del pago"/>
+
+                 <group>
+                      <field name="fecha_recibido" class="oe_inline" />
+                 </group>
+
+                 <group>
+                      <field name="fecha_pago" class="oe_inline" />
+                 </group>
+
+             </sheet>
+         </form>
+       </field>
+     </record>
+
+   <record model="ir.ui.view" id="orden_cambio_form_fecha_recibido">
+       <field name="name">Fecha de recibido</field>
+       <field name="model">control.ordenes_cambio</field>
+       <field name="arch" type="xml">
+         <form>
+             <sheet>
+                 <group>
+                      <field name="fecha_recibido" class="oe_inline" required="1"/>
+                 </group>
+              </sheet>
+         </form>
+       </field>
+   </record>
+
+   <record model="ir.ui.view" id="orden_cambio_form_fecha_pago">
+       <field name="name">Fecha de pago</field>
+       <field name="model">control.ordenes_cambio</field>
+       <field name="arch" type="xml">
+         <form>
+             <sheet>
+                 <field name="vinculo_estimaciones" invisible="1" context="{'form_view_ref': 'ejecucion_obra.control_estimaciones_estimaciones_form'}"/>
+                 <field name="numero_contrato" invisible="1"/>
+                 <group>
+
+                      <field name="fecha_pago" class="oe_inline" required="1"/>
+                 </group>
+              </sheet>
+         </form>
+       </field>
+   </record>
+   
+     <record model="ir.actions.act_window" id="orden_cambio_action_">
+     <field name="name">Ordenes de Pago</field>
+     <field name="res_model">control.ordenes_cambio</field>
+     <field name="type">ir.actions.act_window</field>
+     <field name="view_mode">tree,form</field>
+     <field name="target">current</field>
+     <field name="view_ids" eval="[(5, 0, 0),
+ (0, 0, {'view_mode': 'tree', 'view_id': ref('ordenes_tree')}),
+ (0, 0, {'view_mode': 'form', 'view_id': ref('orden_cambio_form')})]"/>
+ </record>
+
+
+
+    <menuitem name="Ordenes de Pago" id="ordenespago_menu" parent="finanzas"
+              action="orden_cambio_action_" sequence="2"/>
+
+
+  </data>
+</odoo>

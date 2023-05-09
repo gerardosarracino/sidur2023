@@ -1,0 +1,65 @@
+<odoo>
+  <data>
+
+      <!-- record id="ordenes_fianzas_tree" model="ir.ui.view">
+          <field name="name">tree ordenes</field>
+          <field name="model">control.ordenes_cambio</field>
+          <field name="arch" type="xml">
+              <tree string="" create="false">
+                  <field name="vinculo_estimaciones"/>
+              </tree>
+          </field>
+      </record>
+
+   <record model="ir.ui.view" id="ordenes_fianza_form">
+          <field name="name">Orden de cambio</field>
+          <field name="model">control.ordenes_cambio</field>
+          <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <sheet>
+                        <h1><field name="orden_pago" placeholder="Orden de pago" class="oe_inline"/></h1>
+                    </sheet>
+                    <group colspan="1" col="2">
+                        <h1>
+                            <h2>Estimación: <field name="vinculo_estimaciones" readonly="1"/></h2>
+                        </h1>
+                        <h1>
+                            <h2>Contrato: <field name="numero_contrato"/></h2>
+                        </h1>
+
+                    </group>
+
+                    <br/>
+                     <group>
+                        <field name="cuentas_bancos" class="oe_inline"/>
+                    </group>
+
+                    <group>
+                         <field name="fecha" class="oe_inline"/>
+                    </group>
+                    <group>
+                         <field name="total_estimado" class="oe_inline"/>
+                    </group>
+
+                </sheet>
+            </form>
+          </field>
+        </record>
+
+      <record model="ir.actions.act_window" id="estimaciones_pago_action">
+        <field name="name">PAGOS</field>
+        <field name="res_model">control.ordenes_cambio</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('ordenes_fianzas_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('ordenes_fianza_form')})]"/>
+    </record>
+
+    <menuitem name="Pagos" id="estimaciones_pago_menu" parent="finanzas"
+              action="estimaciones_pago_action" sequence="3"/ -->
+
+
+  </data>
+</odoo>

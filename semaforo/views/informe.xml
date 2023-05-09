@@ -1,0 +1,491 @@
+<odoo>
+  <data>
+
+      <record id="partida_form_informe_semaforo" model="ir.ui.view">
+          <field name="name">Partidas</field>
+          <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group col="4">
+                          <field name="ejercicio"/>
+                          <field name="nombre_contrato"/>
+                          <field name="contratista"/>
+                          <field name="tipo_estado_obra"/>
+                          <field name="localidad"/>
+                          <field name="total_civa"/>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <record id="partida_tree_informe_semaforo" model="ir.ui.view">
+          <field name="name">Partidas</field>
+          <field name="model">partidas.partidas</field>
+          <field name="priority">17</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="ejercicio"/>
+                  <field name="nombre_contrato"/>
+                  <field name="contratista"/>
+                  <field name="tipo_estado_obra"/>
+                  <field name="localidad"/>
+                  <field name="total_civa"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="partida_search_informe_semaforo" model="ir.ui.view">
+          <field name="name">Partidas Search</field>
+          <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+              <search>
+                  <separator/>
+                    <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                  <separator orientation="vertical" />
+                    <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+                    <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+                    <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+                    <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+                    <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+                    <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+                <separator/>
+                 <filter string=" --- Estado de la Obra ---" name="tipo_estado_obra"/>
+                <separator orientation="vertical" />
+                    <filter string="Terminado" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'Terminado')]" />
+                    <filter string="En Ejecucion" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'En Ejecucion')]" />
+                    <filter string="Sin Anticipo" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'Sin Anticipo')]" />
+                    <filter string="Terminado Anticipadamente" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'Terminado Anticipadamente')]" />
+                    <filter string="En Observacion" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'En Observacion')]" />
+                    <filter string="Nueva" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'Nueva')]" />
+                    <filter string="Falta Doc_cierre" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'Falta Doc_cierre')]" />
+                    <filter string="Suspendida" name="tipo_estado_obra" domain="[('tipo_estado_obra', '=', 'Suspendida')]" />
+                <separator/>
+                 <filter string=" --- Tipo de Obra ---" name="tipo_obra"/>
+                <separator orientation="vertical" />
+                  <filter string="OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'OBRA')]" />
+                  <filter string="ESTUDIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ESTUDIOS')]" />
+                  <filter string="EQUIPO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'EQUIPO')]" />
+                  <filter string="PROYECTO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'PROYECTO')]" />
+                  <filter string="SUPERVISIÓN EXTERNA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SUPERVISIÓN EXTERNA')]" />
+                  <filter string="REMODELACIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'REMODELACIÓN')]" />
+                  <filter string="SERVICIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SERVICIOS')]" />
+                  <filter string="VERIFICACIÓN ELÉCTRICA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'VERIFICACIÓN ELÉCTRICA')]" />
+                  <filter string="CONTROL DE CALIDAD" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'CONTROL DE CALIDAD')]" />
+                  <filter string="DIRECTOR RESPONSABLE DE OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'DIRECTOR RESPONSABLE DE OBRA')]" />
+                  <filter string="ADQUISICIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ADQUISICIÓN')]" />
+
+
+
+                  <field name="nombre_partida"/>
+                  <field name="ejercicio"/>
+                  <field name="contratista"/>
+                  <field name="tipo_estado_obra"/>
+                  <field name="localidad"/>
+                  <field name="total_civa"/>
+              </search>
+          </field>
+      </record>
+
+
+      <record id="informe_tree_ejecutivo" model="ir.ui.view">
+          <field name="name">Informe Tree</field>
+          <field name="model">semaforo.informe</field>
+          <field name="arch" type="xml"  >
+              <tree string="" default_order="fecha_informe desc">
+                  <field name="id"/>
+                  <field name="fecha_inicio"/>
+                  <field name="fecha_informe" invisible="1"/>
+                  <field name="fecha_termino"/>
+                  <field name="contratos"/>
+                  <field name="informe_completo" invisible="1"/>
+                  <button class="btn btn-info" type="object"
+                            string="VER INFORME"
+                            name="accion_informe"
+                            attrs="{'invisible': [('informe_completo','=', False)]}"
+                            />
+              </tree>
+          </field>
+      </record>
+
+
+       <record id="informe_form_ejecutivo" model="ir.ui.view">
+          <field name="name">Informe Form</field>
+          <field name="model">semaforo.informe</field>
+          <field name="arch" type="xml">
+              <form string="" delete="false">
+                    <sheet>
+                      <group col="5">
+                          <field name="fecha_informe" class="oe_inline"/>
+                          <p>&#160;</p>
+                          <p>&#160;</p>
+
+                            <button class="btn btn-outline-primary btn-lg" type="object"
+                            string=" Informe Secretario"
+                            icon="fa-list-alt"
+                            name="accion_informe" style="float:right;"
+                                    attrs="{'invisible': [('informe_completo','=', False)]}"
+                            />
+
+                      </group>
+
+                        <group col="4">
+                            <field name="fecha_inicio"/>
+                            <field name="fecha_termino"/>
+                        </group>
+
+                        <group>
+                            <field name="descripcion_informe" placeholder="DESCRIPCION DEL INFORME..."/>
+                        </group>
+
+                    <br/>
+                    <br/>
+                        <field name="informe_completo" invisible="1"/>
+                  <sheet>
+                       <separator class="text-center" string="PARAMETROS DE BUSQUEDA"/>
+                      <group>
+                          <field name="partidasm2m" nolabel="1" attrs="{'readonly': [('id','=', False)]}"
+                          context="{'form_view_ref': 'semaforo.partida_form_informe_semaforo',
+                          'tree_view_ref': 'semaforo.partida_tree_informe_semaforo',
+                          'search_view_ref': 'semaforo.partida_search_informe_semaforo'}">
+                              <tree>
+                                  <control>
+                                    <create string="AGREGAR FILTRO DE BUSQUEDA" />
+                                  </control>
+                                  <field name="ejercicio"/>
+                                  <field name="nombre_partida"/>
+                                  <field name="contratista"/>
+                                  <field name="tipo_estado_obra"/>
+                                  <field name="localidad"/>
+                                  <field name="total_civa"/>
+                              </tree>
+                          </field>
+
+
+                  </group>
+                      <button name="AplicarFiltro" type="object" string="Aplicar Busqueda" class="btn btn-outline-primary btn-lg"
+                              icon="fa-search"
+                      attrs="{'invisible': [('id','=', False)]}" style="float:right;"/>
+                  <br/>
+                  <br/>
+
+                      <separator string="INFORME" class="text-center" />
+
+                      <group>
+                          <field name="contratos" nolabel="1" attrs="{'readonly': [('id','=', False)]}">
+                              <tree delete="false" create="false" default_order="atraso desc"> <!-- decoration-danger="dias &gt; 7" -->
+                                  <field name="id_informe"/>
+                                  <field name="id_partida" invisible="1"/>
+                                  <field name="nombre_partida"/>
+                                  <field name="obra"/>
+                                  <field name="ejercicio"/>
+                                  <field name="localidad"/>
+                                  <field name="contratista"/>
+                                  <field name="fecha_avance" string="Ultima fecha avance"/>
+                                  <field name="dias" string="Dias desde el ultimo informe" invisible="1"/>
+                                  <field name="atraso"/>
+                                  <field name="fecha_informe" invisible="1" force_save="1"/>
+                                  <field name="a_fis"/>
+                                  <field name="a_fin"/>
+                                  <field name="porcentajeProgramado"/>
+                                  <field name="ultimo_coment_avance" invisible="1"/>
+                                  <field name="tipo_estado_obra"/>
+                                  <field name="Completo" invisible="1"/>
+                                  <field name="color_semaforo" invisible="1"/>
+                                  <button string="PENDIENTE" name="boton_visual" type="object" class="btn btn-warning"
+                                          attrs="{'invisible': [('Completo','=', True)]}" />
+
+                                  <button string="COMPLETADO" name="boton_visual" type="object" class="btn btn-success"
+                                       attrs="{'invisible': [('Completo','=', False)]}"/>
+
+                              </tree>
+                          </field>
+                      </group>
+
+                  </sheet>
+                  </sheet>
+
+              </form>
+          </field>
+      </record>
+
+      <record id="dasfadfaf" model="ir.ui.view">
+          <field name="name">xssx</field>
+          <field name="model">semaforo.contratos</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="id_informe"/>
+                  <field name="id_partida" invisible="1"/>
+                  <field name="nombre_partida"/>
+                  <field name="ejercicio"/>
+                  <field name="atraso"/>
+                  <field name="a_fis"/>
+                  <field name="a_fin"/>
+                  <field name="porcentajeProgramado"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="actiontreecontratosem" model="ir.actions.act_window">
+          <field name="name">xsdfad</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">semaforo.contratos</field>
+          <field name="view_mode">tree</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+              <!-- Add Text Here -->
+            </p><p>
+              <!-- More details about what a user can do with this object will be OK -->
+            </p>
+          </field>
+      </record>
+
+      <record id="informe_contrato_form" model="ir.ui.view">
+          <field name="name">Informe de Contrato</field>
+          <field name="model">semaforo.contratos</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group col="4">
+                          <field name="id_informe" readonly="1" string="ID Informe"/>
+                          <field name="id_partida" string="Contrato" readonly="1"/>
+                      </group>
+
+                      <group col="4">
+                          <field name="ejercicio" readonly="1"/>
+                          <field name="tipo_estado_obra" readonly="1"/>
+                      </group>
+
+                        <field name="nombre_partida" invisible="1"/>
+                        <field name="fecha_informe" invisible="1"/>
+
+                      <group col="4">
+                          <field name="a_fis"/>
+                          <field name="a_fin"/>
+                          <field name="porcentajeProgramado"/>
+                          <field name="atraso"/>
+                      </group>
+
+                      <group col="4">
+                          <p>&#160;</p>
+                          <p>&#160;</p>
+                          <field name="color_semaforo" readonly="1" force_save="1"/>
+                      </group>
+
+                      <group>
+                          <field name="fecha_avance"/>
+                          <field name="ultimo_coment_avance" string="Ultimo Comentario De Avance" />
+                      </group>
+
+                      <group>
+                          <field name="programa_semaforo">
+                              <tree editable="bottom" delete="false" decoration-info="mes_actual==True" decoration-bf="mes_actual == True"
+                                 decoration-warning="mes_restante == True" decoration-danger="mes_ultimo == True"
+                                 decoration-success="mes_paso == True"
+                                 >
+                                     <control>
+                                        <create string="Agregar Periodo" context="{
+                                           'default_obra': active_id,
+                                           }"/>
+                                     </control>
+                                     <field name="id_prog" invisible="1"/> <!-- de importacion -->
+
+                                     <field name="obra" force_save="1" readonly="1" invisible="1"/>
+                                     <field name="fecha_inicio"/>
+                                     <field name="fecha_termino"/>
+                                     <field name="monto" sum="Total:"/>
+                                     <field name="porcentaje_programa" />
+                                     <field name="mes_actual" invisible="1"/>
+                                     <field name="mes_paso" invisible="1"/>
+                                     <field name="mes_restante" invisible="1"/>
+                                     <field name="mes_ultimo" invisible="1"/>
+                                 </tree>
+                          </field>
+                      </group>
+
+                       <group>
+                           <field name="comentario" string="Comentario del Informe"/>
+
+
+                           <field name="fotos_informe" context="{'default_semaforo_contrato': active_id}" widget="one2many">
+                                <tree editable="bottom">
+                                    <field name="semaforo_contrato" invisible="1" force_save="1"/>
+                                    <field name="fotos" force_save="1"/>
+                                    <field name="image_medium" force_save="1" />
+                                </tree>
+                           </field>
+                       </group>
+
+                      <group>
+                           <field name="Completo"/>
+                      </group>
+
+                        <group>
+                             <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                            confirm="Esta seguro de borrar este registro?" style="float:right;"/>
+                        </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="informe_ejecutivo_action_window">
+      <field name="name">INFORME</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">semaforo.informe</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('informe_tree_ejecutivo')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('informe_form_ejecutivo')})]"/>
+    </record>
+
+
+      <!-- COMENTARIOS DE OBRA  -->
+
+      <record id="partidas_comentarios_form" model="ir.ui.view">
+          <field name="name">Comentarios</field>
+          <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> PARTIDA:
+                            <field name="nombre_partida" readonly="1"/> </h3>
+                      </div>
+                  </div>
+                  <sheet>
+                      <group>
+                          <field name="comentario_obra" widget="one2many" context="{'default_partida': active_id}" nolabel="1">
+                              <tree editable="bottom">
+                                  <field name="partida" invisible="1"/>
+                                  <field name="fecha_registro"/>
+                                  <field name="comentario"/>
+                              </tree>
+                          </field>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
+    <record id="partidas_tree_comentario" model="ir.ui.view">
+        <field name="name">Partidas Comentario</field>
+        <field name="model">partidas.partidas</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="color_semaforo == 'Verde'" decoration-warning="color_semaforo == 'Amarillo'"
+                decoration-danger="color_semaforo == 'Rojo'" create="false" delete="false" default_order="obra desc" >
+
+                <field name="programaInversion" string="Programa"/>
+                <field name="nombre_partida" string="SubContrato"/>
+                <field name="obra" string="Obra" class="tree_sizex" />
+                <field name="objeto" string="Objeto" invisible="1"/>
+                <field name="localidad" string="Localidad" />
+                <field name="contratista" string="Contratista"/>
+                <field name="residente_obra" string="Residente" widget="many2one_tags"/>
+                <field name="atraso" string="Atraso" invisible="1"/>
+                <field name="a_fis" string="Av. Fis" invisible="1"/>
+                <field name="porcentajeProgramado" string="Av. Prog" invisible="1"/>
+                <field name="a_fin" string="Av. Fin" invisible="1"/>
+                <field name="ejercicio" string="Ejercicio"/>
+                <field name="total_partida" string="Monto C/IVA"/>
+                <field name="color_semaforo" string="Estado"/>
+                <field name="tipo_estado_obra" string="Estado"/>
+                <field name="tipo_estado_actividad" string="Estado" invisible="1"/>
+                <field name="comentario_obra" string="Comentarios"/>
+
+                <button name="agregar_comentario" type="object" string="AGREGAR COMENTARIO" class="btn btn-dark"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="fotos_xds" model="ir.ui.view">
+        <field name="name">fotos</field>
+        <field name="model">semaforo.fotos_i</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="semaforo_contrato" />
+            </tree>
+        </field>
+    </record>  
+
+
+      <record id="fotosxd_form" model="ir.ui.view">
+          <field name="name">Comentarios</field>
+          <field name="model">semaforo.fotos_i</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  
+                  <sheet>
+                      <group>
+                          <field name="semaforo_contrato" />
+                <field name="fotos" force_save="1" widget="image"/>
+                <field name="image_medium" force_save="1" />
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+        <record model="ir.actions.act_window" id="partidas_comentarios_action">
+      <field name="name">COMENTARIOS DE OBRA</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('partidas_tree_comentario')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('partidas_comentarios_form')})]"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_fotos_xd">
+      <field name="name">COMENTARIOS DE OBRA</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">semaforo.fotos_i</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('fotos_xds')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('fotosxd_form')})]"/>
+    </record>
+
+      <record id="comentario_form" model="ir.ui.view">
+          <field name="name">Vista Comentario</field>
+          <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+              <form string="">
+                   <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> PARTIDA:
+                            <field name="nombre_partida" readonly="1"/> </h3>
+                      </div>
+                  </div>
+                  <sheet>
+                      <group>
+                          <field name="comentario_obra" widget="one2many" context="{'default_partida': active_id}" nolabel="1">
+                              <tree editable="bottom">
+                                  <field name="partida" invisible="1"/>
+                                  <field name="fecha_registro"/>
+                                  <field name="comentario"/>
+                              </tree>
+                          </field>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+       <menuitem name="Informe Ejecutivo" id="informe_ejecutivo_menu" parent="semaforo.menu_root"
+                              action="informe_ejecutivo_action_window" sequence="8"/>
+
+      <menuitem name="Comentarios de Obra" id="comentarios_obra_menu" parent="semaforo.menu_root"
+                              action="partidas_comentarios_action" sequence="7"/>
+
+        <!--menuitem name="prueba" id="prueba_fotos" parent="semaforo.menu_root"
+        action="act_fotos_xd" sequence="8"/>
+
+
+      <menuitem name="Ver contratos" id="informe_ejecutivo_menuxsd" parent="semaforo.menu_root"
+                              action="actiontreecontratosem" sequence="8"/-->
+
+  </data>
+</odoo>

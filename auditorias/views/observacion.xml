@@ -1,0 +1,75 @@
+<odoo>
+    <data>
+        <record id="observacion" model="ir.actions.act_window">
+            <field name="name">Observación</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditorias.observacion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="observacion_tree_view" model="ir.ui.view">
+            <field name="name">Observación</field>
+            <field name="model">auditorias.observacion</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="numero"/>
+                    <field name="contrato"/>
+                    <field name="contratista"/>
+                    <field name="descripcion"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="observacion_search" model="ir.ui.view">
+            <field name="name">Observación</field>
+            <field name="model">auditorias.observacion</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="numero"/>
+                    <field name="contrato"/>
+                    <field name="contratista"/>
+                    <field name="descripcion"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="observacion_form" model="ir.ui.view">
+            <field name="name">Observación</field>
+            <field name="model">auditorias.observacion</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="numero" placeholder="Número"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+                                    <field name="contrato"/>
+                                    <field name="contratista"/>
+                                    <field name="residente"/>
+                                </group>
+                            </page>
+                            <page string="Detalles">
+                                <group>
+                                    <field name="descripcion"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <menuitem name="Observación" id="observacion_menuitem"
+              parent="menu_auditorias"
+              action="observacion" sequence="5"/>
+    </data>
+</odoo>

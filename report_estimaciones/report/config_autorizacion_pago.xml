@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="autorizacion_pago"
+            model="estimacion.autorizacion_pago"
+            string="Autorizacion de Pago"
+            report_type="qweb-html"
+            paperformat="report_estimaciones.paperformat_pago"
+            print_report_name="'Autorizacion de pago ' + object.numero_factura"
+            name="report_estimaciones.report_autorizacion_pago"
+        />
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,163 @@
+<odoo>
+  <data>
+
+
+    <record id="estimaciones_finanzas_form" model="ir.ui.view">
+        <field name="name">Estimaciones Form</field>
+        <field name="model">control.estimaciones</field>
+        <field name="arch" type="xml">
+            <form string="" create="false" delete="false" edit="false">
+                
+                    <div>
+                        <h1>
+                             ID: <field name="ide_estimacion" readonly="1" force_save="1"/>
+                        </h1>
+                    </div>
+                <sheet>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6" style="text-align: left;">
+
+                        </div>
+
+                        <div class="col-sm-6" style="text-align: right;">
+                            <button string="Orden de pago" name="OrdenesPago" type="object" class="btn btn-outline-primary btn-lg "
+                                        icon="fa-file-text"/>
+                        </div>
+                    </div>
+                </div>
+
+                    <div>
+                        <h3>
+                             CONTRATISTA: <field name="contratista_contrato" />
+                        </h3>
+                    </div>
+
+                    <group string="Datos Generales De La Estimación" colspan="1" col="2">
+                        <group>
+                            <field name="obra"/>
+                            <field name="con_orden"/>
+
+                            <field name="tipo_estimacion" widget="radio" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="idobra" attrs="{'readonly': [('tipo_estimacion','!=', '2')],
+                            'required': [('tipo_estimacion','=', '2')]}" class="oe_inline"/>
+                            <hr attrs="{'invisible': [('tipo_estimacion','!=', '2')]}"/>
+                            <field name="estimacion_esc" attrs="{'invisible': [('tipo_estimacion','!=', '2')],
+                            'required': [('tipo_estimacion','=', '2')]}"
+                             domain="[('obra.id', '=', obra)]"/>
+                            <hr attrs="{'invisible': [('tipo_estimacion','!=', '2')]}"/>
+                            <field name="por_escalatoria" attrs="{'invisible': [('tipo_estimacion','!=', '2')],
+                            'required': [('tipo_estimacion','=', '2')]}"
+                            class="oe_inline" />
+                            <hr attrs="{'invisible': [('tipo_estimacion','!=', '2')]}"/>
+                            <field name="sub_total_esc" attrs="{'invisible': [('tipo_estimacion','!=', '2')]}"
+                            class="oe_inline"/>
+                            <hr attrs="{'invisible': [('tipo_estimacion','!=', '2')]}"/>
+                            <field name="sub_total_esc_h" attrs="{'invisible': [('tipo_estimacion','!=', '2')]}"
+                            class="oe_inline" force_save="1"/>
+
+                        </group>
+                    </group>
+
+                    <group string="Periodo de la Estimación" >
+                        <field name="fecha_inicio_estimacion" class="oe_inline" />
+                        <field name="fecha_termino_estimacion" class="oe_inline" />
+                    </group>
+
+                    <group string="Importe Liquido">
+                       <h4> <strong> $ <field string="Importe Liquido" name="a_pagar" widget="monetary" nolabel="1"/> </strong> </h4>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA TREE DE PARTIDAS -->
+    <record model="ir.ui.view" id="estimaciones_finanzas_tree">
+      <field name="name">Estimaciones Tree</field>
+      <field name="model">control.estimaciones</field>
+      <field name="arch" type="xml">
+        <tree default_order="create_date desc" create="false" delete="false"  >
+            <field name="ide_estimacion" string="ID"/>
+            <field name="clave_obra" string="Clave de Obra"/>
+            <field name="obra" string="Contrato"/>
+            <field name="idobra" string="# Est."/>
+            <field name="fecha_inicio_estimacion" string="Inicio Estimacion"/>
+            <field name="fecha_termino_estimacion" string="Termino Estimacion"/>
+            <field name="contratista_contrato" string="Contratista"/>
+            <field name="a_pagar" string="Importe Liquido"/>
+            <field name="create_uid"/>
+            <field name="create_date"/>
+            <field name="write_date"/>
+            <field name="con_orden"/>
+            <button name="OrdenesPago" type="object" string="ORDEN PAGO" class="btn btn-primary"/>
+        </tree>
+      </field>
+    </record>
+
+      <record id="ordenes_estimaciones_search" model="ir.ui.view">
+         <field name="name">search ordenes estimaciones</field>
+         <field name="model">control.estimaciones</field>
+          <field name="arch" type="xml">
+              <search string="">
+                  <separator/>
+                    <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                  <separator orientation="vertical" />
+                    <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+                    <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+                    <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+                    <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+                    <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+                    <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+
+                  <filter name="obra" string="Contrato" context="{'group_by':'obra'}"/>
+
+              <field name="obra" string="Contrato"/>
+              <field name="clave_obra" string="Clave de la Obra"/>
+              <field name="contratista_contrato" string="Contratista"/>
+
+          </search>
+         </field>
+      </record>
+
+      <record id="search_est_finanzas" model="ir.ui.view">
+         <field name="name">Search estimacion Finanzas</field>
+         <field name="model">control.estimaciones</field>
+          <field name="arch" type="xml">
+              <search string="">
+                <field name="obra" string="Contrato"/>
+                  <field name="contratista_contrato" string="Contratista"/>
+                  <field name="clave_obra" string="Clave de Obra"/>
+                  <field name="idobra" string="Numero de estimacion"/>
+                  <field name="ide_estimacion" string="ID Estimacion"/>
+                <!--field name="fecha_inicio_estimacion" string="Inicio Estimacion"/>
+                <field name="fecha_termino_estimacion" string="Termino Estimacion"/-->
+              </search>
+         </field>
+      </record>
+
+
+    <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="estimaciones_finanzas_action">
+      <field name="name">ESTIMACIONES</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">control.estimaciones</field>
+      <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="ordenes_estimaciones_search"/>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('estimaciones_finanzas_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('estimaciones_finanzas_form')})]"/>
+    </record>
+
+    <menuitem name="Finanzas" id="finanzas" sequence="0" web_icon="Finanzas,static/description/icon.png"/>
+
+    <menuitem name="Estimaciones" id="estimaciones_finanzas_menu" parent="finanzas"
+              action="estimaciones_finanzas_action" sequence="1" />
+
+
+  </data>
+</odoo>

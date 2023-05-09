@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="estimacion_report"
+            model="control.estimaciones"
+            string="Control de Estimaciones"
+            report_type="qweb-html"
+            paperformat="paperformat_estimaciones"
+            print_report_name="object.ide_estimacion + '/' + 'Control-de-estimaciones' + object.obra.numero_contrato.contrato"
+            name="report_estimaciones.report_estimaciones"
+            menu="False"
+        />
+    </data>
+</odoo>

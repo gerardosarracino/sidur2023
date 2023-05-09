@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record id="respuesta_observacion" model="ir.actions.act_window">
+            <field name="name">Respuesta observación</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditoria.resp_obs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="respuesta_observacion_tree_view" model="ir.ui.view">
+            <field name="name">Respuesta observación</field>
+            <field name="model">auditoria.resp_obs</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="observacion"/>
+                    <field name="oficio"/>
+                    <field name="estatus"/>
+                    <field name="respuesta"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="respuesta_observacion_search_view" model="ir.ui.view">
+            <field name="name">Respuesta observación</field>
+            <field name="model">auditoria.resp_obs</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="observacion"/>
+                    <field name="oficio"/>
+                    <field name="estatus"/>
+                    <field name="respuesta"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="respuesta_observacion_form_view" model="ir.ui.view">
+            <field name="name">Respuesta observación</field>
+            <field name="model">auditoria.resp_obs</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="oficio_respuesta" placeholder="Número de oficio de respuesta"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+                                    <field name="observacion"/>
+                                    <field name="respuesta"/>
+                                    <field name="oficio"/>
+                                    <field name="estatus"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Respuesta observación" id="respuesta_observacion_menuitem"
+              parent="menu_auditorias"
+              action="respuesta_observacion" sequence="4"/>
+    </data>
+</odoo>

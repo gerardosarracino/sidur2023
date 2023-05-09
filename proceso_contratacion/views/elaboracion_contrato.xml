@@ -1,0 +1,504 @@
+<odoo>
+  <data>
+    <!-- CONTRATO TREE-->
+    <record model="ir.ui.view" id="proc_contratacion_elaboracion_contratos_tree">
+      <field name="name">proceso.elaboracion_contrato.tree</field>
+      <field name="model">proceso.elaboracion_contrato</field>
+      <field name="arch" type="xml">
+        <tree default_order="fecha desc">
+          <field name="fecha"/>
+          <field name="contrato" string="# Contrato"/>
+          <field name="name" string="Objeto"/>
+          <field name="contratista"/>
+          <field name="impcontra"/>
+          <field name="estado_obra_m2o"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- ELABORACION DE CONTRATO SEARCH-->
+      <record model="ir.ui.view" id="proceso_contrato_search">
+         <field name="name">elaboracion contrato</field>
+         <field name="model">proceso.elaboracion_contrato</field>
+         <field name="arch" type="xml">
+            <search>
+                <filter name="programaInversion" string="Programa de Inversion" context="{'group_by':'programaInversion'}"/>
+                <filter name="tipo_obra" string="Tipo de Obra" context="{'group_by':'tipo_obra'}"/> 
+                <filter name="estado_obra_m2o" string="Estado de contrato" context="{'group_by':'estado_obra_m2o'}"/>
+
+                <separator/>
+                 <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                <separator orientation="vertical" />
+                  <filter string="2021" name="ejercicio" domain="[('ejercicio.name', '=', '2021')]" />
+                  <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+                  <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+                  <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+                  <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+                  <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+                  <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+
+                <separator/>
+                 <filter string=" --- Tipo de Obra ---" name="tipo_obra"/>
+                <separator orientation="vertical" />
+                  <filter string="OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'OBRA')]" />
+                  <filter string="ESTUDIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ESTUDIOS')]" />
+                  <filter string="EQUIPO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'EQUIPO')]" />
+                  <filter string="PROYECTO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'PROYECTO')]" />
+                  <filter string="SUPERVISIÓN EXTERNA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SUPERVISIÓN EXTERNA')]" />
+                  <filter string="REMODELACIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'REMODELACIÓN')]" />
+                  <filter string="SERVICIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SERVICIOS')]" />
+                  <filter string="VERIFICACIÓN ELÉCTRICA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'VERIFICACIÓN ELÉCTRICA')]" />
+                  <filter string="CONTROL DE CALIDAD" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'CONTROL DE CALIDAD')]" />
+                  <filter string="DIRECTOR RESPONSABLE DE OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'DIRECTOR RESPONSABLE DE OBRA')]" />
+                  <filter string="ADQUISICIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ADQUISICIÓN')]" />
+
+
+
+                  <field name="fecha"/>
+                  <field name="contrato" string="# Contrato"/>
+                  <field name="obra"  string="Objeto Licitaciones"/>
+                  <field name="adjudicacion"  string="/ Adjudicaciones Directas"/>
+                  <field name="contratista"/>
+                  <field name="programaInversion"/>
+                  <field name="tipo_obra"/>
+                  <field name="ejercicio"/>
+                  <field name="estado_obra_m2o"/>
+            </search>
+         </field>
+        </record>
+
+      <!-- FORMULARIO AL DAR CLICK M2M PARTIDAS -->
+      <record id="partidas_form" model="ir.ui.view">
+          <field name="name">partidas form</field>
+          <field name="model">partidas.partidas</field>
+          <field name="priority">17</field>
+          <field name="context">17</field>
+          <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                 <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> PARTIDA:
+                            <field name="nombre_partida" readonly="1"/> </h3>
+                      </div>
+                  </div>
+
+                <sheet>
+
+                    <group colspan="2" col="4" class="oe_read_only" string="Partida">
+                        <field name="obra"/>
+
+
+                        <field name="programaInversion" force_save="1"/>
+                        <field name="monto_partida" sum="Monto" widget="monetary" force_save="1" />
+                        <field name="iva_partida" readonly="True" sum="I.V.A" widget="monetary" force_save="1"/>
+                        <field name="total_partida" readonly="True" sum="Total" widget="monetary" force_save="1"/>
+
+                        <field name="nombre_partida" force_save="1" />
+
+                    </group>
+                    <group string="Anticipo" colspan="2" col="4">
+                        <field name="contratista" readonly="1"/>
+                        <field name="anticipada" invisible="1"/>
+                        <field name="programaInversion" force_save="1" invisible="1"/>
+                        <field name="tipo_obra" force_save="1" invisible="1"/>
+                        <field name="ejercicio" force_save="1" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="fecha_anticipos" required="True" class="oe_inline" placeholder="SELECCIONE FECHA"
+                        string="FECHA DEL ANTICIPO"/> <!-- attrs="{'readonly':[('anticipada', '=' , True)]}"
+                        attrs="{'readonly':[('anticipada', '=' , True)]}" attrs="{'readonly':[('anticipada', '=' , True)]}"-->
+                    </group>
+
+                    <group>
+                         <field name="total" readonly="1" string="IMPORTE CONTRATADO SIN IVA"/>
+                    </group>
+
+                    <group colspan="1" col="4">
+                        <field name="porcentaje_anticipo" force_save="1" required="True" class="oe_inline"
+                        string="% DE ANTICIPO DE INICIO" />
+
+                        <field name="total_anticipo_porcentaje" string="TOTAL % DE ANTICIPO"/>
+                        <field name="anticipo_material" class="oe_inline"  required="True"
+                        string="% DE ANTICIPO MATERIAL"/>
+                    </group>
+
+                    <group>
+                        <field name="anticipo_a" force_save="1" readonly="1"/>
+                        <field name="iva_anticipo" readonly="1" force_save="1"/>
+                        <field name="total_anticipo" readonly="1" force_save="1"/>
+                    </group>
+
+                    <group colspan="1" col="4">
+                        <field name="numero_fianza" class="oe_inline" attrs="{'readonly':['|', ('anticipada', '=' , True),('fecha_anticipos', '=' , False)]}" required="True"/>
+                        <field name="afianzadora" attrs="{'readonly':['|', ('anticipada', '=' , True),('fecha_anticipos', '=' , False)]}" required="True"/>
+                        <field name="fecha_fianza" attrs="{'readonly':['|', ('anticipada', '=' , True),('fecha_anticipos', '=' , False)]}" required="True"/>
+                    </group>
+                </sheet>
+            </form>
+          </field>
+      </record>
+
+
+      <!-- FORMULARIO AL DAR CLICK M2M anexos -->
+      <record id="anexos_form" model="ir.ui.view">
+          <field name="name">anexos form</field>
+          <field name="model">autorizacion_obra.anexo_tecnico</field>
+          <field name="priority">17</field>
+          <field name="context">17</field>
+          <field name="arch" type="xml">
+            <form create="false" delete="false" edit="false">
+                <sheet>
+                    <group colspan="2" col="6" class="oe_read_only" string="Lista de Recursos/Anexos">
+                        <field name="name" string="Número de oficio"/>
+                        <field name="claveobra" string="Clave de obra" />
+                        <field name="clave_presupuestal" string="Clave presupuestal"/>
+                    </group>
+                    <group>
+                        <field name="concepto" />
+                    </group>
+                    <group string="Montos directos" colspan="6" col="6">
+                          <field name="federal"/>
+                          <field name="estatal"/>
+                          <field name="municipal"/>
+                          <field name="otros"/>
+                        </group>
+                        <group string="Montos indirectos" colspan="6" col="6">
+                          <field name="federalin"/>
+                          <field name="estatalin"/>
+                          <field name="municipalin"/>
+                          <field name="otrosin"/>
+                        </group>
+                        <group colspan="1" col="2" class="oe_subtotal_footer">
+                          <field name="total" string="Total Anexo" class="oe_subtotal_footer_separator"/>
+                        </group>
+                </sheet>
+            </form>
+          </field>
+      </record>
+
+            <!-- ACCIONES VENTANA DE ANTICIPO -->
+    <record model="ir.actions.act_window" id="anticipo_boton">
+      <field name="name">Anticipo</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">form</field>
+      <field name="target">current</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('partidas_form')})]"/>
+    </record>
+
+    <!-- ELABORACION DE CONTRATO FORM-->
+    <record model="ir.ui.view" id="proc_contratacion_elaboracion_contrato_form">
+      <field name="name">proceso.elaboracion_contrato.form</field>
+      <field name="model">proceso.elaboracion_contrato</field>
+      <field name="arch" type="xml">
+        <form>
+            <!--header>
+              <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_contrato', '=', 'borrador')]}"/>
+              <button string="Confirmar" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_contrato','=','confirmado'),('estatus_contrato','=','validado')]}"/>
+              <button string="Validar" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_contrato','!=','confirmado'),('estatus_contrato','=','validado')]}"/>
+              <field name="estatus_contrato" widget="statusbar"/>
+          </header-->
+
+          <sheet>
+              <div colspan="2" col="2" class="text-right">
+
+                  <button  type="object" name="convenios_views" icon="fa-list-alt"
+                     class="btn btn-outline-primary btn-lg">
+                        <span><field name="count_convenios_modif"/> Convenios modificatorios</span>
+                     </button>
+
+                 <!-- FINIQUITAR CONTRATO ANTICIPADAMENTE BUTTONS -->
+                   <button string="Fin. Contrato Anticipadamente" type="object" name="finiquitarContrato1" context="{
+                       'search_default_contrato': active_id,
+                       'default_contrato': active_id
+                       }" attrs="{'invisible': [('contar_finiquito', '=', 1)]}" icon="fa-clock-o"
+                   class="btn btn-outline-primary btn-lg"/>
+
+                    <button string="Fin. Contrato Anticipadamente" type="object" name="finiquitarContrato2" context="{
+                       'search_default_contrato': active_id,
+                       'default_contrato': active_id
+                       }" attrs="{'invisible': [('contar_finiquito', '=', 0)]}" icon="fa-clock-o"
+                    class="btn btn-outline-primary btn-lg "/>
+
+                    <button string="Descargar documentos" type="object" name="imprimir_accion" icon="fa-file"
+                    class="btn btn-outline-dark btn-lg "/>
+                </div>
+
+
+            <notebook >
+                <page string="Datos Generales" icon="fa-bitbucket">
+                    <field name="contrato_contador" invisible="1"/>
+                     <group string="Contrato Datos Generales"  >
+                         <field name="tipo_contrato" widget="radio" /> <!-- attrs="{'readonly': ['|',('obra','!=', False),('adjudicacion','!=', False)]}" -->
+                     </group>
+
+                    <group>
+                         <field name="obra" string="Licitación" placeholder="Seleccionar Licitación" attrs="{'invisible': [('tipo_contrato','!=', '1')]}"
+                         options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}" />
+
+                         <field name="adjudicacion" attrs="{'invisible': [('tipo_contrato','!=', '2')]}"
+                                string="Adjudicación:" placeholder="Seleccionar una Adjudicación"
+                         options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"
+                                domain="[('contratado','&lt;=','0')]"/> <!-- domain="[('contratado','&lt;','1')]" -->
+                    </group>
+
+                       <!-- field de importacion -->
+                        <field name="num_contrato_sideop" invisible="1"/>
+                        <field name="id_sideop_partida" invisible="1"/>
+                         <!-- ID CONTRATO HACIA ADJUDICACIONES Y LICITACIONES -->
+                        <field name="id_ad" invisible="1"/>
+                        <field name="id_lic" invisible="1"/>
+
+                    <field name="programaInversion" force_save="1" invisible="1"/>
+                        <field name="tipo_obra" force_save="1" invisible="1" />
+                        <field name="ejercicio" force_save="1" invisible="1"/>
+
+                    <group colspan="1" col="4">
+                        <field name="fecha" class="oe_inline"/>
+
+
+                        <field name="contrato" placeholder="Nombre del Contrato"/>
+                        <field name="iva_frontera" attrs="{'invisible': [('id','=', False)]}"/>
+                        <field name="obra_partida" invisible="1"/>
+                        <!-- importe contrato auxiliar -->
+                        <field name="impcontra" force_save="1" invisible="1"/>
+                        <field name="impcontra_iva" force_save="1" invisible="1"/>
+                        <field name="total_civa" force_save="1" invisible="1"/>
+                     </group>
+
+                    <!-- PARTIDA ADJUDICACION -->
+                     <group colspan="2" col="1">
+                         <field name="contrato_partida_adjudicacion" context="{'form_view_ref': 'proceso_contratacion.partidas_form'}"
+                         attrs="{'invisible': [('adjudicacion', '=', False)]}"
+                                string="" nolabel="1">
+                         <tree create="false" editable="bottom" delete="false">
+                             <field name="recursos" readonly="1" force_save="1" invisible="1"/>
+                             <field name="obra" readonly="1" force_save="1"/>
+                             <field name="programaInversion" readonly="1" force_save="1" invisible="1"/>
+                             <field name="monto_partida" sum="Monto" widget="monetary" force_save="1" />
+                             <field name="iva_partida"  sum="I.V.A" widget="monetary" force_save="1"/>
+                             <field name="b_iva" invisible="1" widget="monetary" force_save="1" string="% IVA"/>
+                             <field name="iva_frontera" invisible="1" force_save="1"/>
+                             <field name="total_partida" readonly="True" sum="Total" widget="monetary" force_save="1"/>
+
+                            <field name="nombre_contrato" force_save="1" invisible="1" />
+                            <field name="nombre_partida" force_save="1" invisible="1"/>
+                            <field name="contratista" force_save="1" invisible="1" />
+                            <field name="ejercicio" force_save="1" invisible="1" />
+                            <field name="total" force_save="1" invisible="1" />
+                            <field name="total_civa" force_save="1" invisible="1" />
+
+                             <field name="nombre_partida" invisible="1" force_save="1"/>
+                             <field name="fecha_anticipos" invisible="1" force_save="1"/>
+
+                             <field name="numero_contrato" force_save="1" invisible="1"/>
+                             <field name="id_contrato_sideop" invisible="1" force_save="1"/>
+
+                            <!-- BOTON ANTICIPO -->
+                            <button name="anticipoBoton" type="object" string="Anticipo" class="btn btn-primary"/>
+                            <!-- id de la partida VER SI CAMBIAR-->
+                            <field name="p_id" invisible="1" force_save="1"/>
+                         </tree>
+                    </field>
+
+
+                    <!-- PARTIDA LICITACION -->
+                    <field name="contrato_partida_licitacion" context="{'form_view_ref': 'proceso_contratacion.partidas_form'}"
+                           attrs="{'invisible': [('obra', '=', False)]}" string="" nolabel="1">
+                        <tree editable="bottom" create="false" delete="false">
+                            <!-- field name="obra" readonly="1" force_save="1"/ -->
+                            <field name="obra" readonly="1" force_save="1"/>
+                            <field name="recursos" string="Obra" invisible="1" />
+                            <field name="nombre_contrato" force_save="1" invisible="1"/>
+                            <field name="nombre_partida" force_save="1" invisible="1"/>
+                            <field name="contratista" force_save="1" invisible="1"/>
+                            <field name="ejercicio" force_save="1" invisible="1" />
+
+                            <field name="programaInversion" readonly="1" force_save="1" invisible="1"/>
+                            <field name="monto_partida" sum="Monto" widget="monetary" force_save="1"/>
+                            <field name="iva_partida" readonly="True" sum="I.V.A" widget="monetary" force_save="1"/>
+                            <field name="b_iva" invisible="1" widget="monetary" force_save="1" string="% IVA"/>
+                             <field name="iva_frontera" invisible="1" force_save="1"/>
+                            <field name="total_partida" readonly="True" sum="Total" widget="monetary" force_save="1"/>
+                            <field name="numero_contrato" invisible="1" force_save="1"/>
+                            <field name="total" invisible="1" force_save="1"/>
+                            <field name="total_civa" invisible="1" force_save="1"/>
+
+                            <field name="nombre_partida" invisible="1" force_save="1"/>
+                            <field name="fecha_anticipos" invisible="1"/>
+
+                            <field name="numero_contrato" force_save="1" invisible="1"/>
+                             <field name="id_contrato_sideop" invisible="1"/>
+                            <!-- contador de anticipo para warning -->
+                            <!-- BOTON ANTICIPO -->
+                            <button name="anticipoBoton" type="object" string="Anticipo" class="btn btn-primary"/>
+                            <!-- id de la partida -->
+                            <field name="p_id" invisible="1"/>
+                        </tree>
+                    </field>
+
+                    </group>
+                     <!-- CONTADORES -->
+                     <field name="contar_finiquito"  invisible="1"/>
+                     <field name="contar_convenio"  invisible="1"/>
+
+                    <group colspan="1" col="4">
+                        <field name="name"/>
+                        <field name="unidadresponsableejecucion" class="oe_inline" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}" />
+                        <field name="descripciontrabajos"/>
+                    </group>
+                    <group colspan="1" col="4">
+                        <field name="supervisionexterna" />
+                        <field name="supervisionexterna1" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/>
+                    </group>
+                    <group>
+                        <field name="contratista" readonly="1" force_save="1"/>
+                    </group>
+                    <group colspan="1" col="4">
+                        <field name="fechainicio" class="oe_inline"/>
+                        <field name="fechatermino" class="oe_inline"/>
+                        <field name="periodicidadretencion" class="oe_inline"/>
+                        <field name="retencion" class="oe_inline"/>
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+                        <field name="sancion" class="oe_inline"/>
+                    </group>
+                    </page>
+
+
+                    <!-- PAGINA FIANZAS -->
+                    <page string="Fianzas"  attrs="{'invisible': [('contrato_contador','=', 0)]}">
+                        <separator string="Fianzas"/>
+                        <field name="fianzas" widget="one2many" string="">
+                            <tree>
+                                <control>
+                                     <create string="Agregar Fianza"/>
+                                </control>
+                                <field name="tipo_fianza"/>
+                                <field name="numero_fianza_fianzas"/>
+                                <field name="monto"/>
+                                <field name="fecha_fianza_fianzas"/>
+                                <field name="afianzadora_fianzas"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <!-- PAGINA DEDUCCIONES -->
+                     <page string="Deducciones" attrs="{'invisible': [('contrato_contador','=', 0)]}">
+                        <group string="Deducciones">
+                        </group>
+                         <field name="deducciones" string="" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}">
+                             <tree >
+                                 <control>
+                                     <create string="Agregar Deducción"/>
+                                 </control>
+                                 <field name="name" />
+                                 <field name="porcentaje" />
+                             </tree>
+                         </field>
+                    </page>
+                    <!-- LISTA DE RECURSOS -->
+                    <page string="Lista De Recursos" attrs="{'invisible': [('contrato_contador','=', 0)]}">
+                        <separator string="Lista De Recursos" />
+
+                        <field name="anexos" readonly="1" string="" force_save="1"/>
+                        <hr/>
+                        <field name="enlace_oficio" invisible="1"/>
+                        <group>
+                            <field name="recurso_autorizado" readonly="1" force_save="1"/>
+                            <field name="importe_cancelado" readonly="1" force_save="1"/>
+                            <field name="total_recurso_aut" readonly="1" force_save="1"/>
+                        </group>
+                        <hr/>
+                        <group>
+                            <field name="total_civa" readonly="1" force_save="1"/>
+                            <field name="convenios_escalatorias" force_save="1"/>
+                            <field name="total_contratado" force_save="1"/>
+                        </group>
+
+                        <group colspan="1" col="2">
+                            <group>
+                                <field name="saldo"/>
+                            </group>
+                            <group>
+                                <p style="color: #589F14" attrs="{'invisible':[('saldo', '&lt;' , 0)]}">RECURSOS SUFICIENTES. *</p>
+                                <p style="color: #DE0C0C" attrs="{'invisible':[('saldo', '&gt;' , 1)]}">RECURSOS INSUFICIENTES. *</p>
+                            </group>
+                        </group>
+                    </page>
+            </notebook>
+          </sheet>
+
+   
+
+        </form>
+      </field>
+    </record>
+
+    <!-- ACCIONES VENTANA ELABORACION DE CONTRATO-->
+    <record model="ir.actions.act_window" id="proc_contratacion_elaboracion_contrato_action_window">
+      <field name="name">Contratos</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.elaboracion_contrato</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+      <record id="proceso_anexos_form" model="ir.ui.view">
+          <field name="name">proceso anexos</field>
+          <field name="model">proceso.anexos</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group>
+                          <field name="name" force_save="1" invisible="1"/>
+                                <field name="claveobra" force_save="1"/>
+                                <field name="clave_presupuestal" force_save="1"/>
+                                <field name="federal" force_save="1"/>
+                                <field name="concepto" force_save="1" invisible="1"/>
+                                <field name="estatal" force_save="1"/>
+                                <field name="municipal" force_save="1"/>
+                                <field name="otros" force_save="1" />
+                                <field name="federalin" force_save="1" invisible="1"/>
+                                <field name="estatalin" force_save="1" invisible="1"/>
+                                <field name="municipalin" force_save="1" invisible="1"/>
+                                <field name="otrosin" force_save="1" invisible="1"/>
+                                <field name="total" force_save="1" invisible="1"/>
+                                <field name="cancelados" force_save="1" invisible="1"/>
+                                <field name="total_ca" force_save="1"/>
+                                <field name="totalin" force_save="1"/>
+                                <field name="total1" force_save="1"/>
+                                <field name="total_at" force_save="1" invisible="1"/>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <record id="proceso_anexos_tree" model="ir.ui.view">
+          <field name="name">proceso anexos</field>
+          <field name="model">proceso.anexos</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="name"/>
+                  <field name="claveobra"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="proceso_anexos_action" model="ir.actions.act_window">
+          <field name="name">proceso anexos</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">proceso.anexos</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+
+    <!-- MENUS ELABORACION DE CONTRATO -->
+      <menuitem name="Elaboración de contratos" id="proc_contratacion_elaboracion_contrato"
+                parent="proc_contratacion_menu_root" action="proc_contratacion_elaboracion_contrato_action_window" sequence="4"/>
+
+      <!-- <menuitem name="VER" id="anexos_te"
+                parent="proc_contratacion_menu_root" action="proceso_anexos_action" sequence="7"/> -->
+
+</data>
+</odoo>

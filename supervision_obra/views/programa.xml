@@ -1,0 +1,230 @@
+<odoo>
+    <data>
+        <!-- VERSION NUEVA FORM -->
+    
+        <!-- VERSION NUEVA TREE -->
+        <record id="obra_programa_tree_version_nuevo" model="ir.ui.view">
+        <field name="name">Version de Programa Tree</field>
+        <field name="model">programa.programa_version</field>
+        <field name="arch" type="xml">
+            <tree string="Versiones de Programa">
+              <field name="programa"/>
+              <field name="tipo"/>
+              <field name="fecha"/>
+              <field name="comentario"/>
+            </tree>
+        </field>
+    </record>
+        <!--ACTION NUEVO -->
+    <!--record model="ir.actions.act_window" id="programa_action_nuevo">
+      <field name="name">Programa Version</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">programa.programa_version</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('obra_programa_tree_version_nuevo')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('vista_form_programa_version_nuevo')})]"/>
+    </record-->
+
+
+    <!-- VERSION DE PROGRAMA VENTANA EMERGENTE -->
+    <!-- VERSION DE PROGRAMA VENTANA EMERGENTE -->
+   
+
+        <!-- FILTRO SEARCH DE ENLACE VERSION DE PROGRAMA -->
+        <record id="programa_search" model="ir.ui.view">
+           <field name="name">programa search</field>
+           <field name="model">programa.programa_version</field>
+            <field name="arch" type="xml">
+            <search string="">
+              <field name="tipo"/>
+              <field name="fecha"/>
+              <field name="programa"/>
+              <field name="comentario"/>
+            </search>
+           </field>
+        </record>
+
+        <!-- PROGRAMA TREE -->
+    <record id="obra_programa_tree" model="ir.ui.view">
+        <field name="name">programa tree</field>
+        <field name="model">programa.programa_obra</field>
+        <field name="arch" type="xml">
+            <tree string="">
+              <field name="obra"/>
+              <field name="fecha_inicio_programa"/>
+              <field name="fecha_termino_programa"/>
+              <field name="total_partida" />
+              <field name="restante_programa" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACCION DEL BOTON HACIA VERSION DE PROGRAMAS -->
+    <!--record model="ir.actions.act_window" id="programa_action">
+      <field name="name">Programa Versiones</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">programa.programa_version</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('obra_programa_tree_version_nuevo')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('vista_form_programa_version_nuevo')})]"/>
+    </record-->
+
+        <!-- PARTIDAS TREE PROGRAMAS -->
+     <record model="ir.ui.view" id="programa_tree">
+      <field name="name">Programa tree</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false" default_order="obra desc">
+            <field name="fechainicio"/>
+            <field name="fechatermino"/>
+            <field name="nombre_partida" string="Subcontrato"/>
+            <field name="tipo_obra" />
+            <field name="objeto"/>
+            <field name="contratista" />
+            <field name="obra" />
+             <field name="monto_partida" string="Importe Contratado" />
+            <field name="a_fis" />
+            <field name="porcentajeProgramado" />
+            <field name="a_fin" />
+            <field name="verif_programa" string="(SI, NO)" widget="boolean"/>
+        </tree>
+      </field>
+    </record>
+
+        <!-- PARTIDAS PROGRAMA FORM -->
+    <record model="ir.ui.view" id="programa_form">
+      <field name="name">Programa Partida</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <form create="false" edit="false" delete="false">
+            <sheet>
+                    <div class="text-right">
+                        <button name="programas" class="btn btn-outline-primary btn-lg " type="object"
+                             string="PROGRAMA DE LA OBRA" context="{'default_obra': active_id, 'default_obraid': id}"
+                             icon="fa-clock-o"/>
+
+                
+                     </div>
+                        <group>
+                           <p><b>Nombre de la Obra: </b></p>
+                        </group>
+                        <group>
+                            <field name="obra" nolabel="1" readonly="1"/>
+                        </group>
+
+                            <hr/>
+                        <group colspan="2" col="5" >
+                            <b>Programa</b>
+                            <b>Ejercicio</b>
+                            <b>Monto</b>
+                            <b>Municipio</b>
+                            <b>Localidad</b>
+                        </group>
+                        <group colspan="2" col="6" >
+                            <field name="programaInversion" readonly="True" string="" nolabel="1" />
+                            <field name="ejercicio" string="" nolabel="1" readonly="1" />
+                            <field name="total_partida" widget="monetary" string="" nolabel="1" readonly="1"/>
+                            <field name="municipio" string="" nolabel="1" readonly="1"/>
+                            <field name="localidad" string="" nolabel="1" readonly="1"/>
+                        </group>
+                          <hr/>
+                        <group colspan="2" col="5">
+                            <b>Fecha del Anticipo</b>
+                            <b>Fecha del contrato</b>
+                            <b>Fecha de Inicio Contractual</b>
+                            <b>Fecha de Termino Contractual</b>
+                            <b>Supervision Externa</b>
+                        </group>
+
+
+
+                        <group colspan="2" col="6" readonly="1">
+                          <field name="fecha_anticipos" readonly="1" string="" nolabel="1"/>
+                          <field name="fecha" string="" nolabel="1" readonly="1"/>
+                          <field name="fechainicio" string="" nolabel="1" readonly="1"/>
+                          <field name="fechatermino" string="" nolabel="1" readonly="1"/>
+                          <field name="supervisionexterna1" string="" nolabel="1" readonly="1"/>
+                  </group>
+              </sheet>
+         
+            </form>
+          </field>
+        </record>
+        <!-- ACTION MENU ITEM -->
+    <record model="ir.actions.act_window" id="programa_record">
+          <field name="name">PROGRAMA DE OBRA</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">partidas.partidas</field>
+          <field name="target">current</field>
+          <field name="view_mode">tree</field>
+         <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('programa_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('programa_form')})]"/>
+    </record>
+
+        <record id="programa_import_tree" model="ir.ui.view">
+            <field name="name">programa import</field>
+            <field name="model">proceso.programa</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="obra"/>
+                    <field name="id_prog"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_termino"/>
+                    <field name="monto"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_programa_graph">
+           <field name="name">programa grafica</field>
+           <field name="model">proceso.programa</field>
+           <field name="arch" type="xml">
+                 <graph string="Programa graph">
+                      <field name="fecha_inicio" group="True"/>
+                      <field name="fecha_termino"/>
+                      <field name="monto" />
+                </graph>
+            </field>
+        </record>
+
+        <record id="programa_import_action" model="ir.actions.act_window">
+            <field name="name">programa action import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">proceso.programa</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="programa_parti_action" model="ir.actions.act_window">
+            <field name="name">programa action view</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">programa.programa_obra</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+     <!--menuitem name="Programa de obra" id="programa_obra" parent="supervision_obra.menu_root"
+              action="programa_record" sequence="0"/>
+
+        <menuitem name="Programa IMPORT" id="programa_obra_import" parent="ejecucion_obra.menu_root"
+              action="programa_import_action" sequence="4"/>
+
+        <menuitem name="prog part IMPORT" id="programa_obra_import_part" parent="ejecucion_obra.menu_root"
+              action="programa_parti_action" sequence="5"/-->
+
+    </data>
+</odoo>

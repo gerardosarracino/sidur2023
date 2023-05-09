@@ -1,0 +1,256 @@
+<odoo>
+    <data>
+
+
+
+        <record id="autorizacion_pago_tree" model="ir.ui.view">
+            <field name="name">tree autorizcion pago</field>
+            <field name="model">estimacion.autorizacion_pago</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="vinculo_estimaciones" string="Estimación"/>
+                    <field name="numero_contrato" string="Contrato"/>
+                    <field name="obra" string="Obra"/>
+                    <field name="autorizacion_pago" string="A.P"/>
+                    <field name="contratista_contrato" string="Contratista"/>
+                    <field name="a_pagar" string="Importe líquido"/>
+                    <field name="fecha" string="Fecha de Autorizacion"/>
+                    <field name="programa_inversion" string="Recurso"/>
+                    <!-- field name="estatus_orden_pago" string="Estatus"/ -->
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="autorizacion_pago_form">
+            <field name="name">Autorizacion de Pago</field>
+            <field name="model">estimacion.autorizacion_pago</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!--header>
+                          <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_orden_pago', '=', 'orden_pago')]}"/>
+                          <button string="Marcar como recibido" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_orden_pago','=','recibido'),('estatus_orden_pago','=','pagado')]}"/>
+                          <button string="Pagado" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_orden_pago','!=','recibido'),('estatus_orden_pago','=','pagado')]}"/>
+                          <field name="estatus_orden_pago" widget="statusbar"/>
+                      </header-->
+                    <sheet>
+                        <sheet>
+                            <group>
+                                <h2><field name="autorizacion_pago" placeholder="Autorizacion de Pago" class="oe_inline"/></h2>
+                                <!--h2><field name="numero_factura" placeholder="# Factura" class="oe_inline"/></h2-->
+                                <h2><field name="fecha_factura" placeholder="Fecha de Factura" class="oe_inline"/></h2>
+                                <h2><field name="numero_factura" placeholder="# de Factura" class="oe_inline"/></h2>
+                                <h2><field name="numero_memo" placeholder="Memo" class="oe_inline"/></h2>
+                            </group>
+                        </sheet>
+
+                        <br/>
+
+                        <h4>TIPO DE PAGO:</h4>
+                        <field name="tipo_pago"  widget="radio"/>
+
+                        <hr/>
+
+                        <table>
+                            <tbody>
+                                <tr >
+                                    <td width="50%">
+                                        <sheet>
+                                            <group colspan="1" col="4" string="Obra y Contrato">
+                                                <h1>
+                                                    <h2>Contrato: <field name="numero_contrato" placeholder="Seleccionar Partida" force_save="1" class="oe_inline"/></h2>
+                                                </h1>
+                                            </group>
+
+                                            <group>
+                                                <field name="contrato" force_save="1" class="oe_inline" invisible="1"/>
+                                                <field name="convenio_asignacion" class="oe_inline" domain="[('contrato_contrato.id', '=', contrato)]"/>
+                                                <field name="director_capturador" invisible="1" force_save="1"/>
+                                                <field name="director_programacion" force_save="1"/>
+                                                <field name="obra"/>
+                                            </group>
+                                        </sheet>
+                                        <br/>
+                                    </td>
+
+                                    <td rowspan="2" style="height: 340px;">
+                                        <sheet >
+                                            <group string="Autorización Presupuestal" >
+                                                <field name="oficio_anexo" force_save="1"/>
+                                                <field name="programa_inversion" class="oe_inline" string="Fuente"/>
+                                            </group>
+                                            <h2>Inversión</h2>
+                                            <group>
+                                                <field name="monto_letra_estimado" force_save="1" invisible="1"/>
+                                                <field name="centavos" force_save="1" invisible="1"/>
+                                                <field name="centro_gestor" force_save="1" invisible="1"/>
+                                                <field name="area_funcional" force_save="1" invisible="1"/>
+                                                <field name="posicion_presupuestal" force_save="1" invisible="1"/>
+                                                <field name="fondo" force_save="1" invisible="1"/>
+                                                <field name="titular" force_save="1" invisible="1"/>
+                                                <field name="director_ejecucion_obras" force_save="1" invisible="1"/>
+                                                <field name="inversion_anual_aut" force_save="1" />
+                                                <field name="inversion_ejercida" force_save="1"/>
+                                            </group>
+                                        </sheet>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td width="50%">
+                                        <sheet>
+                                            <group string="Datos Generales" colspan="3" col="3">
+
+                                                <h2>
+                                                    <p attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}">Estimación:</p>
+                                                    <field name="vinculo_estimaciones" force_save="1"
+                                                           placeholder="Seleccionar Estimación"
+                                                           domain="[('numero_contrato.id', '=', contrato)]"
+                                                           attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}"
+                                                           class="oe_inline"/>
+
+                                                    <p attrs="{'invisible': [('tipo_pago', '=', 'Estimacion')]}">
+                                                        Anticipo:</p>
+
+                                                    <field name="anticipo_texto" force_save="1" attrs="{'invisible': [('tipo_pago', '=', 'Estimacion')]}"/>
+                                                </h2>
+
+                                                <div attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}">
+                                                    <sheet>Periodo de la estimación   Del: <field name="fecha_inicio_est" string="Del "/> Al:
+                                                        <field name="fecha_termino_est" string="Al"/> </sheet>
+                                                </div>
+
+                                                <field name="num_estimacion" invisible="1"/>
+                                            </group>
+
+                                            <group>
+                                                <field name="contratista_contrato" force_save="1" readonly="1" string="Proveedor" class="oe_inline"/>
+                                            </group>
+                                        </sheet>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                        <br/>
+
+                        <group col="2">
+                            <sheet attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}">
+                                <group string="Retenciones" attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}">
+                                    <field name="deducciones" nolabel="1" string="">
+                                        <tree create="false" force_save="1" delete="false">
+                                            <!-- field name="estimacion" force_save="1"/ -->
+                                            <field name="name" string="Deducción"/>
+                                            <field name="porcentaje" force_save="1" />
+                                            <field name="valor" force_save="1" sum="SUMA DE DEDUCCIONES"/>
+                                        </tree>
+                                    </field>
+                                </group>
+
+                                <group attrs="{'invisible': [('tipo_pago', '=', 'Pago')]}" style="float:right;">
+                                    <field name="estimado_deducciones" string="Importe Deducciones" force_save="1"/>
+                                    <field name="sancion" class="oe_inline" readonly="1" force_save="1" />
+                                    <field name="ret_neta_est" force_save="1" class="oe_inline" readonly="1" string="Retención / Devolución"/>
+                                </group>
+                            </sheet>
+
+                            <sheet>
+                                <group>
+                                    <field name="saldo_por_ejercer" force_save="1"/>
+                                    <field name="estimado" string="Importe Estimado:" force_save="1"/>
+                                    <field name="amort_anticipo" string="Amort. Anticipo:" force_save="1"/>
+                                    <field name="estimacion_subtotal" invisible="1" force_save="1"/>
+                                    <field name="estimacion_iva" string="Iva: " force_save="1"/>
+                                    <field name="estimacion_facturado" string="Monto:" force_save="1"/>
+                                    <field name="a_pagar" string="Pago Neto:" force_save="1"/>
+                                </group>
+                            </sheet>
+                        </group>
+
+                        <br/>
+
+                        <hr/>
+                        <!--separator string="Estado del pago"/>
+
+                        <group>
+                             <field name="fecha_recibido" class="oe_inline" readonly="1"/>
+                        </group>
+
+                        <group>
+                             <field name="fecha_pago" class="oe_inline" readonly="1"/>
+                        </group-->
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="autorizacion_pago_action">
+            <field name="name">Autorizacion de Pago</field>
+            <field name="res_model">estimacion.autorizacion_pago</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+ (0, 0, {'view_mode': 'tree', 'view_id': ref('autorizacion_pago_tree')}),
+ (0, 0, {'view_mode': 'form', 'view_id': ref('autorizacion_pago_form')})]"/>
+        </record>
+
+        <report
+                id="estimacion_tramite_report"
+                model="control.estimaciones"
+                string="Generar Tramite"
+                report_type="qweb-html"
+                paperformat="report_estimaciones.paperformat_pago"
+                name="report_estimaciones.report_estimaciones_tramite"
+                print_report_name="object.ide_estimacion + '/' + 'Tramite' + object.obra.numero_contrato.contrato"
+        />
+
+        <!-- ESTIMACIONES TREE -->
+        <record id="autorizacion_estimaciones_tree" model="ir.ui.view">
+            <field name="name">control de estimaciones tree</field>
+            <field name="model">control.estimaciones</field>
+            <field name="arch" type="xml">
+                <tree string="" decoration-info="tipo_estimacion=='2'" decoration-success="fecha_termino_estimacion == fecha_termino_programa" decoration-danger="fecha_termino_estimacion &gt; fecha_termino_programa">
+                    <field name="obra" string="Contrato"/>
+                    
+                    
+                    <field name="clave_estimacion" string="#"/>
+                    <field name="tipo_estimacion" string="Tipo"/>
+                    <field name="fecha_inicio_estimacion" string="Fecha Inicio" />
+                    <field name="fecha_termino_estimacion" string="Fecha Termino"/>
+                    <field name="estimado" string="Estimado" sum="Estimado"/>
+                    <field name="amort_anticipo" string="Amort. anticipo" sum="Total Amort."/>
+                    <field name="estimacion_subtotal" string="Subtotal" sum="Total Subtotal"/>
+                    <field name="estimacion_iva" string="I.V.A" sum="Total I.V.A"/>
+                    <field name="estimacion_facturado" string="Facturado" sum="Total Facturado"/>
+                    <field name="estimado_deducciones" string="Deducciones" sum="Total Deducciones"/>
+                    <field name="ret_neta_est" string="Ret/Dev." sum="Total Ret/Dev"/>
+                    <field name="sancion" string="Sanción" sum="Total Sanción"/>
+                    <field name="a_pagar" string="A pagar" sum="Total Importe Liquido"/>
+                    <field name="fecha_termino_programa" invisible="1"/>
+                    <button string="Generar Tramite" name="%(estimacion_tramite_report)d" type="action"
+                                class="btn btn-success"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="autorizacion_pago_estimacion_action">
+            <field name="name">Autorizacion de Pago</field>
+            <field name="res_model">control.estimaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree</field>
+            <field name="target">current</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+ (0, 0, {'view_mode': 'tree', 'view_id': ref('autorizacion_estimaciones_tree')})]"/>
+        </record>
+
+
+        <menuitem name="Autorizacion de Pago" id="autorizacion_pago_menu" parent="ejecucion_obra.menu_root"
+                  action="autorizacion_pago_action" sequence="6"/>
+        <menuitem name="Autorizacion de Pago Tramites" id="autorizacion_pago_estimacion_menu" parent="ejecucion_obra.menu_root"
+                  action="autorizacion_pago_estimacion_action" sequence="7"/>
+
+    </data>
+</odoo>

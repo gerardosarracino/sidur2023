@@ -1,0 +1,76 @@
+<odoo>
+    <data>
+        <record id="auditoria" model="ir.actions.act_window">
+            <field name="name">Auditoría</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditoria.auditoria</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+
+    <record id="auditoria_tree_view" model="ir.ui.view">
+        <field name="name">Auditoría</field>
+        <field name="model">auditoria.auditoria</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="numero_auditoria"/>
+                <field name="tipo_auditoria"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_termino"/>
+                <field name="capturista"/>
+                <field name="fecha_captura"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="auditoria_search_view" model="ir.ui.view">
+        <field name="name">Auditoría</field>
+        <field name="model">auditoria.auditoria</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="numero_auditoria"/>
+                <field name="tipo_auditoria"/>
+                <field name="capturista"/>
+                <field name="fecha_captura"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="auditoria_form_view" model="ir.ui.view">
+        <field name="name">Auditoría</field>
+        <field name="model">auditoria.auditoria</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                     <div class="oe_title">
+                            <h1>
+                                <field name="numero_auditoria" placeholder="Número de auditoría"/>
+                            </h1>
+                     </div>
+                    <div class="oe_button_box oe_read_only">
+                         <button class="oe_stat_button" type="action" name="%(auditoria.observacion)d" context="{'search_default_auditoria': active_id, 'default_auditoria': active_id}"  icon="fa-folder-open">
+                            <field icon="fa-folder-open" string="Observaciones"  name="contar_observaciones" widget="statinfo" />
+                         </button>
+                        <button class="oe_stat_button" type="action" name="%(auditoria.seguimiento)d" context="{'search_default_auditoria': active_id, 'default_auditoria': active_id}"  icon="fa-folder-open">
+                            <field icon="fa-folder-open" string="Seguimiento"  name="contar_seguimientos" widget="statinfo" />
+                         </button>
+                    </div>
+
+                    <notebook>
+                        <page string="Información General">
+                            <group>
+                                <field name="tipo_auditoria"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem name="Auditorías" id="menu_auditorias" sequence="1" web_icon="auditoria,static/description/icon.png"/>
+        <menuitem name="Auditoría" id="auditorias_menuitem"
+              parent="menu_auditorias"
+              action="auditoria" sequence="1"/>
+</odoo>

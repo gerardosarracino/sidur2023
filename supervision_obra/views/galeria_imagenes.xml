@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="galeria_fotos" model="ir.ui.view">
+           <field name="name">Galeria Fotos</field>
+           <field name="model">proceso.galeria</field>
+           <field name="arch" type="xml">
+               <form string="">
+                   <sheet>
+                       <group>
+                           <field name="informe_avance" invisible="1"/> 
+                           <field name="id_partida" invisible="1"/> 
+
+                           <field name="image" widget="one2many">
+                              <tree editable="bottom">
+                                  <control>
+                                    <create string="Agregar Periodo" context="{
+                                       'default_informe_avance': parent.informe_avance
+                                       }"/>
+                                  </control>
+
+                                    <field name="frente" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"
+                                     domain="[('id_partida.id', '=', parent.id_partida)]" /> 
+                                    <field name="informe_avance" invisible="1" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/>
+                                    <field name="descripcion"/>
+
+                                    <field name="img" />
+                              </tree>
+                            </field>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+
+        <record id="galeria_fotos_vista" model="ir.ui.view">
+           <field name="name">Galeria Fotos Vista</field>
+           <field name="model">proceso.subirgaleria</field>
+           <field name="arch" type="xml">
+               <form string="">
+                   <sheet>
+                       <group>
+                           <field name="descripcion"/>
+                           <field name="informe_avance"/>
+                           <field name="img"/>
+                           <field name="frente"/>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="galeria_fotos_vista_tree" model="ir.ui.view">
+            <field name="name">Galeria Tree</field>
+            <field name="model">proceso.subirgaleria</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="descripcion"/>
+                    <field name="informe_avance"/>
+                    <field name="img"/>
+                    <field name="descripcion"/>
+                    <field name="frente"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="galeria_search" model="ir.ui.view">
+           <field name="name">galeria search</field>
+           <field name="model">proceso.subirgaleria</field>
+            <field name="arch" type="xml">
+                <search string="">
+                  <field name="frente" string="string" domain="[()]"/>
+                  <field name="descripcion" string="string" domain="[()]"/>
+                  <field name="informe_avance" string="string" domain="[()]"/>
+
+                </search>
+           </field>
+        </record>
+
+         <record id="galeria_view_kanban" model="ir.ui.view">
+            <field name="name">mrp.workcenter.kanban</field>
+            <field name="model">proceso.subirgaleria</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" default_group_by="frente" group_create="true" group_edit="true" archivable="true">
+                    <templates>
+                    <field name="img" widget="image" />
+                        <t t-name="kanban-box">
+
+                           
+
+                            <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                                <div class="row">
+
+                                    <div t-if="widget.editable" class="o_kanban_card_manage_settings row" groups="sales_team.group_sale_manager">
+                                        <div role="menuitem" aria-haspopup="true" class="col-8">
+                                            <ul class="oe_kanban_colorpicker" role="menu"/>
+                                        </div>
+                                        <div role="menuitem" class="col-4 text-right">
+                                            <a type="edit">Settings</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <strong><field name="img" widget="image" /></strong>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>FRENTE:<field name="frente"/></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <span>Descripcion <field name="descripcion"/></span>
+                                    </div>
+
+                                    <div class="col-12" invisible="1">
+                                        <span> <field name="informe_avance"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="galeria_view_kanban_action">
+            <field name="name">Galeria</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">proceso.subirgaleria</field>
+            <field name="view_type">form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('galeria_fotos_vista_tree')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('galeria_view_kanban')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('galeria_fotos_vista')})]"/>
+            <field name="context">{'search_default_informe_avance': active_id}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                GALERIA VACIA
+              </p><p>
+                Agrege las imagenes primero.
+              </p>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+		<report
+            id="memo"
+            model="estimacion.autorizacion_pago"
+            string="Memo"
+            report_type="qweb-html"
+            paperformat="paperformat_pago"
+            print_report_name="object.vinculo_estimaciones.ide_estimacion + '/' + 'Autorizacion de pago' + object.numero_factura"
+            name="report_estimaciones.report_memo"
+        />
+
+        <template id="report_memo" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+        
+					<style>
+                            body {
+                                font-size: 14px;
+                                font-family: Arial, Helvetica, sans-serif;
+                            }
+
+                            #header {
+                                text-align: center;
+                                border-bottom: 1px solid #666;
+                                padding-bottom: 2px;
+                            }
+
+                            h3,
+                            h4,
+                            h5 {
+                                margin: 0;
+                                line-height: 20px;
+                            }
+
+                            table,
+                            td,
+                            th {
+                                border-color: #eee;
+                                font-size: 12px;
+                            }
+
+                            caption {
+                                font-weight: 700;
+                                margin-bottom: 20px;
+                                margin-top: 10px;
+                            }
+
+                            #footer h5 {
+                                text-align: center;
+                                border-bottom: 1px solid #eee;
+                            }
+
+                            #opciones {
+                                position: fixed;
+                                top: 0;
+                                background-color: #999;
+                                padding: 5px;
+                                right: 0;
+                                z-index: 99999;
+                                margin-right: 8px;
+                                display: inline-block;
+                                -moz-box-shadow: 0 0 3px #999;
+                                -webkit-box-shadow: 0 0 3px #999;
+                                box-shadow: 0 0 3px #999;
+                            }
+
+                            #opciones a {
+                                border-right: 1px solid #ccc;
+                                padding-right: 5px;
+                                color: #fff;
+                                text-decoration: none;
+                            }
+
+                            #opciones a:last-child {
+                                border: none;
+                            }
+
+                            #opciones a:before {
+                                content: " ";
+                            }
+                        </style>
+
+	<div style="text-align: center;">
+		<img t-att-src="'http://sideop.sonora.gob.mx/DATA/MUNICIPIOS/SIDUR_9999/LOGO/logo%20SIDUR.jpg'" title="logoEnte" alt="logo" width="378" height="70" />
+	</div>
+
+	<p>&#160;</p>
+	<p>&#160;</p>
+	<p>&#160;</p>
+
+    <div valign="top" align="right">
+		<p> Hermosillo, Sonora, a <span t-field="o.fecha_factura" t-options='{"format": "d MMMM y"}'/></p>
+		<p>Memorándum No. <span t-field="o.numero_memo" t-options='{"format": "d MMMM y"}'/></p>
+	</div>
+
+	 <div>
+		 <strong>C.P. <span t-field="o.director_programacion"/></strong> <br/>
+		 <strong>DIRECTORA GENERAL DE PROGRAMACIÓN</strong> <br/>
+		 <strong>Y EVALUACIÓN</strong> <br/>
+		 <strong>P r e s e n t e.-</strong> <br/>
+	 </div>
+
+	 <p>&#160;</p>
+
+	 <div>
+		 <p>Anexo al presente remitimos a Usted documentación original referente al programa PROPIOS, para su trámite
+			correspondiente.</p> <br/>
+		 <p>La documentación de referencia es la siguiente:</p> <br/>
+	 </div>
+
+	<div id="datosObra" style="margin-top:10px;" >
+		<table width="100%" border="1" cellpadding="3" cellspacing="0" style="border-collapse:collapse;">
+			<tbody>
+				<tr>
+					<td width="35%" style="text-align: center;"> <strong>OBRA</strong> </td>
+					<td width="10%" style="text-align: center;"> <strong>MPIO.</strong> </td>
+					<td width="10%" style="text-align: center;"> <strong>LOCALIDAD</strong> </td>
+					<td width="20%" style="text-align: center;"> <strong>CONTRATISTA</strong> </td>
+					<td width="10%" style="text-align: center;"> <strong>ESTIMACIÓN</strong> </td>
+					<td width="15%" style="text-align: center;"> <strong>IMPORTE</strong> </td>
+				</tr>
+				<tr>
+					<td><span t-field="o.numero_contrato.obra"/></td>
+					<td><span t-field="o.numero_contrato.obra.obra_planeada.municipio"/></td>
+					<td><span t-field="o.numero_contrato.obra.obra_planeada.localidad"/></td>
+					<td><span t-field="o.contratista_contrato"/></td>
+					<td>Estimacion <span t-field="o.vinculo_estimaciones.idobra"/>
+						FACTURA: <span t-field="o.numero_factura"/>
+						<span t-field="o.numero_contrato"/>/xxx
+					</td>
+					<td>
+						$ <span t-field="o.estimacion_facturado"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<p>&#160;</p>
+
+    <div>
+		<p>Sin otro particular de momento, quedo de Usted.</p>
+		<p>A T E N T A M E N T E</p>
+		<strong>DIRECTOR GENERAL DE EJECUCIÓN DE OBRAS</strong>
+		<p>&#160;</p>
+		<p> <span t-field="o.director_ejecucion_obras" style="text-transform:uppercase;"/> </p>
+	</div>
+
+ 	<div>
+		<p>&#160;</p>
+
+		<table width="100%" cellpadding="3" cellspacing="0" style="border-collapse:collapse; ">
+			<tbody>
+				 <tr>
+					<td>C.c.p Dirección General de Programación y Evaluación, S.I.D.U.R <br/>
+					C.c.p Archivo <br/>
+					<span t-field="o.director_capturador" style="text-transform:uppercase;"/>
+					</td>
+					<td>&#160;</td>
+					<td>&#160;</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+                     </t>
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

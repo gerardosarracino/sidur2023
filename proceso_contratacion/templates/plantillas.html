@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div style="margin-top:70px" class="col-md-12">
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <h1>Plantillas</h1>
+                        <br>
+                        <br>
+                            {% for plantilla in plantillas %}
+                            <a href="http://sidur.galartec.com/plantillas/{{plantilla.subir_documento}}/{{contrato}}""><{{plantilla.nombre_documento}}/a>
+                            {% endfor %}
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function continuar() {
+            var data = {
+                'ente': document.getElementById('ente').value,
+                'ejercicio': document.getElementById('ejercicio').value,
+                'fase': document.getElementById('fase').value
+            }
+            location.href = "result_seg?ente=" + data['ente'] + "&ejercicio=" + data['ejercicio'] + "&fase=" + data['fase'];
+        }
+    </script>
+
+<!--    <script>-->
+<!--        function test() {-->
+<!--            alert("si");-->
+<!--        }-->
+
+<!--        function load_adutorias() {-->
+<!--            $.get('api/ajax_auditoria', -->
+<!--                { ente: document.getElementById('ente').value,-->
+<!--                  ejercicio: document.getElementById('ente').value,-->
+<!--                -->
+<!--                }, function(data) {-->
+<!--                    console.log(data);-->
+<!--                    $("#auditoria").html(data);-->
+<!--                    $('#auditoria').selectpicker('refresh');-->
+<!--                });-->
+<!--        }-->
+
+<!--        $(document).ready(function() {-->
+<!--            $('#ente').on('change', function() {-->
+<!--                test();-->
+<!--            })-->
+<!--            $('#ejercicio').on('change', function() {-->
+<!--                test();-->
+<!--            })-->
+<!--        });-->
+<!--    </script>-->
+
+</body>
+
+</html>

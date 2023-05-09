@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_conceptos" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                  <style>
+                        body {
+                            font-size: 14px;
+                            font-family: Arial, Helvetica, sans-serif;
+                        }
+
+                        #header {
+                            text-align: center;
+                            border-bottom: 1px solid #666;
+                            padding-bottom: 2px;
+                        }
+
+                        h3,
+                        h4,
+                        h5 {
+                            margin: 0;
+                            line-height: 20px;
+                        }
+
+                        table,
+                        td,
+                        th {
+                            border-color: #ccc;
+                            font-size: 12px;
+                        }
+
+                        caption {
+                            font-weight: 700;
+                            margin-bottom: 20px;
+                            margin-top: 10px;
+                        }
+
+                        #footer h5 {
+                            text-align: center;
+                            border-bottom: 1px solid #eee;
+                        }
+
+                        .titulo-rotate {
+                            -webkit-transform: rotate(270deg);
+                            -moz-transform: rotate(270deg);
+                            -o-transform: rotate(270deg);
+                            writing-mode: lr-tb;
+                            width: 60%;
+                            font-weight: 700;
+                            letter-spacing: 1px;
+                        }
+
+                        hr {
+                            width: 95%;
+                            color: #000;
+                            height: 1px;
+                        }
+
+                        #tabla-contendio tbody {
+                            overflow: auto;
+                            position: relative;
+                        }
+
+                        #opciones {
+                            position: fixed;
+                            top: 0;
+                            background-color: #999;
+                            padding: 5px;
+                            right: 0;
+                            z-index: 99999;
+                            margin-right: 8px;
+                            display: inline-block;
+                            -moz-box-shadow: 0 0 3px #999;
+                            -webkit-box-shadow: 0 0 3px #999;
+                            box-shadow: 0 0 3px #999;
+                        }
+
+                        #opciones a {
+                            border-right: 1px solid #ccc;
+                            padding-right: 5px;
+                            color: #fff;
+                            text-decoration: none;
+                        }
+
+                        #opciones a:last-child {
+                            border: none;
+                        }
+
+                        #opciones a:before {
+                            content: " ";
+                        }
+
+                        #header-fixed {
+                            position: fixed;
+                            top: 0px;
+                            display: none;
+                            background-color: #999;
+                            color: #fdfdfd;
+                            width: 98.8%;
+                            border-collapse: collapse;
+                            -webkit-box-shadow: 0 8px 6px -6px grey;
+                            -moz-box-shadow: 0 8px 6px -6px grey;
+                            box-shadow: 0 8px 6px -6px grey;
+                            /*box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);*/
+                        }
+	            </style>
+
+                            <div id="header" style="position:relative;">
+                                <div style="position:absolute; top:1; left:50;">
+                                    <img t-att-src="'http://sidur.galartec.com/report_estimaciones/static/src/img/logo-sidur.png'"  title="logoEnte" t-att-alt="logo" width="265" height="65" />
+                                </div>
+                                <h3>GOBIERNO DEL ESTADO DE SONORA</h3>
+                                <h4>
+                                    SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO			</h4>
+
+                            </div>
+
+                            <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                            <div style="margin-top:15px;">
+                                <table width="100%" border="1" cellpadding="3" cellspacing="0" id="tabla-contendio" style="border-collapse:collapse; border-bottom: 0">
+                                    <tbody>
+                                        <tr>
+                                            <th width="70%">&#160;</th>
+                                            <th width="15%" align="center">ID ESTIMACION</th>
+                                            <th width="15%" align="center"><span t-field="o.ide_estimacion"/></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <table width="100%" border="1" cellpadding="3" cellspacing="0" id="tabla-contendio" style="border-collapse:collapse;">
+                                <thead>
+                                    <tr align="center">
+                                        <th colspan="3">CONCENTRADO DE ESTIMACIONES</th>
+                                        <th colspan="2">PERIODO DE EJECUCIÓN</th>
+                                        <th colspan="3">LICITACION No</th>
+                                        <th colspan="2">CONTRATO No</th>
+                                        <th colspan="3">CONTRATISTA</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" >
+                                          <span t-field="o.obra.obra.descripcion"/>     </td>
+                                        <td align="center">
+                                            <span t-field="o.fecha_inicio_estimacion"/>
+                                        </td>
+                                        <td align="center">
+                                            <span t-field="o.fecha_termino_estimacion"/>
+                                        </td>
+
+                                        <td colspan="3" align="center">
+                                            <span t-field="o.obra.numero_contrato.obra.numerolicitacion" t-if="o.obra.numero_contrato.tipo_contrato == '1' "/>
+
+                                            <span t-field="o.obra.numero_contrato.adjudicacion.numerocontrato" t-if="o.obra.numero_contrato.tipo_contrato == '2' "/>
+                                        </td>
+
+                                        <td colspan="2" align="center">
+                                            <span t-field="o.obra.numero_contrato"/>
+                                        </td>
+                                        <td colspan="3" align="center">
+                                            <span t-field="o.obra.contratista"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>&#160;</th>
+                                        <th>&#160;</th>
+                                        <th colspan="4">CONTRATO</th>
+                                        <th colspan="2">ACUMULADO ANTERIOR</th>
+                                        <th colspan="2">ESTIMACION No
+                                            <span t-field="o.idobra"/>					</th>
+                                        <th colspan="3">ACUMULADO</th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th width="4%">CLAVE</th>
+                                        <th width="30%">CONCEPTO</th>
+                                        <th width="5%">UNIDAD</th>
+                                        <th width="5%">CANTIDAD</th>
+                                        <th width="6%">P.U.</th>
+                                        <th width="7%">IMPORTE</th>
+                                        <th width="5%">CANTIDAD</th>
+                                        <th width="7%">IMPORTE</th>
+                                        <th width="5%">CANTIDAD</th>
+                                        <th width="7%">IMPORTE</th>
+                                        <th width="7%">SUBTOTAL</th>
+                                        <th width="6%">P.U.</th>
+                                        <th>TOTAL</th>
+                                    </tr>
+                                </thead>
+
+                            <tbody>
+
+                         <t t-set="concepto_category" t-value="[]"/>
+                            <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="l">
+                                <t t-set="concepto_category" t-value="concepto_category+[l.categoria]"/>
+                            </t>
+
+                            <t t-foreach="set(concepto_category)" t-as="category">
+
+                                <!-- CONDICION PARA IMPRIMIR SOLO CATEGORIAS QUE TENGAN ESTIMADO-->
+                                <t t-set="condicion" t-value="0"/>
+                                <t t-set="condicion2" t-value="0"/>
+                                <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="u" t-if="category.id==u.categoria.id"> <t >
+                                <t t-set="condicion" t-value="u.related_categoria_padre.name" />
+                                <t t-set="condicion2" t-value="condicion2 + u.estimacion" />  </t></t>
+                                <!--t t-esc="condicion" />
+                                <t t-esc="condicion2" /-->
+
+                                <tr bgcolor="#DDDDDD"  class="text-center" t-if="category.name==condicion and condicion2 != 0">
+                                    <td><span t-esc="category.name"/></td>
+                                    <td class="text-left" colspan="12">
+                                    <div><strong t-esc="category.descripcion"/></div> </td>
+
+
+                                </tr>
+
+                                <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="x">
+                                    <t t-if="category.id==x.categoria.id and x.estimacion != 0">
+                                        <tr>
+                                        <td><span t-field="x.clave_linea"/></td>
+                                        <td><span t-field="x.concepto"/></td>
+                                        <td align="center"><span t-field="x.medida"/></td>
+                                        <td align="center"><span t-field="x.cantidad"/></td>
+                                        <td align="right"><span t-field="x.precio_unitario" t-options='{"widget": "float", "precision": 2}'
+                                        /></td>
+
+                                        <td align="right">
+                                            <t t-set="suma" t-value="0"/>
+                                            <t t-set="suma" t-value="suma + x.cantidad * x.precio_unitario" />
+                                            <t t-esc="suma" t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        
+
+                                        <td align="center"> <span t-field="x.est_ant_acum"/> </td> 
+                                        <td align="right">
+                                            <t t-set="sumax" t-value="0"/>
+                                            <t t-set="sumax" t-value="sumax + x.est_ant_acum * x.precio_unitario" />
+                                            <t t-esc="sumax" t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+
+                                        
+
+                                        <td align="center"><span t-field="x.estimacion" t-options='{"widget": "float", "precision": 2}'/></td>
+
+                                        <td align="right"><span t-field="x.importe_ejecutado" t-options='{"widget": "float", "precision": 2}'/></td>
+
+                                        <td align="center">
+                                            <t t-set="suma_subtotal" t-value="0"/>
+                                            <t t-set="suma_subtotal" t-value="suma_subtotal + x.estimacion + x.est_ant_acum" />
+                                            <t t-esc="suma_subtotal" t-options='{"widget": "float", "precision": 2}'/>                          
+                                        </td>
+
+                                        <td align="right">
+                                            <span t-field="x.precio_unitario" t-options='{"widget": "float", "precision": 2}'
+                                        />
+                                        </td>
+
+                                        <td align="right">
+                                            <t t-set="total" t-value="0"/>
+                                            <t t-set="total" t-value="total + (x.estimacion + x.est_ant_acum) * x.precio_unitario" />
+                                            <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                            
+                                <tr t-if="category.name==condicion and condicion2 != 0">
+                                    <td colspan="1">&#160;</td>
+                                    <td align="right"><strong> SUBTOTAL:  <t t-esc="category.descripcion"/> </strong></td>
+                                    <!-- IMPORTE SUBTOTAL -->
+                                    <td>&#160;</td>
+                                    <td>&#160;</td>
+                                    <td align="right">
+                                        <t t-set="subtotal" t-value="0"/>
+                                        <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="y">
+                                            <t t-if="category.id == y.categoria.id">
+                                                <t t-set="subtotal" t-value="subtotal + y.cantidad * y.precio_unitario" />
+                                                
+                                            </t>
+                                        </t>
+                                        <t t-esc="subtotal" t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+                                    <td>&#160;</td>
+                                    <td>&#160;</td>
+                                    <!-- EST ANT SUBTOTAL -->
+                                    <td align="right">
+                                        <t t-set="subtotal_estant" t-value="0"/>
+                                        <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="y">
+                                            <t t-if="category.id == y.categoria.id">
+                                                <t t-set="subtotal_estant" t-value="subtotal_estant + y.est_ant_acum * y.precio_unitario" />
+                                                
+                                            </t>
+                                        </t>
+                                        <t t-esc="subtotal_estant" t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+                                    <td>&#160;</td>
+                                    <!-- ESTIMACION ACUTAL SUBTOTAL -->
+                                    <td align="right">
+                                        <t t-set="subtotal_est" t-value="0"/>
+                                        <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="y">
+                                            <t t-if="category.id == y.categoria.id">
+                                                <t t-set="subtotal_est" t-value="subtotal_est + y.importe_ejecutado" />
+                                                
+                                            </t>
+                                        </t>
+                                        <t t-esc="subtotal_est" t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+
+                                    <td>&#160;</td>
+                                    <td>&#160;</td>
+                                    <!-- ESTIMACION ACUTAL SUBTOTAL -->
+                                    <td align="right">
+
+                                        <t t-set="total_" t-value="0"/>
+                                        
+                                        <t t-set="total_" t-value="total_ + subtotal_est + subtotal_estant" />                                              
+                                         
+                                        <t t-esc="total_" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+                                </tr>
+
+                            </t>
+                                       
+
+                                </tbody>
+                                <tbody>
+
+                                    <tr>
+
+                                    <td colspan="5" align="right" bgcolor="#CCCCCC">
+                                        <strong>SUBTOTAL:</strong>
+                                    </td>
+
+                                    <td align="right" bgcolor="#CCCCCC">
+                                        <t t-set="subtotal_" t-value="0"/>
+                                        <t t-foreach="o.conceptos_partidas.sorted(key=lambda r: r.id)" t-as="u">
+                                            <t >
+                                                <t t-set="subtotal_" t-value="subtotal_ + u.precio_unitario * u.cantidad" />                                              
+                                            </t>
+                                        </t>
+                                        <t t-esc="subtotal_" t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+
+                                    <td rowspan="3" align="center" bgcolor="#CCCCCC">
+                                        <div class="titulo-rotate">EST. ANT.</div>
+                                    </td>
+
+                                    <td align="right" bgcolor="#CCCCCC">
+                                        <t t-set="subtotal_estant_" t-value="0"/>
+                                        <t t-foreach="o.conceptos_partidas.sorted(key=lambda r: r.id)" t-as="u">
+                                            <t >
+                                                <t t-set="subtotal_estant_" t-value="subtotal_estant_ + (u.est_ant_acum * u.precio_unitario)" />
+                                            </t>
+                                        </t>
+                                        <t t-esc="subtotal_estant_" t-options='{"widget": "float", "precision": 2}'/>				</td>
+
+                                    <td rowspan="3" align="center" bgcolor="#CCCCCC">
+                                        <div class="titulo-rotate">ESTA EST.</div>
+                                    </td>
+                                    <td align="right" bgcolor="#CCCCCC">
+
+                                        <t t-set="subtotal_estact_" t-value="0"/>
+                                        <t t-foreach="o.conceptos_partidas2.sorted(key=lambda r: r.id)" t-as="u">
+                                            <t >
+                                                <t t-set="subtotal_estact_" t-value="subtotal_estact_ + u.importe_ejecutado" />                                              
+                                            </t>
+                                        </t>
+                                        <t t-esc="subtotal_estact_" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+
+                                    <td colspan="2" rowspan="3" bgcolor="#CCCCCC">
+                                        <strong>ACUMULADO DE LA OBRA:</strong>
+                                    </td>
+
+                                    <td align="right" bgcolor="#CCCCCC">
+                                        
+                                        <t t-set="acum_subtotal" t-value="0"/>
+                                        
+                                        <t t-set="acum_subtotal" t-value="acum_subtotal + subtotal_estact_ + subtotal_estant_" />                                              
+                                         
+                                        <t t-esc="acum_subtotal" t-options='{"widget": "float", "precision": 2}'/>
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" align="right" bgcolor="#CCCCCC">
+                                        <strong>IVA:</strong>
+                                    </td>
+                                    <td align="right" bgcolor="#CCCCCC"> <!-- IVA CONCEPTO -->
+                                        
+                                        <t t-set="subtotal_iva" t-value="0"/>
+                                        
+                                        <t t-set="subtotal_iva" t-value="subtotal_iva + subtotal_ * o.b_iva" />                                              
+                                         
+                                        <t t-esc="subtotal_iva" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+                                    <td align="right" bgcolor="#CCCCCC"> <!-- IVA EST ANT -->
+                                        
+                                        <t t-set="subtotal_estantiva_" t-value="0"/>
+                                        
+                                        <t t-set="subtotal_estantiva_" t-value="subtotal_estantiva_ + subtotal_estant_ * o.b_iva" />                                              
+                                         
+                                        <t t-esc="subtotal_estantiva_" t-options='{"widget": "float", "precision": 2}'/>
+            
+                                        </td>
+
+                                    <td align="right" bgcolor="#CCCCCC"> <!-- IVA EST ACTUAL -->
+
+                                        <t t-set="subtotal_estact_iva" t-value="0"/>
+                                        
+                                        <t t-set="subtotal_estact_iva" t-value="subtotal_estact_iva + subtotal_estact_ * o.b_iva" />                                              
+                                         
+                                        <t t-esc="subtotal_estact_iva" t-options='{"widget": "float", "precision": 2}'/>
+
+                                        </td>
+
+                                    <td align="right" bgcolor="#CCCCCC"> <!-- IVA EST ACUMULADO -->
+
+                                        <t t-set="acum_iva" t-value="0"/>
+                                        
+                                        <t t-set="acum_iva" t-value="acum_iva + subtotal_estact_iva + subtotal_estantiva_" />                                              
+                                         
+                                        <t t-esc="acum_iva" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" align="right" bgcolor="#CCCCCC">
+                                        <strong>TOTAL:</strong>
+                                    </td>
+                                    <td align="right" bgcolor="#CCCCCC">
+                                        
+                                        <t t-set="total_c" t-value="0"/>
+                                        
+                                        <t t-set="total_c" t-value="total_c + subtotal_ + subtotal_iva" />                                              
+                                         
+                                        <t t-esc="total_c" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+                                    <td align="right" bgcolor="#CCCCCC"> <!-- TOTAL EST ANT -->
+
+                                        <t t-set="subtotal_estantotal_" t-value="0"/>
+                                        
+                                        <t t-set="subtotal_estantotal_" t-value="subtotal_estantotal_ + subtotal_estant_ + subtotal_estantiva_" />                                              
+                                         
+                                        <t t-esc="subtotal_estantotal_" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+
+                                    <td align="right" bgcolor="#CCCCCC">
+
+                                        <t t-set="subtotal_estact_t" t-value="0"/>
+                                        
+                                        <t t-set="subtotal_estact_t" t-value="subtotal_estact_t + subtotal_estact_ + subtotal_estact_iva" />                                              
+                                         
+                                        <t t-esc="subtotal_estact_t" t-options='{"widget": "float", "precision": 2}'/>
+
+                                       
+                                        
+                                        </td>
+
+                                    <td align="right" bgcolor="#CCCCCC">
+
+                                        <t t-set="acum_total" t-value="0"/>
+                                        
+                                        <t t-set="acum_total" t-value="acum_total + subtotal_estact_t + subtotal_estantotal_" />                                              
+                                         
+                                        <t t-esc="acum_total" t-options='{"widget": "float", "precision": 2}'/>
+
+                                    </td>
+                                </tr>
+                            </tbody></table>
+
+
+                            <table width="100%" border="0" cellpadding="5" cellspacing="0">
+			<tbody><tr>
+				<td width="33.3%">&#160;</td>
+				<td width="33.3%">&#160;</td>
+				<td width="33.3%">&#160;</td>
+				<!-- <td width="33.3%">&nbsp;</td> -->
+			</tr>
+			<tr>
+				<td>
+					<hr/>
+				</td>
+				<td t-if="o.obra.supervision_externa">
+					<hr/>
+				</td>
+				<td>
+					<hr/>
+				</td>
+				<!-- <td><hr /></td>-->
+			</tr>
+			<tr>
+				<td align="center">
+					 <span t-field="o.obra.representante_legal" t-if="o.obra.representante_legal"/>  
+                            <span t-field="o.contratista_contrato.nombre_representante" t-if="not o.obra.representante_legal"/>				</td>
+				<td align="center" t-if="o.obra.supervision_externa" >
+                 <span t-field="o.obra.supervision_externa.contratista.nombre_representante"/>
+									</td>
+				<td align="center">
+					<span t-foreach="o.obra.residente_obra" t-as="s" t-field="s.name" />				</td>
+				<!-- <td align="center">ING. GERARDO TOGAWA ESPINOZA</td> -->
+			</tr>
+			<tr>
+				<td align="center">
+					<span t-field="o.contratista_contrato"/>					<br/> CONTRATISTA
+				</td>
+				<td align="center" t-if="o.obra.supervision_externa">
+                    <span t-field="o.obra.supervision_externa.contratista.name"/>
+					<br/>SUPERVISIÓN EXTERNA				</td>
+				<td align="center">SUPERVISOR DE OBRA
+					<br/>
+					SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO				</td>
+				<!-- <td align="center">DIRECTOR GENERAL DE EJECUCIÓN DE OBRA				<br />
+				SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO				</td> -->
+			</tr>
+		</tbody></table>
+
+                        </div>
+
+
+
+                     </t>
+                 </t>
+            </t>
+
+
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="reporte_entrega_qweb" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+
+                          <style>
+                            body {
+                                font-size: 14px;
+                                font-family: Arial, Helvetica, sans-serif;
+                            }
+
+                            #header {
+                                text-align: center;
+                                border-bottom: 1px solid #666;
+                                padding-bottom: 2px;
+                            }
+
+                            h3,
+                            h4,
+                            h5 {
+                                margin: 0;
+                                line-height: 20px;
+                            }
+
+                            table,
+                            td,
+                            th {
+                                border-color: #eee;
+                                font-size: 12px;
+                            }
+
+                            caption {
+                                font-weight: 700;
+                                margin-bottom: 20px;
+                                margin-top: 10px;
+                            }
+
+                            #footer h5 {
+                                text-align: center;
+                                border-bottom: 1px solid #eee;
+                            }
+
+                            #opciones {
+                                position: fixed;
+                                top: 0;
+                                background-color: #999;
+                                padding: 5px;
+                                right: 0;
+                                z-index: 99999;
+                                margin-right: 8px;
+                                display: inline-block;
+                                -moz-box-shadow: 0 0 3px #999;
+                                -webkit-box-shadow: 0 0 3px #999;
+                                box-shadow: 0 0 3px #999;
+                            }
+
+                            #opciones a {
+                                border-right: 1px solid #ccc;
+                                padding-right: 5px;
+                                color: #fff;
+                                text-decoration: none;
+                            }
+
+                            #opciones a:last-child {
+                                border: none;
+                            }
+
+                            #opciones a:before {
+                                content: " ";
+                            }
+                        </style>
+
+                         <div id="header" style="position:relative;">
+			                <div style="position:absolute; top:2; left:50;">
+                                <img t-att-src="'http://sideop.sonora.gob.mx/DATA/MUNICIPIOS/SIDUR_9999/LOGO/logo%20SIDUR.jpg'" title="logoEnte" alt="logo" width="278" height="50" />
+                            </div>
+                            <h3>GOBIERNO DEL ESTADO DE SONORA</h3>
+                            <h4>
+                                SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO			</h4>
+                            <h5>Reporte de Entrega</h5>
+                        </div>
+
+                          <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <div id="header" style="position:relative;">
+                            <h3>Reporte de Entrega</h3>
+                            <h4><span t-field="o.nombre_registro"/></h4>
+                         </div>
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <div style="border:1px solid #eee; margin-top:5px;" aling="center">
+                            <table width="100%" border="1" cellpadding="3" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <th align="center" width="33.33%">Revisor:</th>
+                                        <th align="center" width="33.33%">Fecha de revisión:</th>
+                                        <th align="center" width="33.33%">Fecha de impresión:</th>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"><span t-field="o.p_id.responsable_revision_exp"/></td>
+                                        <td align="center"><span t-field="o.p_id.fecha_revisado_exp"/></td>
+                                        <td align="center"><span t-field="o.p_id.fecha_verificado_exp"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th align="center" width="33.33%">No. Contrato:</th>
+                                        <th align="center" width="33.33%">Contratista:</th>
+                                        <th align="center" width="33.33%">Tipo:</th>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"><span t-field="o.p_id.nombre_contrato"/></td>
+                                        <td align="center"><span t-field="o.p_id.contratista"/></td>
+                                        <td align="center"><span t-field="o.p_id.tipo_obra"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="33.33%" align="center">Monto c/IVA:</th>
+                                        <th width="33.33%" align="center">Ejercicio:</th>
+                                        <th width="33.33%" align="center">Unidad:</th>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"><span t-field="o.p_id.total_civa"/></td>
+                                        <td align="center"><span t-field="o.p_id.ejercicio"/></td>
+                                        <td align="center"><span t-field="o.p_id.unidadresponsableejecucion"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                         </div>
+
+                          <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                         <div><b>ENTREGAS:</b></div>
+
+                          <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+
+                        <div style="border:1px solid #eee; margin-top:5px;">
+                            <table width="100%" border="1" cellpadding="3" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <th>Numero de documento</th>
+                                        <th>Nombre del documento</th>
+                                        <th>Etapa</th>
+                                        <!--th>Aplica</th>
+                                        <th>Existe</th-->
+                                        <th>Comentarios</th>
+                                    </tr>
+                                    <tr t-foreach="o.entrega_doc_checklist" t-as="l">
+                                        <td><span t-field="l.numero_documento"/></td>
+                                        <td><span t-field="l.documento.nombre_documento"/></td>
+                                        <td><span t-field="l.etapa"/></td>
+                                        <!--td><span t-field="l.aplica"/></td>
+                                        <td><span t-field="l.existe"/></td-->
+                                        <td><span t-field="l.comentario"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+
+                        <div style="margin-top:5px;">
+                            <table width="100%" border="0" cellpadding="3" cellspacing="0">
+                                <tbody><tr>
+                                    <th width="40%"><hr/></th>
+                                    <td width="20%">&#160;</td>
+                                    <td width="40%"><hr/></td>
+                                </tr>
+                                <tr>
+                                    <td align="center">Recibido</td>
+                                    <td align="center">&#160;</td>
+                                    <td align="center">Entregado</td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+
+                       <div class="footer">
+                            <hr/>
+                            <table width="100%">
+                                <tbody><tr>
+                                    <td align="left">pagina: <span class="page"/> / <span class="topage"/></td>
+                                    <td align="right">Fecha de Impresion: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></td>
+                                </tr>
+                                <tr>
+                                    <td align="left"></td>
+                                    <td align="right">Creado por: <span t-esc="user.name"/></td>
+                                </tr>
+                            </tbody></table>
+
+                           
+                        </div>
+
+                     </t>
+
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

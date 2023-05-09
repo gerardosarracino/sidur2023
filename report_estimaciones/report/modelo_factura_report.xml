@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_modelo_factura" >
+            <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="o">
+                     <t t-call="web.external_layout">
+
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+                         <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                        <style>
+                            .clearfix:after {
+                              content: "";
+                              display: table;
+                              clear: both;
+                            }
+
+                            a {
+                              color: #5D6975;
+                              text-decoration: underline;
+                            }
+
+                            body {
+                              position: relative;
+                              width: 21cm;
+                              height: 29.7cm;
+                              margin: 0 auto;
+                              color: #001028;
+                              background: #FFFFFF;
+                              font-family: Arial, sans-serif;
+                              font-size: 9px;
+                              font-family: Arial;
+                            }
+
+                            header {
+                              padding: 10px 0;
+                              margin-bottom: 30px;
+                            }
+
+                            #logo {
+                              text-align: center;
+                              margin-bottom: 10px;
+                            }
+
+                            #logo img {
+                              width: 90px;
+                            }
+
+                            h1 {
+                              border-top: 1px solid  #5D6975;
+                              border-bottom: 1px solid  #5D6975;
+                              color: #5D6975;
+                              font-size: 2.4em;
+                              line-height: 1.4em;
+                              font-weight: normal;
+                              text-align: center;
+                              margin: 0 0 20px 0;
+                              background: url(dimension.png);
+                            }
+
+                            #project {
+                              float: left;
+                            }
+
+                            #project span {
+                              color: #5D6975;
+                              text-align: right;
+                              width: 52px;
+                              margin-right: 10px;
+                              display: inline-block;
+                              font-size: 0.8em;
+                            }
+
+                            #company {
+                              float: right;
+                              text-align: right;
+                            }
+
+                            #project div,
+                            #company div {
+                              white-space: nowrap;
+                            }
+
+                            table {
+                              width: 100%;
+                              height: 80%;
+                              border-collapse: collapse;
+                              border-spacing: 0;
+                              margin-bottom: 20px;
+                            }
+
+                            table tr:nth-child(2n-1) td {
+                              background: #F5F5F5;
+                            }
+
+                            table th,
+                            table td {
+                              text-align: center;
+                            }
+
+                            table th {
+                              padding: 5px 20px;
+                              color: #4d5863;
+                              border-bottom: 1px solid #C1CED9;
+                              white-space: nowrap;
+                              font-weight: bold;
+                              font-size: 12px;
+                            }
+
+                            table .service,
+                            table .desc {
+                              text-align: left;
+                            }
+
+                            table td {
+                              padding: 10px;
+                              text-align: right;
+                            }
+
+                            table td.service,
+                            table td.desc {
+                              vertical-align: top;
+                            }
+
+                            table td.unit,
+                            table td.qty,
+                            table td.total {
+                              font-size: 1.2em;
+                            }
+
+                            table td.grand {
+                              border-top: 1px solid #5D6975;;
+                            }
+
+                            #notices .notice {
+                              color: #5D6975;
+                              font-size: 1.2em;
+                            }
+
+                            footer {
+                              color: #5D6975;
+                              width: 100%;
+                              height: 30px;
+                              position: absolute;
+                              bottom: 0;
+                              border-top: 1px solid #C1CED9;
+                              padding: 8px 0;
+                              text-align: center;
+                            }
+                        </style>
+
+                  <body>
+                    <header class="clearfix">
+                      <div id="logo">
+                      </div>
+                      <h1> <b><span t-field="o.contratista_contrato"/></b> </h1>
+                      <div id="company" class="clearfix">
+                        <div>Factura No. 00001</div>
+                        <div>Fecha<br /> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>  </div>
+                      </div>
+                      <div id="project">
+                        <div><span>NOMBRE: </span> SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO </div>
+                        <div><span>DIRECCION</span> </div>
+                        <div><span>CIUDAD</span> </div>
+                        <div><span>RFC</span> </div>
+                      </div>
+                    </header>
+                    <main>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th class="service">CANTIDAD</th>
+                            <th class="desc">DESCRIPCION</th>
+                            <th>&#160;</th>
+                            <th>P. UNITARIO</th>
+                            <th>IMPORTE</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="service"></td>
+
+                            <td class="desc">
+
+                                PAGO DE ESTIMACION No. <span t-field="o.idobra"/> DEL CONTRATO <span t-field="o.obra"/>
+                                RELATIVO A: <span t-field="o.obra.obra"/> CON
+                                INICIO DEL <span t-field="o.fecha_inicio_estimacion"/> Y CONCLUYE EL <span t-field="o.fecha_termino_estimacion"/>
+                            </td>
+
+                            <td class="qty">&#160;</td>
+                            <td class="qty">&#160;</td>
+                            <td class="total"><span t-field="o.estimacion_subtotal"/></td>
+                          </tr>
+
+                            <tr>
+                            <td class="service">&#160;</td>
+
+                            <td class="desc">
+                                IMPORTE ESTIMACION No. <span t-field="o.idobra"/>
+                            </td>
+
+                            <td class="qty"><span t-field="o.estimado"/></td>
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+                          </tr>
+
+                            <tr>
+                            <td class="service">&#160;</td>
+
+                            <td class="desc">
+                                AMORTIZACIÓN DE ANTICIPIO
+                            </td>
+
+                            <td class="qty"><span t-field="o.amort_anticipo"/></td>
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+                          </tr>
+
+                            <tr>
+                            <td class="service">&#160;</td>
+
+                            <td class="desc">
+                                SUBTOTAL
+                            </td>
+
+                            <td class="qty"><span t-field="o.estimacion_subtotal"/></td>
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+                          </tr>
+
+                            <tr>
+                            <td class="service">&#160;</td>
+
+                            <td class="desc">
+                                IVA
+                            </td>
+
+                            <td class="qty"><span t-field="o.estimacion_iva"/></td>
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+                          </tr>
+
+                             <tr>
+                            <td class="service">&#160;</td>
+
+                            <td class="desc">
+                                <b>TOTAL</b>
+                            </td>
+
+                            <td class="qty"><span t-field="o.estimacion_facturado"/></td>
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+                          </tr>
+
+                            <tr t-foreach="o.deducciones" t-as="l" >
+                                <td class="service">&#160;</td>
+
+                            <td><span t-field="l.name" class="float-left"/></td>
+                            <td align="right"><span t-field="l.valor"/></td>
+
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+
+                            </tr>
+
+                             <tr>
+                            <td class="service">&#160;</td>
+
+                            <td class="desc">
+                                <b>NETO A RECIBIR</b>
+                            </td>
+
+                            <td class="qty"><span t-field="o.a_pagar"/></td>
+                            <td class="qty">&#160;</td>
+                            <td class="total">&#160;</td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="4">SUBTOTAL</td>
+                            <td class="total">$<span t-field="o.estimacion_subtotal"/></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4">+ 16% I.V.A.</td>
+                            <td class="total">$<span t-field="o.estimacion_iva"/></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4" class="grand total">TOTAL:</td>
+                            <td class="grand total">$<span t-field="o.estimacion_facturado"/></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div id="notices">
+                        <div>CANT. CON LETRA:</div>
+                        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                      </div>
+                    </main>
+                  </body>
+                     </t>
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

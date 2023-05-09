@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="modelo_factura_report"
+            model="control.estimaciones"
+            string="Modelo Factura"
+            report_type="qweb-html"
+            paperformat="paperformat_estimacion"
+            print_report_name="object.ide_estimacion + '/' + 'Factura_' + object.obra.numero_contrato.contrato"
+            name="report_estimaciones.report_modelo_factura"
+        />
+
+         <record id="report_estimaciones.modelo_factura_report" model="ir.actions.report">
+            <field name="paperformat_id" ref="report_estimaciones.paperformat_estimacion"/>
+        </record>
+
+    </data>
+</odoo>

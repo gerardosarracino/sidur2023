@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_estimaciones_tramite" >
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+
+                        <style>
+                            span.cls_002{font-family:"DejaVu Sans Condensed",serif;font-size:12.4px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+                            div.cls_002{font-family:"DejaVu Sans Condensed",serif;font-size:12.4px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+                            span.cls_003{font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.4px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+                            div.cls_003{font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.4px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+                            span.cls_004{font-family:"DejaVu Sans Condensed",serif;font-size:7.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+                            div.cls_004{font-family:"DejaVu Sans Condensed",serif;font-size:7.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+                            #header {
+                            text-align: center;
+                            border-bottom: 1px solid #666;
+                            padding-bottom: 3px;
+                            }
+                        </style>
+
+                        <body>
+
+                            <div id="header" style="position:relative;">
+
+                                <div valign="top" align="right">
+                                    <p> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" /> </p>
+                                </div>
+
+                            </div>
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">AUTORIZACIÓN DE RECURSO</span>
+                            </div>
+
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:20%;">
+                                    <span t-field="o.obra.recursos.name.name" class="cls_002" style="text-align: center;"/>
+                                </div>
+                            </div>
+
+                            &#160;
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">CLAVE PRESUPUESTAL</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <table align="center"  width="80%" cellpadding="1" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="33.33%" align="center" style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;">
+
+                                                 <span t-field="o.area_funcional" class="cls_002"/>
+                                            </td>
+                                            <td width="33.33%" style="border-top: thin solid; border-bottom: thin solid;">
+                                                <span t-field="o.pospre" class="cls_002"/>
+                                            </td>
+                                            <td width="33.33%" style="border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;">
+                                                <span t-field="o.fondo" class="cls_002"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="cls_002">ÁREA FUNCIONAL</span></td>
+                                            <td><span class="cls_002">POSPRE</span></td>
+                                            <td><span class="cls_002">FONDO</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            &#160;
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">NÚMERO DE OBRA</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:20%;">
+                                    <span class="cls_002" style="text-align: center;" t-field="o.clave_obra"/>
+                                </div>
+                            </div>
+
+                            &#160;
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">TIPO DE CONTRATO</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:20%;">
+                                    <span class="cls_002" style="text-align: center;" t-field="o.tipobra_contrato"/>
+                                </div>
+                            </div>
+
+                            &#160;
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">NOMBRE DE LA OBRA</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:80%;">
+                                    <span t-field="o.obra.obra" class="cls_002" style="text-align: center;"/>
+                                </div>
+                            </div>
+
+                            &#160;
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">NÚMERO DE CONTRATO</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:20%;">
+                                    <span class="cls_002" style="text-align: center;" t-field="o.numero_contrato"/>
+                                </div>
+                            </div>
+                            &#160;
+
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">ESTIMACIÓN</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:20%;">
+                                    <span class="cls_002" style="text-align: center;">EST. &#160;</span>
+                                    <span class="cls_002" style="text-align: center;" t-field="o.idobra"/>
+                                </div>
+                            </div>
+                            &#160;
+                            <div align="center" style="text-align: center;">
+                                <span class="cls_003">PROVEEDOR</span>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin: 0 auto; border:thin solid;width:80%;">
+                                    <span t-field="o.contratista_contrato" class="cls_002" style="text-align: center;"/>
+                                </div>
+                            </div>
+
+                            &#160;
+                            &#160;
+
+                            <div id="datosObra" style="margin-top:10px;">
+                                <table width="100%" cellpadding="3" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody>
+
+                                        <tr>
+                                            <th  width="10%" >&#160;</th>
+                                            <th  width="30%" align="center" valign="middle" style="text-align: center;"><span class="cls_002">SALDOS DE CONTRATO</span></th>
+                                            <th  width="20%" align="center" valign="middle" style="text-align: center;">&#160;</th>
+                                            <th  width="30%" align="center" valign="middle" style="text-align: center;"><span class="cls_002">MONTOS DE PEDIDO</span></th>
+                                            <th  width="10%" >&#160;</th>
+                                        </tr>
+                                        <tr>
+                                            <th>&#160;</th>
+                                            <th>&#160;</th>
+                                            <th >&#160;</th>
+                                            <th >&#160;</th>
+                                            <th >&#160;</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" cellpadding="3" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody>
+                                        <tr><td width="10%">&#160;</td>
+                                            <td width="16%"><span class="cls_002">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160; CONTRATO</span> </td>
+
+                                            <td width="16%" style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;" align="right" valign="right">
+                                                <span class="cls_002" t-field="o.obra.total"/> </td>
+                                            <td width="16%" >&#160;</td>
+                                            <td width="16%" ><span class="cls_002">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160; ESTIMADO</span> </td>
+
+                                            <td width="16%"   style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;" align="right" valign="right">
+                                                <span t-field="o.estimado" class="cls_002" t-options='{"widget": "float", "precision": 2}'/>	</td>
+                                            <td width="10%">&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#160;</td>
+                                            <td> <span class="cls_002">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160;EJERCIDO</span>     </td>
+                                            <td  style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;" align="right" valign="right">
+                                                <span t-field="o.acum_total" t-options='{"widget": "float", "precision": 2}' class="cls_002"/>
+                                           	</td>
+                                            <td >&#160;</td>
+                                            <td ><span class="cls_002">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160;AMORT.</span> </td>
+                                            <td style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;" align="right" valign="right">
+                                            <span t-field="o.amort_anticipo" t-options='{"widget": "float", "precision": 2}' class="cls_002"/>	</td>
+                                            <td >&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#160;</td>
+                                            <td><span class="cls_004">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160;(INCLUYE ESTA ESTIMACIÓN)</span></td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>&#160;</td>
+                                            <td><span class="cls_002">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160;SALDO</span> </td>
+                                            <td style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;" align="right" valign="right">
+                                                <span t-field="o.saldo_contrato" t-options='{"widget": "float", "precision": 2}' class="cls_002"/>	</td>
+                                            <td>&#160;</td>
+                                            <td><span class="cls_002">&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                &#160;&#160;&#160;&#160;&#160;&#160;&#160;NETO</span></td>
+                                            <td style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;
+                                                border-right: thin solid;" align="right" valign="right">
+                                                <span t-field="o.a_pagar" t-options='{"widget": "float", "precision": 2}' class="cls_002"/>
+                                            </td>
+                                            <td>&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                            <td>&#160;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            &#160;
+                            <div id="footer">
+                                <div align="center" style="text-align: center;" class="cls_003"><span class="cls_003">A T E N T A M E N T E</span></div>
+                                &#160;
+                                <div align="center" style="text-align: center;" class="cls_002">
+                                <span t-field="o.subdirector_contrato" class="cls_002"/>	</div>
+                                <div align="center" style="text-align: center;" class="cls_002"><span class="cls_002">____________________________</span></div>
+                                <div align="center" style="text-align: center;" class="cls_002"><span class="cls_002">DIRECTOR GENERAL DE EJECUCIÓN DE OBRAS</span></div>
+                                <p style="page-break-before:always;"> </p>
+
+
+                                <div style="clear:both; height:1%;"></div>
+                            </div>
+
+
+                        </body>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

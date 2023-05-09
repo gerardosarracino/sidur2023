@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="galeria_env.list">
+      <field name="name">galeria_env list</field>
+      <field name="model">galeria_env.galeria_env</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="galeria_env.action_window">
+      <field name="name">galeria_env window</field>
+      <field name="res_model">galeria_env.galeria_env</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="galeria_env.action_server">
+      <field name="name">galeria_env server</field>
+      <field name="model_id" ref="model_galeria_env_galeria_env"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="galeria_env" id="galeria_env.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="galeria_env.menu_1" parent="galeria_env.menu_root"/>
+    <menuitem name="Menu 2" id="galeria_env.menu_2" parent="galeria_env.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="galeria_env.menu_1_list" parent="galeria_env.menu_1"
+              action="galeria_env.action_window"/>
+    <menuitem name="Server to list" id="galeria_env" parent="galeria_env.menu_2"
+              action="galeria_env.action_server"/>
+    -->
+  </data>
+</odoo>

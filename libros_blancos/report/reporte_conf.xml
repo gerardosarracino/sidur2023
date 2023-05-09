@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="reporte"
+            model="libros.blancos"
+            string="Estatus Expediente"
+            report_type="qweb-html"
+            paperformat="libros_blancos.paperformat_libros"
+            name="libros_blancos.reportex"
+            print_report_name="'Estatus_Expediente /' + object.nombre_contrato"
+            menu="False"
+        />
+
+      
+    </data>
+</odoo>

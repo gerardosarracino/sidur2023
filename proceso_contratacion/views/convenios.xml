@@ -1,0 +1,257 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="proceso_convenios">
+          <field name="name">proceso.convenios_modificados.form</field>
+          <field name="model">proceso.convenios_modificado</field>
+          <field name="arch" type="xml">
+            <form>
+                <header>
+              <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_convenio', '=', 'borrador')]}"/>
+              <button string="Confirmar" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_convenio','=','confirmado'),('estatus_convenio','=','validado')]}"/>
+              <button string="Validar" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_convenio','!=','confirmado'),('estatus_convenio','=','validado')]}"/>
+              <field name="estatus_convenio" widget="statusbar"/>
+          </header>
+                <sheet>
+                    <group>
+                       <group string="Convenios Modificatorios" colspan="2" col="2">
+                           <field name="contrato" force_save="1" invisible="1"/>
+                           <field name="contrato_contrato" force_save="1"/>
+                           <field name="nombre_contrato" invisible="1" force_save="1"/>
+                           <field name="name_convenios" class="oe_inline" invisible="1"/>
+                       </group>
+                       <group colspan="2" col="4">
+                           <field name="fecha_convenios" class="oe_inline"/>
+                           <field name="fecha_dictamen" class="oe_inline"/>
+                       </group>
+                       <group colspan="2" col="2">
+                           <field name="referencia" class="oe_inline"/>
+                       </group>
+                        <group colspan="2" col="4">
+                           <field name="convenio_fecha_fianza" class="oe_inline"/>
+                           <field name="convenio_numero_fianza" class="oe_inline"/>
+                           <field name="convenio_afianzadora" class="oe_inline"/>
+                           <field name="convenio_monto_afianzadora" class="oe_inline"/>
+                        </group>
+                        <group colspan="2" col="2">
+                            <field name="observaciones"/>
+                        </group>
+
+                    </group>
+
+                    <group string="">
+                            <field name="tipo_convenio" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <hr/>
+                               <!-- PLAZO -->
+                           <group string="Plazo" attrs="{'invisible': [('tipo_convenio','!=', 'PL')]}" colspan="2" col="2">
+                           <field name="plazo_fecha_inicio" class="oe_inline"/>
+                           <field name="plazo_fecha_termino" class="oe_inline"/>
+                           </group>
+
+                                <!-- OBJETO -->
+                           <group string="Objeto" attrs="{'invisible': [('tipo_convenio','!=', 'OB')]}" colspan="2" col="2">
+                           <field name="objeto_nuevo_objeto" nolabel="1" class="oe_inline"/>
+                           </group>
+
+                           <!-- MONTO -->
+                           <group string="Monto" attrs="{'invisible': [('tipo_convenio','!=', 'MT')]}" colspan="2" col="2">
+                           <field name="tipo_monto" class="oe_inline"/>
+                           <field name="monto_importe" class="oe_inline" />
+                           <field name="monto_iva" />
+                           <field name="monto_total" />
+                           </group>
+
+                           <!-- MONTO/PLAZO -->
+                           <group string="Monto/Plazo" attrs="{'invisible': [('tipo_convenio','!=', 'BOTH')]}" >
+                               <group colspan="2" col="4">
+                                    <field name="plazo_fecha_inicio" class="oe_inline"/>
+                                    <field name="plazo_fecha_termino" class="oe_inline"/>
+                               </group>
+                               <group colspan="2" col="2">
+                                   <field name="tipo_monto" class="oe_inline"/>
+                                   <field name="monto_importe" class="oe_inline" />
+                                   <field name="monto_iva" />
+                                   <field name="monto_total" />
+                               </group>
+                           </group>
+                </sheet>
+            </form>
+          </field>
+        </record>
+
+    <record model="ir.ui.view" id="proceso_convenios_modificado_search">
+         <field name="name">convenios modificados</field>
+         <field name="model">proceso.convenios_modificado</field>
+         <field name="arch" type="xml">
+            <search>
+                   <field name="contrato"/>
+                   <field name="contrato_contrato"/>
+                <field name="nombre_contrato"/>
+                   <field name="fecha_convenios"/>
+                   <field name="referencia"/>
+                   <field name="observaciones"/>
+
+                   <field name="tipo_convenio"/>
+                   <field name="monto_total" string="Monto"/>
+                   <field name="plazo_fecha_inicio" />
+                   <field name="plazo_fecha_termino" />
+            </search>
+         </field>
+     </record>
+
+     <!-- tree view -->
+    <record model="ir.ui.view" id="proceso_convenios_modificados_tree">
+      <field name="name">proceso.convenios_modificados.tree</field>
+      <field name="model">proceso.convenios_modificado</field>
+      <field name="arch" type="xml">
+        <tree>
+           <field name="contrato"/>
+           <field name="contrato_contrato" invisible="1"/>
+            <field name="nombre_contrato" invisible="1"/>
+           <field name="fecha_convenios"/>
+           <field name="referencia"/>
+           <field name="observaciones"/>
+
+           <field name="tipo_convenio" widget="radio"/>
+           <field name="monto_total" string="Monto"/>
+           <field name="plazo_fecha_inicio" />
+           <field name="plazo_fecha_termino" />
+
+            <field name="create_uid"/>
+          <field name="create_date"/>
+        </tree>
+      </field>
+    </record>
+
+        <record id="proceso_convenios_modificados_search" model="ir.ui.view">
+           <field name="name">convenio search</field>
+           <field name="model">proceso.convenios_modificado</field>
+            <field name="arch" type="xml">
+                <search string="">
+               <field name="contrato"/>
+                <field name="contrato_contrato"/>
+                <field name="nombre_contrato"/>
+               <field name="fecha_convenios"/>
+               <field name="referencia"/>
+               <field name="observaciones"/>
+               <field name="tipo_convenio" />
+               <field name="monto_total" sum="TOTAL"/>
+               <field name="plazo_fecha_inicio" />
+               <field name="plazo_fecha_termino" />
+
+                    <field name="create_uid"/>
+          <field name="create_date"/>
+            </search>
+           </field>
+        </record>
+
+
+    <record model="ir.actions.act_window" id="proc_convenios_action_window">
+      <field name="name">Convenios</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.convenios_modificado</field>
+      <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('proceso_convenios_modificados_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('proceso_convenios')})]"/>
+    </record>
+
+
+    <!--Partidas -->
+    <record model="ir.ui.view" id="conve_programa_tree">
+      <field name="name">proceso.elaboracion_contrato.tree3</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false" default_order="obra desc">
+            <field name="fecha"/>
+            <field name="nombre_partida"/>
+            <field name="obra"/>
+            <field name="programaInversion"/>
+            <field name="ejercicio"/>
+            <field name="total" string="Monto contratado/sIva"/>
+            <field name="count_convenios_modif" string="# Convenios"/>
+        </tree>
+      </field>
+    </record>
+
+        <!-- CONVENIOS EN PROCESO DE CONTRATACION -->
+    <record model="ir.ui.view" id="conve_programa_form">
+      <field name="name">Ruta critica</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <form create="false" edit="false" delete="false">
+            <sheet>
+                    <div class="text-center"> <!-- class="oe_button_box oe_read_only" name="button_box" -->
+                         <button  type="object" name="convenios_views" icon="fa-list-alt"
+                         class="btn btn-outline-primary btn-lg btn-block">
+                            <span><field name="count_convenios_modif"/> Convenios modificatorios</span>
+                         </button>
+                     </div>
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+                        <p>&#160;</p>
+
+                        <div>
+                            <b>Nombre de la Obra: </b>
+                        </div>
+                        <group>
+
+                            <field name="obra" nolabel="1" readonly="1"/>
+                            <field name="numero_contrato" nolabel="1" readonly="1"/>
+                        </group>
+                            <hr/>
+                        <group colspan="2" col="5" context="{'default_ejercicio': obra.id}">
+                            <b>Programa</b>
+                            <b>Ejercicio</b>
+                            <b>Monto</b>
+                            <b>Municipio</b>
+                            <b>Localidad</b>
+                        </group>
+                        <group colspan="2" col="6">
+                            <field name="programaInversion" readonly="True" string="" nolabel="1"/>
+                            <field name="ejercicio" string="" nolabel="1" readonly="1"/>
+                            <field name="total_partida" widget="monetary" string="" nolabel="1" readonly="1"/>
+                            <field name="municipio" string="" nolabel="1" readonly="1"/>
+                            <field name="localidad" string="" nolabel="1"/>
+                        </group>
+                          <hr/>
+                        <group colspan="2" col="5">
+                            <b>Fecha del Anticipo</b>
+                            <b>Fecha del contrato</b>
+                            <b>Fecha de Inicio Contractual</b>
+                            <b>Fecha de Termino Contractual</b>
+                            <b>Supervision Externa</b>
+                        </group>
+
+                        <group colspan="2" col="6">
+                          <field name="fecha_anticipos" readonly="1" string="" nolabel="1"/>
+                          <field name="fecha" string="" nolabel="1"/>
+                          <field name="fechainicio" string="" nolabel="1"/>
+                          <field name="fechatermino" string="" nolabel="1"/>
+                          <field name="supervisionexterna1" string="" nolabel="1"/>
+                  </group>
+              </sheet>
+            </form>
+          </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="conve_programa_record">
+          <field name="name">CONVENIOS MODIFICATORIOS</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">partidas.partidas</field>
+          <field name="target">current</field>
+          <field name="view_mode">tree</field>
+         <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('conve_programa_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('conve_programa_form')})]"/>
+        </record>
+
+
+
+
+
+     <menuitem name="Convenios modificatorios" id="convenios_obra" parent="proc_contratacion_menu_root"
+              action="conve_programa_record" sequence="5"/>
+
+    </data>
+</odoo>

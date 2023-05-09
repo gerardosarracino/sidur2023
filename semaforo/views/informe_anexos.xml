@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+
+      <record id="anexos_form" model="ir.ui.view">
+          <field name="name">Anexos reporte</field>
+          <field name="model">reportes.anexos</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <button string="Imprimir reporte Anexo 1" name="imprimir_accion_excel_anexop1" type="object"
+                                icon="fa-book" class="btn btn-outline-success"/>
+
+                      <button string="Imprimir reporte Anexo 2" name="imprimir_accion_excel_anexop2" type="object"
+                                icon="fa-book" class="btn btn-outline-success"/>
+
+                      <button string="Imprimir reporte Anexo 3" name="imprimir_accion_excel_anexop3" type="object"
+                                icon="fa-book" class="btn btn-outline-success"/>
+
+                      <button string="Imprimir reporte Anexo 4" name="imprimir_accion_excel_anexop4" type="object"
+                                icon="fa-book" class="btn btn-outline-success"/>
+
+                      <button string="Imprimir reporte Anexo 7" name="imprimir_accion_excel_anexop7" type="object"
+                                icon="fa-book" class="btn btn-outline-success"/>
+
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="anexos_reporte_action_window">
+      <field name="name">Reporte Anexos</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">reportes.anexos</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+       <menuitem name="Reportes Anexos" id="informe_anexo_menu" parent="semaforo.menu_root"
+                              action="anexos_reporte_action_window" sequence="9"/>
+
+  </data>
+</odoo>

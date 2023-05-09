@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <data>
+            <record id="reporte_audisaf" model="ir.actions.act_window">
+                <field name="name">Auditoría</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">partidas.partidas</field>
+                <field name="view_mode">tree</field>
+                <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('reporte_tree')})]"/>
+            </record>
+        </data>
+
+        <record id="reporte_tree" model="ir.ui.view">
+            <field name="name">Reporte</field>
+            <field name="model">partidas.partidas</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="clave_pep"/>
+                    <field name="obra"/>
+                    <field name="fecha"/>
+                    <field name="numero_contrato"/>
+                    <field name="numero_contrato" string="FALTA CONVENIO"/>
+                    <field name="total"/>
+                    <field name="contratista"/>
+                    <field name="programaInversion"/>
+                    <field name="a_fis"/>
+                    <field name="a_fin"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+
+        <menuitem id="action_reporte" name="Audisaf" parent="proc_contratacion_menu_root" action="reporte_audisaf"
+                  sequence="6"/>
+
+
+    </data>
+</odoo>

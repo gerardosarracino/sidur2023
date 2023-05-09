@@ -1,0 +1,68 @@
+<odoo>
+  <data>
+
+  <record model="ir.actions.act_window" id="test_action">
+    <field name="name">A Test Action</field>
+    <field name="res_model">partidas.partidas</field>
+    <field name="view_mode">graph</field>
+    <field name="view_id" ref="semaforo.semaforo_tree"/>
+</record>
+
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="powerpoint.list">
+      <field name="name">powerpoint list</field>
+      <field name="model">powerpoint.powerpoint</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="powerpoint.action_window">
+      <field name="name">powerpoint window</field>
+      <field name="res_model">powerpoint.powerpoint</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="powerpoint.action_server">
+      <field name="name">powerpoint server</field>
+      <field name="model_id" ref="model_powerpoint_powerpoint"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="powerpoint" id="powerpoint.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="powerpoint.menu_1" parent="powerpoint.menu_root"/>
+    <menuitem name="Menu 2" id="powerpoint.menu_2" parent="powerpoint.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="powerpoint.menu_1_list" parent="powerpoint.menu_1"
+              action="powerpoint.action_window"/>
+    <menuitem name="Server to list" id="powerpoint" parent="powerpoint.menu_2"
+              action="powerpoint.action_server"/>
+    -->
+  </data>
+</odoo>

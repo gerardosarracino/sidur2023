@@ -1,0 +1,319 @@
+<odoo>
+  <data>
+
+
+    <record id="filtro_search_expediente_revision" model="ir.ui.view">
+         <field name="name">Filtro de busqueda para Revision</field>
+         <field name="model">partidas.partidas</field>
+          <field name="arch" type="xml">
+             <search string="Busqueda en Partidas">
+             <filter name="group_nombre_programa" string="Programa de Inversion" context="{'group_by':'programaInversion'}"/>
+             <filter name="group_tipo_estado_obra" string="Estado Semaforo" context="{'group_by':'tipo_estado_obra'}"/>
+             <filter name="group_municipio" string="Municipio" context="{'group_by':'municipio'}"/>
+             <filter string="Responsable" name="responsable_revision_exp" context="{'group_by':'responsable_revision_exp'}" />
+
+
+            <separator/>
+            <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                 <separator orientation="vertical" />
+                 <filter string="2021" name="ejercicio" domain="[('ejercicio.name', '=', '2021')]" />
+            <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" /> 
+            <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+            <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+            <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+            <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+            <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+            <separator/>
+
+             <separator string="Tipo de la Obra"/>
+             <filter string=" --- Tipo de Obra ---" name="tipo_obra"/>
+                 <separator orientation="vertical" />
+             <filter string="OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'OBRA')]" />
+             <filter string="ESTUDIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ESTUDIOS')]" />
+             <filter string="EQUIPO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'EQUIPO')]" />
+             <filter string="PROYECTO" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'PROYECTO')]" />
+             <filter string="SUPERVISIÓN EXTERNA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SUPERVISIÓN EXTERNA')]" />
+             <filter string="REMODELACIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'REMODELACIÓN')]" />
+             <filter string="SERVICIOS" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'SERVICIOS')]" />
+             <filter string="VERIFICACIÓN ELÉCTRICA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'VERIFICACIÓN ELÉCTRICA')]" />
+             <filter string="CONTROL DE CALIDAD" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'CONTROL DE CALIDAD')]" />
+             <filter string="DIRECTOR RESPONSABLE DE OBRA" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'DIRECTOR RESPONSABLE DE OBRA')]" />
+             <filter string="ADQUISICIÓN" name="tipo_obra" domain="[('tipo_obra.tipo_obra', '=', 'ADQUISICIÓN')]" />
+             <separator/>
+
+             <separator string="Verificado/Revisado"/>
+                <filter string=" --- Verificado/Revisado ---" name="reviso_expediente"/>
+             <separator orientation="vertical" />
+              <filter string="Revisado" name="reviso_expediente" domain="[('reviso_expediente', '=', True)]" />
+              <filter string="Verificado" name="verificado_expediente" domain="[('verificado_expediente', '=', True)]" />
+
+              <field name="nombre_partida" string="Nombre de la Partida"/>
+              
+              
+              <field name="obra"/>
+               <field name="responsable_revision_exp"/>
+              <field name="reviso_expediente"/>
+              <field name="verificado_expediente"/>
+              <field name="nombre_contrato" string="Nombre del Contrato"/>
+
+              <field name="programaInversion"/>
+              <field name="contratista"/>
+              <field name="ejercicio"/>
+              <field name="municipio"/>
+              <field name="tipo_obra"/>
+              <field name="residente_obra"/>
+             </search>
+         </field>
+      </record>
+
+       <!--  action view      -->
+        <record id="entrega_documentos_action" model="ir.actions.act_window">
+            <field name="name">ENTREGA DE DOCUMENTOS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lb.entrega_documentos</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_p_id': active_id}</field>
+            <field name="domain">[('p_id','=', active_id)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Agregar Documentos
+              </p>
+            </field>
+        </record>
+
+    <report
+        id="reporte_entrega_qweb"
+        model="lb.entrega_documentos"
+        string="Reporte de Entrega"
+        report_type="qweb-html"
+        name="libros_blancos.reporte_entrega_qweb"
+        menu="False"
+        />
+
+        <!-- VISTA REVISION DOCUMENTOS -->
+    <record id="entrega_documetancion_vista_form" model="ir.ui.view">
+        <field name="name">Entrega de documentacion Form</field>
+        <field name="model">partidas.partidas</field>
+        <field name="arch" type="xml">
+            <form string="" create="false" delete="false" >
+
+                <sheet>
+                    <!--group>
+                        <button name="registro_entrega" type="object" string="Agregar Registro de Entrega" class="btn btn-info"
+                    style="float:right;" context="{'default_p_id': active_id, 'form_view_ref': 'entrega_documentos_checklist'}"/>
+
+                    </group-->
+
+                    <group>
+                        <button name="%(entrega_documentos_action)d" type="action" string="Ver/Agregar Registro de Entrega"
+                    style="float:right;" context="{'default_p_id': active_id}" class="btn btn-outline-primary btn-lg"
+                        icon="fa-pencil-square-o"/>
+                    </group>
+
+                    <group  colspan="2" col="4">
+                            <div>
+                            <b>Nombre de la Obra: </b>
+                        </div>
+                        <p>&#160;</p>
+                   </group>
+                    <group>
+                        <field name="obra" nolabel="1" readonly="1"/>
+                    </group>
+                    <group><div>
+                            <b>Contratista: </b>
+                        </div></group>
+                    <group>
+                        <field name="contratista" nolabel="1" readonly="1"/>
+                    </group>
+
+                            <hr/>
+                        <group colspan="2" col="5" context="{'default_ejercicio': obra.id}">
+                            <b>Programa</b>
+                            <b>Ejercicio</b>
+                            <b>Monto c/Iva</b>
+                            <b>Municipio</b>
+                            <b>Localidad</b>
+                        </group>
+                        <group colspan="2" col="6">
+                            <field name="programaInversion" readonly="True" string="" nolabel="1"/>
+                            <field name="ejercicio" string="" nolabel="1" readonly="1"/>
+                            <field name="total_partida" widget="monetary" string="" nolabel="1" readonly="1"/>
+                            <field name="municipio" string="" nolabel="1" readonly="1"/>
+                            <field name="localidad" string="" nolabel="1" readonly="1"/>
+                        </group>
+                          <hr/>
+                        <group colspan="2" col="5">
+                            <b>Fecha del Anticipo</b>
+                            <b>Fecha del contrato</b>
+                            <b>Fecha de Inicio Contractual</b>
+                            <b>Fecha de Termino Contractual</b>
+                            <b>Supervision Externa</b>
+                        </group>
+
+                        <group colspan="2" col="6">
+                          <field name="fecha_anticipos" readonly="1" string="" nolabel="1"/>
+                          <field name="fecha" string="" nolabel="1" readonly="1"/>
+                          <field name="fechainicio" string="" nolabel="1" readonly="1"/>
+                          <field name="fechatermino" string="" nolabel="1" readonly="1"/>
+                          <field name="supervisionexterna1" string="" readonly="1" nolabel="1" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/>
+                  </group>
+
+
+
+                    <group>
+
+                       <field name="tabla_libros_blancos" widget="one2many" nolabel="1" >
+                            <tree create="2" delete="2" >
+                                <field name="numero_documento" readonly="1"/>
+                                <field name="nombre_documento" readonly="1"/>
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                <field name="Observaciones"/>
+                                <field name="p_id" readonly="1" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="entrega_documetancion_vista_tree">
+      <field name="name">Entrega de documentacion Tree</field>
+      <field name="model">partidas.partidas</field>
+      <field name="arch" type="xml">
+        <tree create="false">
+            <field name="nombre_partida" string="# Contrato"/>
+            <field name="contratista" string="Contratista" />
+            <field name="obra" string="Obra"/>
+            <field name="fecha_revisado_exp"/>
+            <field name="fecha_verificado_exp"/>
+            <field name="responsable_revision_exp"/> 
+            <field name="tipo_contrato"/> 
+            <field name="reviso_expediente" />
+            <field name="verificado_expediente" />
+        </tree>
+      </field>
+    </record>
+
+      <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="entrega_documentacion_action">
+      <field name="name">ENTREGA DE DOCUMENTACIÓN</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">tree,form</field>
+       <field name="search_view_id" ref="filtro_search_expediente_revision"/>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('entrega_documetancion_vista_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('entrega_documetancion_vista_form')})]"/>
+    </record>
+
+
+      <!--record id="entrega_docs_checklist_form" model="ir.ui.view">
+            <field name="name">Entrega Documentos checklist</field>
+            <field name="model">lb.entrega_checklist</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+                        <group>
+                        </group>
+                        <field name="p_id" readonly="1" invisible="1" force_save="1"/>
+                        <group string="Entrega de Documento:" >
+                            <field name="numero_documento" readonly="1" force_save="1"/>
+                            <field name="nombre_documento" readonly="1" force_save="1"/>
+                        </group>
+                        <group col="4">
+                            <field name="aplica" force_save="1" readonly="1"/>
+                            <field name="existe" force_save="1" readonly="1"/>
+                            <field name="Observaciones" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="comentario" placeholder="Agregar Comentario..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record-->
+
+
+
+      <!--  Formulario de control de expediente  -->
+        <record id="entrega_documentos_checklist" model="ir.ui.view">
+            <field name="name">Documentos Checklist form</field>
+            <field name="model">lb.entrega_documentos</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                       <button name="%(reporte_entrega_qweb)d" string="REPORTE DE ENTREGA" type="action"  icon="fa-copy" />
+                    </header>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> REGISTRO DE ENTREGA:
+                            <field name="nombre_registro" readonly="1"/> </h3>
+                      </div>
+                  </div>
+
+                     <field name="p_id" readonly="1" force_save="1" invisible="1"/>
+
+                    <sheet>
+                         <div>
+                        <h1>
+                            <field name="id_entrega" readonly="1" force_save="1"/>
+                        </h1>
+                    </div>
+
+                        <group>
+                            <field name="fecha"/>
+                            <field name="comentarios_generales"/>
+                        </group>
+
+                        <group>
+                            <field name="entrega_doc_checklist"  nolabel="1" widget="one2many"
+                            context="{'default_p_id': p_id}">
+                                <tree editable="bottom">
+                                    <field name="documento" />
+                                    <field name="comentario" placeholder="AGREGAR COMENTARIO..."/>
+
+
+                                    <field name="numero_documento" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="nombre_documento" readonly="1" force_save="1" invisible="1"/>
+                                    <field name="etapa" force_save="1" readonly="1" invisible="1"/>
+                                    
+                                </tree>
+                            </field>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!--  vista tree -->
+        <record id="entraga_documentos_tree" model="ir.ui.view">
+            <field name="name">Entrega de documentos tree</field>
+            <field name="model">lb.entrega_documentos</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_entrega" string="ID"/>
+                    <field name="fecha"/>
+                    <field name="p_id" string="Contrato"/>
+                    <field name="nombre_registro" string="Entrega"/>
+
+                    <field name="entrega_doc_checklist" string="#"/>
+                    <field name="comentarios_generales"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+      <!--menuitem name="Entrega de documentación" id="entrega_documentacion_menuitem"
+              parent="revision_expedientes_menu"
+              action="entrega_documentacion_action" sequence="3"/-->
+
+  </data>
+</odoo>

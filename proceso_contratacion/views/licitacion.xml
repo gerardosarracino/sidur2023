@@ -1,0 +1,957 @@
+<odoo>
+  <data>
+    <!-- PARTICIPANTES FORM -->
+    <record model="ir.ui.view" id="proceso_participantes_form">
+          <field name="name">proceso.participantes.form</field>
+          <field name="model">proceso.participante</field>
+          <field name="arch" type="xml">
+            <form>
+                <h2>Licitantes participantes</h2>
+                <sheet>
+                <group class="text-right">
+
+                        <button name="ver_contratistas" type="object" string="VER/AGREGAR CONTRATISTAS" class="btn btn-outline-primary btn-lg"
+                        icon="fa-pencil-square-o"/>
+                    </group>
+                    <group>
+                       <group colspan="2" col="2">
+                           <field name="numerolicitacion" invisible="1" />
+
+                           <field name="contratista_participantes"  options="{'no_open':True, 'no_create': True, 'no_create_edit':True, 'not_delete': True}">
+                               <tree edit="0" >
+                                   <field name="name"/>
+                               </tree>
+                           </field>
+                       </group>
+                    </group>
+                </sheet>
+                </form>
+              </field>
+        </record>
+
+      <!-- aclaraciones -->
+      <record id="proceso_aclaraciones_form" model="ir.ui.view">
+          <field name="name">Aclaraciones</field>
+          <field name="model">proceso.contra_aclaraciones</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <div class="panel panel-default">
+                  <div class="panel-body">
+                    <h3 colspan="2" align="center"> Preguntas del Licitante</h3>
+                  </div>
+              </div>
+
+                  <sheet>
+                      <group colspan="2" col="4">
+                          <field name="name" readonly="1"/>
+                          <field name="asiste"/>
+                          <field name="nombre_representante" readonly="1"/>
+                          <field name="correo" readonly="1"/>
+                      </group>
+                      <group>
+                          <field name="preguntas" widget="one2many" >
+                              <tree editable="bottom">
+                                  <control>
+                                      <create string="Agregar Preguntas" />
+                                  </control>
+                                  <field name="pregunta"/>
+                                  <field name="respuesta"/>
+                              </tree>
+                          </field>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <!-- PROPUESTA -->
+      <record id="proceso_propuesta_form" model="ir.ui.view">
+          <field name="name">Propuesta</field>
+          <field name="model">proceso.contra_propuestas</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> Propuesta del Licitante:
+                            <field name="name" readonly="1"/> </h3>
+                      </div>
+                  </div>
+                  <sheet>
+                      <group>
+                          <field name="numerolicitacion" readonly="1" invisible="1"/>
+                          <field name="id_eventos" force_save="1" invisible="1"/>
+                      </group>
+                      <group colspan="2" col="6">
+                            <field name="asiste"/>
+                            <field name="completa"/>
+                            <field name="revision"/>
+                      </group>
+                      <group>
+                          <field name="programar_obra_licitacion2" nolabel="1" widget="one2many" >
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="licitacion_id" force_save="1" invisible="1"/>
+                                    <field name="obra" force_save="1" />
+                                    <field name="recursos" string="Obras que pertenecen a esta licitación" invisible="1"/>
+                                    <field name="monto_partida" />
+                                    <field name="programaInversion" invisible="1" force_save="1"/>
+                                    <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar este registro?" />
+
+                                </tree>
+                          </field>
+                      </group>
+                      <group colspan="2" col="2">
+                          <field name="monto" force_save="1"/>
+                          <field name="observaciones"/>
+                      </group>
+                      <b>Resultado De La Revisión</b>
+                      <group>
+                          <field name="paso"/>
+                          <field name="posicion"/>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <!-- FALLO -->
+      <record id="proceso_fallo_form" model="ir.ui.view">
+          <field name="name">Fallo</field>
+          <field name="model">proceso.contra_fallo</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> Fallo:  <field name="name" readonly="1"/> </h3>
+                      </div>
+                  </div>
+                <field name="id_eventos" readonly="1" />
+                  <sheet>
+                      <group colspan="2" col="4">
+                          <field name="numerolicitacion" readonly="1"/>
+                          <field name="posicion" readonly="1" force_save="1"/>
+                      </group>
+                      <group colspan="2" col="4">
+                          <field name="asiste"/>
+                          <field name="ganador" force_save="1"/> <!-- attrs="{'readonly': [('contador_ganador','=', 1)]}" -->
+                      </group>
+                      <group>
+                          <field name="observaciones"/>
+                          <field name="contador_ganador" invisible="1"/>
+                      </group>
+                      <group >
+                          <field name="monto" force_save="1"/>
+                      </group>
+                      <group colspan="2" col="4">
+                          <field name="puntos_tecnicos"/>
+                          <field name="puntos_economicos"/>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+        <!-- DATOS GENERALES DEL FALLO -->
+      <record id="proceso_fallo_datos_form" model="ir.ui.view">
+          <field name="name">Fallo Datos</field>
+          <field name="model">proceso.datos_fallo</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> Datos generales de la Licitación: <field name="numerolicitacion"/></h3>
+                      </div>
+                  </div>
+                  <sheet>
+                          <field name="id_eventos" force_save="1"/>
+
+                      <group string="Datos Generales Del Fallo" colspan="2" col="4">
+                          <field name="ganador"/>
+                          <field name="fecha_fallo"/>
+                          <field name="hora_inicio_f"/>
+                          <field name="hora_termino_f"/>
+                          <field name="hora_inicio_o"/>
+                          <field name="hora_termino_o"/>
+                          <field name="plazo"/>
+                          <field name="hora_antes_firma"/>
+                          <field name="fecha_fcontrato"/>
+                      </group>
+
+                      <field name="relacion_concepto_ofi" />
+                      <group colspan="2" col="4">
+                          <field name="importe_ganador"/>
+                          <field name="iva"/>
+                          <field name="total_contratado"/>
+                      </group>
+                      <group string="Definición de recursos específicos para el contrato">
+                          <field name="recursos" domain="[('concepto', '=', relacion_concepto_ofi)]">
+                              <tree>
+                                  <field name="concepto" invisible="1"/>
+                                  <field name="name"/>
+                                  <field name="claveobra"/>
+                                  <field name="federal"/>
+                                  <field name="estatal"/>
+                                  <field name="municipal"/>
+                                  <field name="otros"/>
+                                  <field name="total_ca"/>
+                                  <field name="total1" sum="Ttotal"/>
+                              </tree>
+                          </field>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <!-- FORM EVENTOS -->
+   <record model="ir.ui.view" id="proceso_eventos_form">
+          <field name="name">proceso.eventos.form</field>
+          <field name="model">proceso.eventos_licitacion</field>
+          <field name="arch" type="xml">
+            <form>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <h3 colspan="2" align="center"> Eventos de la Licitación</h3>
+                  </div>
+              </div>
+
+                <sheet>
+                    <group>
+                        <h4>Licitación: <field name="numerolicitacion_evento" force_save="1"/></h4>
+                        <field name="aux" invisible="1"/>
+                    </group>
+
+                    <group>
+                        <button name="llenar_evento" type="object" string="ACTUALIZAR TABLAS"
+                                           class="btn btn-outline-primary btn-lg"/>
+                    </group>
+
+                    <group>
+                        <notebook>
+                            <page string="Visita de Obra">
+                                <group colspan="2" col="2">
+
+                                   <field name="contratista_participantes" widget="one2many" nolabel="1" colspan="4" force_save="1">
+                                       <tree create="false" editable="bottom" delete="false">
+                                           <field name="asiste"/>
+                                           <field name="name" readonly="1" force_save="1"/>
+                                           <field name="nombre_representante" readonly="1" force_save="1"/>
+                                           <field name="correo" readonly="1" force_save="1"/>
+                                           <button name="button_method_name" type="object" string="Generar Constancia Individual"
+                                           class="btn btn-primary"/>
+
+                                           
+                                          <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar este registro?" style="float:right;"/>
+                       
+                                       </tree>
+                                   </field>
+
+                               </group>
+                            </page>
+
+                            <page string="Junta de Aclaraciones">
+                                <group colspan="2" col="2">
+                                    <field name="contratista_aclaraciones" nolabel="1" widget="one2many" force_save="1">
+                                       <tree create="false" editable="bottom" delete="false">
+                                           <field name="asiste"/>
+                                           <field name="name" readonly="1" force_save="1"/>
+                                           <field name="nombre_representante" readonly="1" force_save="1"/>
+                                           <field name="correo" readonly="1" force_save="1"/>
+                                           <button name="aclaraciones" type="object" string="Preguntas del Licitante"
+                                           class="btn btn-primary"/>
+
+                                            <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar este registro?" style="float:right;"/>
+                                       </tree>
+                                   </field>
+                               </group>
+                            </page>
+
+                            <page string="Apertura de Propuestas">
+
+                                <!--field name="programar_obra_licitacion2" nolabel="1" widget="one2many" >
+                                <tree editable="bottom" >
+                                    <field name="licitacion_id" force_save="1" invisible="1"/>
+                                    <field name="recursos" string="Obras que pertenecen a esta licitación" />
+                                    <field name="monto_partida" />
+                                </tree>
+                          </field-->
+
+                                <group colspan="2" col="2">
+                                    <field name="contratista_propuesta" nolabel="1">
+                                       <tree create="false" delete="false">
+                                           <field name="numerolicitacion" invisible="1"/>
+                                           <field name="name"/>
+                                           <field name="monto"/>
+                                           <field name="asiste"/>
+                                           <field name="completa"/>
+                                           <field name="revision"/>
+                                           <field name="puntos_tecnicos"/>
+                                           <field name="puntos_economicos"/>
+                                           <field name="paso"/>
+                                           <field name="aux" invisible="1" force_save="1"/>
+                                           <field name="posicion"/>
+                                           <button name="propuestas" type="object" string="Propuesta del Licitante"
+                                           class="btn btn-primary"/>
+
+                                            <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar este registro?" style="float:right;"/>
+                                       </tree>
+                                   </field>
+                               </group>
+                            </page>
+
+                            <page string="Fallo">
+                                <group colspan="2" col="2">
+                                    <field name="contratista_fallo" nolabel="1" force_save="1" >
+                                       <tree create="false" delete="false" force_save="1" >
+                                           <field name="numerolicitacion" invisible="1" force_save="1" />
+                                           <field name="posicion"/>
+                                           <field name="name" readonly="1" force_save="1" />
+                                           <field name="asiste"/>
+                                            <field name="ganador"/>
+                                           <field name="monto"/>
+                                           <button name="fallo" type="object" string="Datos del Fallo"
+                                           class="btn btn-primary" context="{'default_id_eventos': active_id}"/>
+
+                                            <button string="BORRAR" name="borrar" type="object" class="btn btn-danger"
+                                        confirm="Esta seguro de borrar este registro?" style="float:right;"/>
+                                       </tree>
+                                   </field>
+
+                               </group>
+                                <group>
+                                    <button name="dato_fallo" type="object" string="Datos Generales Del Fallo" class="btn btn-primary"
+                                            />
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+                </form>
+              </field>
+        </record>
+
+        <!-- tree view EVENTOS-->
+    <record model="ir.ui.view" id="proceso_participantes_tree">
+      <field name="name">proceso.participantes.tree</field>
+      <field name="model">proceso.eventos_licitacion</field>
+      <field name="arch" type="xml">
+        <tree>
+           <field name="id_sideop" />
+           <field name="licitacion_id" />
+           <field name="numerolicitacion_evento" />
+        </tree>
+      </field>
+    </record>
+
+      <record model="ir.actions.act_window" id="action_eventos">
+        <field name="name">Eventos</field>
+        <field name="res_model">proceso.eventos_licitacion</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('proceso_participantes_tree')})]"/>
+    </record>
+
+
+<!-- BOTON PARTICIPANTES NEW
+<record model="ir.actions.act_window" id="action_participantes1">
+        <field name="name">Participantes</field>
+        <field name="res_model">proceso.participante</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('proceso_participantes_form')}),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('proceso_participantes_tree')})]"/>
+        <field name="target">new</field>
+    </record>
+
+<record model="ir.actions.act_window" id="action_participantes2">
+        <field name="name">Participantes</field>
+        <field name="res_model">proceso.participante</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'tree', 'view_id': ref('proceso_participantes_tree')}),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('proceso_participantes_form')})]"/>
+    </record -->
+
+    <!-- LICITACIONES TREE -->
+    <record model="ir.ui.view" id="proc_contratacion_licitacion_tree">
+      <field name="name">proceso licitacion tree</field>
+      <field name="model">proceso.licitacion</field>
+      <field name="arch" type="xml">
+        <tree decoration-muted="estado_obra_desierta, '>=', '1'" decoration-danger="estado_obra_cancelar, '>=', '1'" default_order="create_date desc">
+          <field name="estado_obra_desierta" invisible="1"/>
+          <field name="estado_obra_cancelar" invisible="1"/>
+          <field name="tipolicitacion" string="Tipo"/>
+            <field name="numerolicitacion" string="Licitacion"/>
+          <field name="convocatoria" string="Conv."/>
+          <field name="name" string="Descripcion"/>
+          <field name="normatividad"/>
+          <field name="fechaconinv" string="Fecha"/>
+          <field name="estatus" string="Estatus"/>
+          <field name="create_date" string="Fecha de Reg"/>
+        </tree>
+      </field>
+    </record>
+
+<!-- LICITACION SEARCH -->
+  <record model="ir.ui.view" id="proceso_licitacion_search">
+         <field name="name">Contratacion Licitacion</field>
+         <field name="model">proceso.licitacion</field>
+         <field name="arch" type="xml">
+            <search>
+                <field name="tipolicitacion" />
+                <field name="numerolicitacion"/>
+                <field name="convocatoria"/>
+                <field name="name"/>
+                <field name="normatividad"/>
+                <field name="fechaoficio" />
+            </search>
+         </field>
+  </record>
+
+    <!-- SEARCH DESIERTA -->
+    <record model="ir.ui.view" id="estado_obra_desierta_search">
+         <field name="name">Estado Obra</field>
+         <field name="model">proceso.estado_obra_desierta</field>
+         <field name="arch" type="xml">
+            <search>
+                <field name="estado_obra_desierta"/>
+                <field name="numerolicitacion"/>
+                <field name="fecha_desierta"/>
+                <field name="observaciones_desierta"/>
+            </search>
+         </field>
+  </record>
+
+  <!-- SEARCH CANCELAR -->
+    <record model="ir.ui.view" id="estado_obra_search_cancelar">
+         <field name="name">Estado Obra Cancelar</field>
+         <field name="model">proceso.estado_obra_cancelar</field>
+         <field name="arch" type="xml">
+            <search>
+                <field name="estado_obra_cancelar"/>
+                <field name="numerolicitacion"/>
+                <field name="fecha_cancelado"/>
+                <field name="observaciones_cancelado"/>
+            </search>
+         </field>
+  </record>
+
+<!-- CANCELADO TREE -->
+  <record id="estado_obra_cancelado_tree" model="ir.ui.view">
+      <field name="name">estado.obra.cancelado.tree</field>
+      <field name="model">proceso.estado_obra_cancelar</field>
+      <field name="arch" type="xml">
+          <tree string="">
+              <field name="fecha_cancelado"/>
+              <field name="observaciones_cancelado"/>
+          </tree>
+      </field>
+  </record>
+  <!-- DESIERTA TREE -->
+      <record id="estado_obra_desierta_tree" model="ir.ui.view">
+          <field name="name">estado.obra.desierta.tree</field>
+          <field name="model">proceso.estado_obra_desierta</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="fecha_desierta"/>
+                  <field name="observaciones_desierta"/>
+              </tree>
+          </field>
+      </record>
+<!-- CANCELADO FORM -->
+ <record id="estado_obra_cancelado_form" model="ir.ui.view">
+            <field name="name">estado.obra.cancelado.form</field>
+            <field name="model">proceso.estado_obra_cancelar</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group colspan="1" col="2" string="Estado de la obra Cancelado">
+                            <field name="estado_obra_cancelar"/>
+                            <field name="numerolicitacion"/>
+                            <field name="fecha_cancelado"/>
+                            <field name="observaciones_cancelado"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+<!-- DESIERTA FORM -->
+      <record id="estado_obra_desierta_form" model="ir.ui.view">
+            <field name="name">estado.obra.desierta.form</field>
+            <field name="model">proceso.estado_obra_desierta</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group colspan="1" col="2" string="Estado de la obra Desierta">
+                            <field name="estado_obra_desierta"/>
+                            <field name="numerolicitacion"/>
+                            <field name="fecha_desierta"/>
+                            <field name="observaciones_desierta"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+<!-- BOTON DESIERTA
+<record model="ir.actions.act_window" id="action_desierta1">
+        <field name="name">Desierta</field>
+        <field name="res_model">proceso.estado_obra_desierta</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('estado_obra_desierta_form')}),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('estado_obra_desierta_tree')})]"/>
+        <field name="target">new</field>
+    </record>
+<record model="ir.actions.act_window" id="action_desierta2">
+        <field name="name">Desierta</field>
+        <field name="res_model">proceso.estado_obra_desierta</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('estado_obra_desierta_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('estado_obra_desierta_form')})]"/>
+    </record>-->
+
+<!-- BOTON CANCELAR
+<record model="ir.actions.act_window" id="action_cancelar1">
+        <field name="name">Cancelar</field>
+        <field name="res_model">proceso.estado_obra_cancelar</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('estado_obra_cancelado_form')}),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('estado_obra_cancelado_tree')})]"/>
+        <field name="target">new</field>
+    </record>
+
+<record model="ir.actions.act_window" id="action_cancelar2">
+        <field name="name">Cancelar</field>
+        <field name="res_model">proceso.estado_obra_cancelar</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('estado_obra_cancelado_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('estado_obra_cancelado_form')})]"/>
+    </record>-->
+
+<!-- LICITACION FORM -->
+    <record model="ir.ui.view" id="proc_contratacion_licitacion_form">
+      <field name="name">proceso.licitacion.form</field>
+      <field name="model">proceso.licitacion</field>
+      <field name="arch" type="xml">
+        <form>
+            <header>
+              <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_licitacion', '=', 'borrador')]}"/>
+              <button string="Confirmar" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_licitacion','=','confirmado'),('estatus_licitacion','=','validado')]}"/>
+              <button string="Validar" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_licitacion','!=','confirmado'),('estatus_licitacion','=','validado')]}"/>
+              <field name="estatus_licitacion" widget="statusbar"/>
+          </header>
+
+          <sheet>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: left;">
+
+
+                        <button string="Cancelar" type="object" name="licitacion_cancelar" class="btn btn-outline-danger btn-lg"
+                          context="{
+                           'default_numerolicitacion': active_id
+                           }" icon="fa-times-circle"/>
+                    <!-- BOTONES DE DESIERTA attrs="{'invisible': ['|',('estado_obra_cancelar', '=', 0), ('estado_obra_desierta','>=', '1') ]}"  attrs="{'invisible': ['|',('estado_obra_desierta', '=', 0), ('estado_obra_cancelar','>=', '1') ]}"-->
+
+                       <button string="Desierta" type="object" name="licitacion_desierta" class="btn btn-outline-warning btn-lg"
+                          context="{
+                           'default_numerolicitacion': active_id
+                           }"
+                          icon="fa-bitbucket" />
+
+                    </div>
+
+                    <div class="col-sm-8" style="text-align: right;">
+
+                    <button type="object" string="Documentos" name="imprimir_documentos_licitacion"
+                      class="btn btn-outline-primary btn-lg"></button>
+
+                        <button type="action" icon="fa-list-ol" string="Ev. Puntos"
+                      class="btn btn-outline-primary btn-lg"></button>
+
+                       <button type="action" icon="fa-clipboard" string=" Convocatoria / Bases"
+                          class="btn btn-outline-primary btn-lg"></button>
+
+                            <!-- BOTONES DE PARTICIPANTES -->
+                          <button type="object" name="VentanaParticipantes" class="btn btn-outline-primary btn-lg" context="{
+                                   'search_default_numerolicitacion': active_id,
+                                   'default_numerolicitacion': active_id
+                                   }" icon="fa-users">
+                              <field name="variable_count" string=' Participantes' widget="statinfo" />
+                          </button>
+
+
+                        <button type="object" name="VentanaEventos" icon="fa-calendar" string="Eventos"
+                        context="{
+                       'search_default_numerolicitacion_evento': active_id,
+                       'default_numerolicitacion_evento': active_id
+                       }" class="btn btn-outline-primary btn-lg" />
+                    </div>
+                </div>
+            </div>
+
+              <!-- FORMULARIO LICITACION -->
+              <group string="Seleccionar Obra" colspan="1" col="2" >
+                <field name="programa_inversion_licitacion" string="Programa de Inversión"
+                       attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"
+                        placeholder="Seleccionar Programa de Inversión" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/>
+
+                <field name="contratista" invisible="1"/>
+                <field name="contratado" invisible="1"/>
+                <field name="fallada" invisible="1"/>
+              </group>
+
+               <group>
+                  <!-- INSERTAR PARTIDAS LICITACION -->
+                <field name="programar_obra_licitacion" widget='one2many'
+                attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1),
+                ('estado_obra_desierta','>=', 1)]}"
+                       nolabel="1" context="{'default_programaInversion': programa_inversion_licitacion,
+                       }" >  <!-- 'invisible': [('programa_inversion_licitacion', '=', False)],  -->
+                    <tree editable="bottom">
+                        <control>
+                             <create string="Agregar Partida"/>
+                        </control>
+                             <field name="programaInversion" invisible="1" force_save="1"/>
+
+                        <!-- quitar despues recurso -->
+                            <field name="recursos" string="Listado de obras por licitar" context="{'search_default_group_nombre_prog': True}"
+                            options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"
+                            placeholder="BUSCAR OBRA" force_save="1" />
+
+                            <field name="obra" domain="[('programaInversion', '=', parent.programa_inversion_licitacion)]" placeholder="BUSCAR OBRA" invisible="1"/>
+
+
+                            <field name="monto_partida" sum="Monto" widget="monetary" invisible="1"/>
+                            <field name="iva_partida" readonly="True" sum="I.V.A" widget="monetary" force_save="1" invisible="1"/>
+                            <field name="total_partida" readonly="True" sum="Total" widget="monetary" invisible="1"/>
+                    </tree>
+                </field>
+              </group>
+
+
+              <group>
+                <field name="name" class="oe_inline" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"
+                placeholder="Escribir Objeto de la licitación"/>
+
+                <field name="estatus" />
+
+                <field name="estado_obra_desierta" widget="statinfo" invisible="1"/>
+                <field name="estado_obra_cancelar" widget="statinfo" invisible="1"/>
+              </group>
+
+              <group colspan="1" col="2">
+                  <group string="Datos De La Licitación" colspan="1" col="1">
+                      <group><field name="tipolicitacion" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}" class="oe_inline"/></group>
+                      <group><field name="numerolicitacion" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"
+                          placeholder="ESCRIBIR NUMERO DE LICITACION" /></group>
+                      <group><field name="convocatoria" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="fechaconinv" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="caracter" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="normatividad" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                  </group>
+<!-- domain="[('fun_preside_actos', '=', True)]" -->
+                  <group string="Presiden Actos" colspan="1" col="1">
+                      <group><field name="funcionariopresideactos" 
+                      attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"
+                      options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/></group>
+                      <group><field name="puesto" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="numerooficio" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="fechaoficio" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="oficioinvitacioncontraloria" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="fechaoficio2" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="notariopublico" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                  </group>
+              </group>
+
+              <group string="Datos Generales" colspan="1" col="2">
+                  <group colspan="1" col="1">
+                      <group><field name="fechalimiteentregabases" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1),
+                    ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><!--field name="costobasesdependencia" attrs="{'readonly': ['|', ('normatividad','=', '1'), ('estado_obra_cancelar','>=', 1), '|', ('estado_obra_desierta','>=', 1)]}"
+                      invisible="1"/-->
+                      <p>&#160;</p>
+                      </group>
+                      <group><field name="fechaestimadainicio" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="plazodias" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="anticipomaterial" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="puntosminimospropuestatecnica" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                  </group>
+                  <group colspan="1" col="1">
+                      <group><field name="fecharegistrocompranet" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="costocompranetbanco" attrs="{'readonly': ['|', ('normatividad','=', '1'), ('estado_obra_cancelar','>=', 1), '|', ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="fechaestimadatermino" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="capitalcontable" attrs="{'readonly': ['|', ('normatividad','=', '1'), ('estado_obra_cancelar','>=', 1), '|', ('estado_obra_desierta','>=', 1)]}"/></group>
+                      <group><field name="anticipoinicio" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"
+                       /></group>
+                  </group>
+              </group>
+
+              <group>
+              <group string="Visita De Obra" colspan="1" col="2">
+                <field name="visitafechahora" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+                <field name="visitalugar" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+              </group>
+
+              <group string="Junta De Aclaraciones" colspan="1" col="2">
+                <field name="juntafechahora" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+                <field name="juntalugar" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+              </group>
+
+              <group string="Apertura" colspan="1" col="2">
+                <field name="aperturafechahora" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+                <field name="aperturalugar" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+              </group>
+
+              <group string="Fallo" colspan="1" col="2">
+                <field name="fallofechahora" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+                <field name="fallolugar" attrs="{'readonly': ['|', ('estado_obra_cancelar','>=', 1), ('estado_obra_desierta','>=', 1)]}"/>
+              </group>
+            </group>
+
+          </sheet>
+           
+        </form>
+      </field>
+    </record>
+
+
+    <!-- TREE VIEW LICITACION-->
+    <record model="ir.ui.view" id="proc_contratacion_licitacion_tree2">
+      <field name="name">proceso licitacion tree2</field>
+      <field name="model">proceso.licitacion</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="numerolicitacion"/>
+          <field name="convocatoria"/>
+          <field name="name" string="Descripcion"/>
+          <field name="normatividad"/>
+          <field name="fechaconinv"/>
+          <field name="estatus"/>
+          <field name="create_date"/>
+
+        </tree>
+      </field>
+    </record>
+
+     <!-- ACCIONES PARA ELIMINAR EL BOTON DELETE -->
+    <record id="licitacion_tree_no_delete" model="ir.ui.view">
+        <field name="name">licitacion.tree.no.delete</field>
+        <field name="model">proceso.licitacion</field>
+        <field name="inherit_id" ref="proc_contratacion_licitacion_tree2" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="delete">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ACTION DE CALENDARIO DE EVENTOS-->
+     <act_window id="calendario_eventos"
+    name="Calendario de Eventos"
+    src_model="proceso.licitacion"
+    res_model="proceso.licitacion"
+    view_type="form" view_mode="form"
+    key2="client_action_multi" target="new"
+    view_id="proc_contratacion_licitacion_tree2"
+    />
+
+    <!-- ACTION DE LISTADO DE LICITACIONES-->
+    <act_window id="listado_licitaciones"
+    name="Listado de Licitaciones"
+    src_model="proceso.licitacion"
+    res_model="proceso.licitacion"
+    view_type="form" view_mode="form"
+    key2="client_action_multi" target="new"
+    view_id="proc_contratacion_licitacion_tree2"
+    />
+
+    <!-- ACCIONES VENTANA DE REPORTE -->
+    <record model="ir.actions.act_window" id="proc_contratacion_licitacion_action_window2">
+      <field name="name">Consulta de licitaciones</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.licitacion</field>
+      <field name="view_id" ref="proc_contratacion_licitacion_tree2"/>
+      <field name="view_mode">tree</field>
+    </record>
+
+      <!-- ACCIONES VENTANA LICITACIONES -->
+    <record model="ir.actions.act_window" id="proc_contratacion_licitacion_action_window">
+      <field name="name">REGISTRO DE LICITACIONES</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.licitacion</field>
+      <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('proc_contratacion_licitacion_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('proc_contratacion_licitacion_form')})]"/>
+    </record>
+
+<!-- TREE VIEW part-->
+    <record model="ir.ui.view" id="participante_view">
+      <field name="name">xd</field>
+      <field name="model">proceso.participante</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="id_sideop"/>
+          <field name="numerolicitacion"/>
+
+        </tree>
+      </field>
+    </record>
+
+     <!-- ACCIONES VENTANA LICITACIONES -->
+    <record model="ir.actions.act_window" id="part_action">
+      <field name="name">Registro de part</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.participante</field>
+      <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('participante_view')})]"/>
+    </record>
+
+    <!-- partida licitacion -->
+    <record model="ir.ui.view" id="partidalic_view">
+      <field name="name">xd</field>
+      <field name="model">proceso.participante</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="id_sideop"/>
+          <field name="numerolicitacion"/>
+
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- partida licitacion -->
+    <record model="ir.ui.view" id="partidalicitree">
+      <field name="name">xd</field>
+      <field name="model">partidas.licitacion</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="recursos"/>
+          <field name="obra"/>
+          <field name="programaInversion"/>
+          <field name="id_sideop_partida"/>
+
+        </tree>
+      </field>
+    </record>
+
+     <!-- ACCIONES VENTANA LICITACIONES -->
+    <record model="ir.actions.act_window" id="partidaliciaction">
+      <field name="name">partida lici</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.licitacion</field>
+      <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('partidalicitree')})]"/>
+    </record>
+
+    <!-- fallo -->
+    <record model="ir.ui.view" id="fallotreee">
+      <field name="name">xd</field>
+      <field name="model">proceso.contra_fallo</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="name"/>
+          <field name="asiste"/>
+          <field name="ganador"/>
+          <field name="numerolicitacion"/>
+
+        </tree>
+      </field>
+    </record>
+
+     <!-- ACCIONES VENTANA LICITACIONES -->
+    <record model="ir.actions.act_window" id="falloactione">
+      <field name="name">partida lici</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.contra_fallo</field>
+      <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('fallotreee')})]"/>
+    </record>
+
+    <!-- APERTURA -->
+    <record model="ir.ui.view" id="aperturatree">
+      <field name="name">xd</field>
+      <field name="model">proceso.contra_propuestas</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="name"/>
+          <field name="asiste"/>
+          <field name="paso"/>
+          <field name="posicion"/>
+          <field name="numerolicitacion"/>
+
+        </tree>
+      </field>
+    </record>
+
+     <!-- ACCIONES VENTANA LICITACIONES -->
+    <record model="ir.actions.act_window" id="aperturaacionte">
+      <field name="name">partida lici</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.contra_propuestas</field>
+      <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('aperturatree')})]"/>
+    </record>
+
+     <!-- PARTIDA APERTURA -->
+    <record model="ir.ui.view" id="partidapropuestatree">
+      <field name="name">xd</field>
+      <field name="model">proceso.propuesta_lic</field>
+      <field name="arch" type="xml">
+        <tree create="false" >
+          <field name="licitacion_id"/>
+          <field name="recursos"/>
+          <field name="obra"/>
+          <field name="programaInversion"/>
+          <field name="monto_partida"/>
+
+        </tree>
+      </field>
+    </record>
+
+     <!-- ACCIONES VENTANA LICITACIONES -->
+    <record model="ir.actions.act_window" id="partidapropuestaaction">
+      <field name="name">partida lici</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.propuesta_lic</field>
+      <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('partidapropuestatree')})]"/>
+    </record>
+
+    <!-- MENUS -->
+    <menuitem name="Proceso de contratación" id="proc_contratacion_menu_root" sequence="0" web_icon="proceso_contratacion,static/description/icon.png"/>
+    <menuitem name="Registro de licitaciones" id="proc_contratacion_consulta_menu" parent="proc_contratacion_menu_root"
+              action="proc_contratacion_licitacion_action_window" sequence="1"/>
+
+              <!--menuitem name="IMPORT PART" id="part_menu" parent="proc_contratacion_menu_root"
+              action="part_action" sequence="7"/> 
+
+              <menuitem name="IMPORT EVENTOS" id="eventos_menux" parent="proc_contratacion_menu_root"
+              action="action_eventos" sequence="9"/>
+
+              <menuitem name="IMPORT PARTIDA LICI" id="parrtidalici" parent="proc_contratacion_menu_root"
+              action="partidaliciaction" sequence="10"/>
+
+              <menuitem name="IMPORT fallo" id="falloactionn" parent="proc_contratacion_menu_root"
+              action="falloactione" sequence="11"/>
+
+              <menuitem name="IMPORT apertura" id="aperturaacionn" parent="proc_contratacion_menu_root"
+              action="aperturaacionte" sequence="12"/>
+
+              <menuitem name="IMPORT partida lic" id="parturapartidaactione" parent="proc_contratacion_menu_root"
+              action="partidapropuestaaction" sequence="12"/ -->
+
+    <!-- <menuitem name="Consulta de licitaciones" id="proc_contratacion.licitacion_menu"
+     parent="proc_contratacion_menu_root" action="proc_contratacion_licitacion_action_window2" sequence="2"/>-->
+
+  </data>
+</odoo>

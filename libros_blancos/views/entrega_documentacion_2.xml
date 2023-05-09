@@ -1,0 +1,259 @@
+<odoo>
+  <data>
+
+       <report
+        id="reporte_entrega_qweb"
+        model="lb.entrega_documentos"
+        string="Reporte de Entrega"
+        report_type="qweb-html"
+        name="libros_blancos.reporte_entrega_qweb"
+        menu="False"
+        />
+
+    <!--  Formulario de control de expediente  -->
+        <record id="entrega_documentos_libros_checklist" model="ir.ui.view">
+            <field name="name">Documentos Checklist form</field>
+            <field name="model">lb.entrega_documentos</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                       <button name="%(reporte_entrega_qweb)d" string="REPORTE DE ENTREGA" type="action"  icon="fa-copy" />
+                    </header>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <h3 colspan="2" align="center"> REGISTRO DE ENTREGA:
+                            <field name="nombre_registro" readonly="1"/> </h3>
+                      </div>
+                  </div>
+
+                     <field name="p_id" readonly="1" force_save="1" invisible="1" />
+                     <field name="contrato" readonly="1" force_save="1" invisible="1"/>
+                     <field name="libros_blancos_id" readonly="1" force_save="1" invisible="1"/>
+
+                    <sheet>
+                         <div>
+                        <h1>
+                            <field name="id_entrega" readonly="1" force_save="1"/>
+                        </h1>
+                    </div>
+
+                        <group>
+                            <field name="fecha"/>
+                            <field name="comentarios_generales"/>
+                        </group>
+                         <group attrs="{'invisible': [('id','!=', False)]}">
+                        <p style="color: #DF0101; font-size: 15px;"> --- PARA AGREGAR LOS DOCUMENTOS PRIMERO TIENE QUE GUARDAR EL REGISTRO --- </p>
+                    </group>
+
+                        <group>
+                            <field name="entrega_doc_checklist"  nolabel="1" widget="one2many"
+                            context="{'default_entrega_id': active_id}" attrs="{'readonly': [('id','=', False)]}">
+                                <tree editable="bottom">
+                                    <field name="entrega_id" force_save="1" invisible="1"/>
+                                    <field name="contrato" force_save="1" />
+                                    <field name="documento"  /> <!-- domain="[('contrato_id.id', '=', contrato),
+                            ('aplica', '=', 'Si'),('existe', '=', 'No')]" domain="[('contrato_id.id', '=', contrato)]" -->
+
+
+
+                                    <field name="numero_documento" readonly="1" force_save="1" />
+                                    <field name="nombre_documento" readonly="1" force_save="1" />
+                                    <field name="etapa" force_save="1" readonly="1" />
+
+                                    <field name="comentario" placeholder="AGREGAR COMENTARIO..."/>
+                                </tree>
+                            </field>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!--  vista tree -->
+        <record id="entraga_documentos_libros_tree" model="ir.ui.view">
+            <field name="name">Entrega de documentos tree</field>
+            <field name="model">lb.entrega_documentos</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_entrega" string="ID"/>
+                    <field name="fecha"/>
+                    <!--field name="contrato" string="Contrato"/>
+                    <field name="libros_blancos_id" string="Enlace"/>
+                    <field name="nombre_registro" string="Entrega"/-->
+
+                    <field name="entrega_doc_checklist" string="# de entregas"/>
+                    <field name="comentarios_generales"/>
+                </tree>
+            </field>
+        </record>
+
+       <!--  action view      -->
+        <record id="entrega_documentos_libros_action" model="ir.actions.act_window">
+            <field name="name">ENTREGA DE DOCUMENTOS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lb.entrega_documentos</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('libros_blancos_id','=', active_id)]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('entraga_documentos_libros_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('entrega_documentos_libros_checklist')})]"/>
+        </record>
+
+
+
+        <!-- VISTA REVISION DOCUMENTOS -->
+    <record id="entrega_documetancion_libros_form" model="ir.ui.view">
+        <field name="name">Entrega de documentacion Form</field>
+        <field name="model">libros.blancos</field>
+        <field name="arch" type="xml">
+            <form string="" create="false" delete="false" >
+
+                <sheet>
+                    <!--group>
+                        <button name="registro_entrega" type="object" string="Agregar Registro de Entrega" class="btn btn-info"
+                    style="float:right;" context="{'default_p_id': active_id, 'form_view_ref': 'entrega_documentos_checklist'}"/>
+
+                    </group-->
+
+                    <group>
+                        <button name="%(entrega_documentos_libros_action)d" type="action" string="Ver/Agregar Registro de Entrega"
+                    style="float:right;" context="{'default_contrato': contrato, 'default_libros_blancos_id': active_id}" class="btn btn-outline-primary btn-lg"
+                        icon="fa-pencil-square-o"/>
+                    </group>
+
+                    <group  colspan="2" col="4">
+                            <div>
+                            <b>Nombre de la Obra: </b>
+                        </div>
+                        <p>&#160;</p>
+                   </group>
+                    <group>
+                        <field name="nombre_obra" nolabel="1" readonly="1"/>
+                        
+                    </group>
+                    <group>
+                        <div>
+                            <b>Contratista: </b>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="contratista" nolabel="1" readonly="1"/>
+                    </group>
+
+                    <group>
+                        <div>
+                            <b>Contrato: </b>
+                        </div>
+                    </group>
+                    <group>
+                       <field name="contrato" string="Contrato" nolabel="1"/>
+                    </group>
+
+
+                    <group>
+                       <field name="tabla_libros_blancos" widget="one2many" nolabel="1">
+                            <tree create="2" delete="2" >
+                                <field name="numero_documento" readonly="1"/>
+                                <field name="nombre_documento_m2o" string="Nombre del Documento"/>
+                                <field name="aplica"/>
+                                <field name="existe"/>
+                                <field name="Observaciones"/>
+                                <field name="p_id" invisible="1" />
+                                <field name="contrato_id" invisible="1"/>
+                                <field name="libros_blancos_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- VISTA TREE DE PARTIDAS -->
+      <record model="ir.ui.view" id="entrega_documentacion_libros_tree">
+      <field name="name">Entrega de documentacion Tree</field>
+      <field name="model">libros.blancos</field>
+      <field name="arch" type="xml">
+        <tree create="false">
+            <field name="contrato" string="# Contrato"/>
+            <field name="contratista" string="Contratista" />
+            <field name="nombre_obra" string="Obra"/>
+            <field name="fecha_revisado_exp"/>
+            <field name="fecha_verificado_exp"/>
+            <field name="responsable_revision_exp"/> 
+            <field name="tipo_contrato"/> 
+            <field name="reviso_expediente" />
+            <field name="verificado_expediente" />
+        </tree>
+      </field>
+    </record>
+
+      <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="entrega_documentacion_libros_action">
+      <field name="name">ENTREGA DE DOCUMENTACIÓN</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">libros.blancos</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('entrega_documentacion_libros_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('entrega_documetancion_libros_form')})]"/>
+    </record>
+
+
+      <!--record id="entrega_docs_checklist_form" model="ir.ui.view">
+            <field name="name">Entrega Documentos checklist</field>
+            <field name="model">lb.entrega_checklist</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+                        <group>
+                        </group>
+                        <field name="p_id" readonly="1" invisible="1" force_save="1"/>
+                        <group string="Entrega de Documento:" >
+                            <field name="numero_documento" readonly="1" force_save="1"/>
+                            <field name="nombre_documento" readonly="1" force_save="1"/>
+                        </group>
+                        <group col="4">
+                            <field name="aplica" force_save="1" readonly="1"/>
+                            <field name="existe" force_save="1" readonly="1"/>
+                            <field name="Observaciones" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="comentario" placeholder="Agregar Comentario..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record-->
+
+
+
+
+           <!-- ACCIONES VENTANA ESTIMACIONES -->
+    <record model="ir.actions.act_window" id="entregas_libros_action">
+      <field name="name">ENTREGAS</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">lb.entrega_documentos</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('entraga_documentos_libros_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('entrega_documentos_libros_checklist')})]"/>
+    </record>
+
+        <!-- NUEVO -->
+      <menuitem name="Entregas" id="entregas_menuitem"
+              parent="revision_expedientes_menu"
+              action="entregas_libros_action" sequence="2"/>
+
+
+
+      <menuitem name="Entrega de documentación" id="entrega_documentacion_2_menuitem"
+              parent="revision_expedientes_menu"
+              action="entrega_documentacion_libros_action" sequence="3"/>
+
+  </data>
+</odoo>

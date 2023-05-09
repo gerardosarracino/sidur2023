@@ -1,0 +1,211 @@
+<odoo>
+  <data>
+    <!-- LICITACIONES -->
+    <record model="ir.ui.view" id="proc_contratacion_adjudicacion_directa">
+      <field name="name">proceso.adjudicacion_directa.tree</field>
+      <field name="model">proceso.adjudicacion_directa</field>
+      <field name="arch" type="xml">
+        <tree default_order="create_date desc">
+          <field name="numerocontrato" string="# Contrato"/>
+          <field name="name" string="Descripción"/>
+          <field name="importe_adjudicacion"/>
+          <field name="normatividad" string="Norm."/>
+          <field name="contratista"/>
+            <field name="create_date" invisible="1"/>
+        </tree>
+      </field>
+    </record>
+
+      <record id="adjudicacion_directa_search" model="ir.ui.view">
+         <field name="name">adjudicacion directa search</field>
+         <field name="model">proceso.adjudicacion_directa</field>
+          <field name="arch" type="xml">
+              <search string="">
+                  <separator/>
+                    <filter string=" --- Ejercicio ---" name="ejercicio"/>
+                  <separator orientation="vertical" />
+                    <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
+                    <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
+                    <filter string="2018" name="ejercicio" domain="[('ejercicio.name', '=', '2018')]"/>
+                    <filter string="2017" name="ejercicio" domain="[('ejercicio.name', '=', '2017')]"/>
+                    <filter string="2016" name="ejercicio" domain="[('ejercicio.name', '=', '2016')]"/>
+                    <filter string="2015" name="ejercicio" domain="[('ejercicio.name', '=', '2015')]"/>
+
+              <field name="numerocontrato" string="# Contrato"/>
+              <field name="name" string="Descripción"/>
+              <field name="importe_adjudicacion"/>
+              <field name="normatividad" string="Norm."/>
+              <field name="contratista"/>
+          </search>
+         </field>
+      </record>
+
+      <record id="recursos_form" model="ir.ui.view">
+          <field name="name">recursos form</field>
+          <field name="model">proceso.adjudicacion_directa</field>
+          <field name="arch" type="xml">
+              <form string="">
+                  <sheet>
+                      <group>
+                          <group string="Definición de recursos específicos para el contrato">
+                              <field name="contratista" class="oe_inline" readonly="1"/>
+                          </group>
+
+                          <group  colspan="2" col="4">
+                              <field name="recurso_federal"/>
+                              <field name="recurso_federal_indirecto"/>
+                              <field name="recurso_estatal"/>
+                              <field name="recurso_estatal_indirecto"/>
+                              <field name="recurso_municipal"/>
+                              <field name="recurso_municipal_indirecto"/>
+                              <field name="recurso_otros"/>
+                              <field name="total_recurso"/>
+                          </group>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+    <record model="ir.ui.view" id="proc_contratacion_adjudicacion_directa_form">
+      <field name="name">proceso.adjudicacion_directa.form</field>
+      <field name="model">proceso.adjudicacion_directa</field>
+      <field name="arch" type="xml">
+        <form>
+            <header>
+              <button string="Cancelar" type="object" name="borrador_progressbar" attrs="{'invisible': [('estatus_adjudicacion', '=', 'borrador')]}"/>
+              <button string="Confirmar" type="object" name="confirmado_progressbar" class="oe_highlight" attrs="{'invisible': ['|',('estatus_adjudicacion','=','confirmado'),('estatus_adjudicacion','=','validado')]}"/>
+              <button string="Validar" type="object" name="validado_progressbar" class="oe_highlight"  attrs="{'invisible': ['|',('estatus_adjudicacion','!=','confirmado'),('estatus_adjudicacion','=','validado')]}"/>
+              <field name="estatus_adjudicacion" widget="statusbar"/>
+          </header>
+
+          <sheet>
+
+
+                <!-- BOTON HACIA RECURSOS -->
+          <div class="text-right">
+                <button name="recursos" type="object" string="Recursos Específicos" class="btn btn-outline-primary btn-lg"
+                        icon="fa-pencil-square-o"
+                />
+          </div>
+
+
+          <group string="Agregar nueva adjudicación directa" >
+                <!-- PROGRAMAS DE INVERSION -->
+                <field name="programas_inversion_adjudicacion" string="Programa de inversión" placeholder="Seleccionar Programa de Inversión"
+                options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/>
+                <field name="contratado" force_save="1" invisible="1"/>
+          </group>
+              <!-- fields de impportacion -->
+                <field name="id_sideop_adjudicacion" invisible="1"/>
+                <field name="id_sideop_partida" invisible="1"/>
+          <group>
+
+                <!-- PARTIDAS -->
+                <field name="programar_obra_adjudicacion" widget='one2many'
+                attrs="{'invisible': [('programas_inversion_adjudicacion', '=', False)]}" nolabel="1"
+                context="{'default_programaInversion': programas_inversion_adjudicacion}" >
+                    <tree editable="bottom">
+                        <control>
+                             <create string="Agregar Partida"/>
+                        </control>
+                        <field name="id_sideop_adjudicacion" invisible="1"/>
+                        <field name="id_sideop_partida" invisible="1"/>
+
+                        <field name="recursos" context="{'search_default_group_nombre_prog': True}" domain="[('p_inv2.id', '=', programaInversion)]"
+                        placeholder="BUSCAR OBRA" options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}" force_save="1" invisible="1"/>
+
+                        <field name="obra" placeholder="BUSCAR OBRA"
+                        options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/> <!-- domain="[('programaInversion', '=', parent.programas_inversion_adjudicacion)]" -->
+
+                        <field name="programaInversion" readonly="1" force_save="1" invisible="1"/>
+                        <field name="monto_partida" sum="Monto" widget="monetary"/>
+                        <field name="iva_partida" readonly="True" sum="I.V.A" widget="monetary"/>
+                        <field name="total_partida" readonly="True" sum="Total" widget="monetary"/>
+                    </tree>
+                </field>
+          </group>
+          <group>
+                 <field name="name" placeholder="Descripción/Meta	"/>
+                 <field name="importe_adjudicacion" readonly="1" force_save="1" invisible="1"/>
+          </group>
+
+          <group colspan="1" col="4">
+                <field name="numerocontrato" placeholder="Numero del Contrato"/>
+                <field name="fechaadjudicacion"/>
+          </group>
+          <group colspan="1" col="4">
+                <field name="dictamen"/>
+                <field name="normatividad"/>
+          </group>
+          <group colspan="2" col="4">
+                <field name="anticipoinicio"/>
+                <field name="anticipomaterial"/>
+                <field name="fechainicio" />
+                <field name="fechatermino" />
+                <field name="plazodias"/>
+                <field name="contratista" class="oe_inline" placeholder="Seleccionar Contratista"
+                options="{'no_create': True, 'no_create_edit':True, 'not_delete': True}"/>
+          </group>
+          </sheet>
+
+           
+
+        </form>
+      </field>
+    </record>
+
+
+      <record id="vista_importacion_adjpart" model="ir.ui.view">
+          <field name="name">import adjudicacion partida</field>
+          <field name="model">partidas.adjudicacion</field>
+          <field name="arch" type="xml">
+              <tree>
+                  <field name="id_sideop_adjudicacion"/>
+                  <field name="id_sideop_partida"/>
+                  <field name="programaInversion"/>
+                  <field name="monto_partida"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="action_import_adjpartx" model="ir.actions.act_window">
+          <field name="name">action_partadj</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">partidas.adjudicacion</field>
+          <field name="view_mode">tree</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+
+            </p><p>
+
+            </p>
+          </field>
+      </record>
+
+    <!-- ACCIONES VENTANA -->
+    <record model="ir.actions.act_window" id="proc_contratacion_adjudicacion_directa_action_window">
+      <field name="name">ADJUDICACIÓN DIRECTA</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">proceso.adjudicacion_directa</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+       <!-- ACCIONES VENTANA -->
+   <!-- <record model="ir.actions.act_window" id="prueba01">
+      <field name="name">ver datos</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partidas.partidas</field>
+      <field name="view_mode">tree,form</field>
+    </record> -->
+
+    <!-- MENUS -->
+      <menuitem name="Adjudicación directa" id="proc_contratacion_adjudicacion_directa_menu"
+                parent="proc_contratacion_menu_root" action="proc_contratacion_adjudicacion_directa_action_window" sequence="3"/>
+
+
+
+     <!-- <menuitem name="Ver" id="proc_contratacion_adjudicacion_directa_menu"
+                parent="proc_contratacion.menu_root" action="prueba01" sequence="0"/>-->
+  </data>
+</odoo>

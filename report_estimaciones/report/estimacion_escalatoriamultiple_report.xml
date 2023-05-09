@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_escalatoria_multiple" >
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+
+                        <style>
+                            body {
+                            font-size: 14px;
+                            font-family: Arial, Helvetica, sans-serif;
+                            }
+
+                            #header {
+                            text-align: center;
+                            border-bottom: 1px solid #666;
+                            padding-bottom: 2px;
+                            }
+
+                            h3,
+                            h4,
+                            h5 {
+                            margin: 0;
+                            line-height: 20px;
+                            }
+
+                            table,
+                            td,
+                            th {
+                            border-color: #eee;
+                            font-size: 12px;
+                            }
+
+                            caption {
+                            font-weight: 700;
+                            margin-bottom: 20px;
+                            margin-top: 10px;
+                            }
+
+                            #footer h5 {
+                            text-align: center;
+                            border-bottom: 1px solid #eee;
+                            }
+
+                            #opciones {
+                            position: fixed;
+                            top: 0;
+                            background-color: #999;
+                            padding: 5px;
+                            right: 0;
+                            z-index: 99999;
+                            margin-right: 8px;
+                            display: inline-block;
+                            -moz-box-shadow: 0 0 3px #999;
+                            -webkit-box-shadow: 0 0 3px #999;
+                            box-shadow: 0 0 3px #999;
+                            }
+
+                            #opciones a {
+                            border-right: 1px solid #ccc;
+                            padding-right: 5px;
+                            color: #fff;
+                            text-decoration: none;
+                            }
+
+                            #opciones a:last-child {
+                            border: none;
+                            }
+
+                            #opciones a:before {
+                            content: " ";
+                            }
+                        </style>
+
+                        <div id="header" style="position:relative;">
+                            <div style="position:absolute; top:1; left:50;">
+                                <img t-att-src="'http://sidur.galartec.com/report_estimaciones/static/src/img/logo-sidur.png'"  title="logoEnte" t-att-alt="logo" width="265" height="65" />
+                            </div>
+                            <h3>GOBIERNO DEL ESTADO DE SONORA</h3>
+                            <h4>
+                                SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO		</h4>
+                            <h5>ESCALATORIA MULTIPLE</h5>
+                        </div>
+
+
+                        <div style="font-size: 9px;">
+                            <div id="datosObra" style="margin-top:10px; border:1px solid #eee;">
+                                <div style="float:left; width:50%; border-right:1px solid #eee;">
+                                    <table width="100%" border="0" cellpadding="3" cellspacing="0">
+                                        <tbody><tr>
+                                            <td width="21%">LOCALIDAD:</td>
+                                            <td>
+                                                <span t-field="o.municipio_contrato"/>					</td>
+                                        </tr>
+                                            <tr>
+                                                <td>CONTRATO:</td>
+                                                <td>
+                                                    <span t-field="o.obra"/>					</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CONTRATISTA:</td>
+                                                <td>
+                                                    <span t-field="o.contratista_contrato"/>.					</td>
+                                            </tr>
+                                        </tbody></table>
+                                </div>
+                                <div style="float:left; width:49.8%;">
+                                    <table width="100%" border="0" cellpadding="3" cellspacing="0">
+                                        <tbody><tr>
+                                            <td width="21%">PROGRAMA:</td>
+                                            <td width="33%">
+                                                <span t-field="o.programa"/>					</td>
+                                            <td width="16%">ESTIMACIÓNES
+                                            </td>
+                                            <td width="30%" >
+                                                <span t-field="o.clave_estimacion"/>					</td>
+                                        </tr>
+
+                                            <tr>
+                                                <td>FECHA</td>
+                                                <td>
+                                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                                                  			</td>
+                                                <td>ID ESTIMACION:</td>
+                                                <td><span t-field="o.ide_estimacion"/>	</td>
+                                            </tr>
+                                        </tbody></table>
+                                </div>
+                                <div style="clear:both; height:1%;"></div>
+                            </div>
+                            <div style="margin-top:15px;">
+                                <table width="100%" border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="8" class="text-center">
+                                                ESCALATORIAS
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th width="12.5%">No. ESTIMACION</th>
+                                            <th width="12.5%">FECHA INICIO</th>
+                                            <th width="12.5%">FECHA TERMINO</th>
+                                            <th width="12.5%">IMPORTE ESTIMADO</th>
+                                            <th width="12.5%">AFECTACION POR ANTICIPO</th>
+                                            <th width="12.5%">SUBTOTAL</th>
+                                            <th width="12.5%">PORCENTAJE APLICADO</th>
+                                            <th width="12.5%">IMPORTE</th>
+                                        </tr>
+
+                                        <tr t-foreach="o.multiples_escalatorias" t-as="s"> <!-- multiples_escalatorias -->
+
+                                            <td class="text-center" >
+                                                <span t-field="s.estimacion"/>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <span t-field="s.fecha_inicio_estimacion"/>
+                                            </td>
+
+
+                                            <td class="text-center">
+                                                <span t-field="s.fecha_termino_estimacion" />
+                                            </td>
+
+                                            <td >
+                                                $ &#160; <span t-field="s.estimacion.estimado" style="float:right;" t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+
+                                            <td  >
+                                                $ &#160; <span t-field="s.estimacion.amort_anticipo"  style="float:right;" t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+
+                                            <td  >
+                                                $ &#160; <span t-field="s.estimacion.estimacion_subtotal" style="float:right;" t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+
+                                            <td class="text-center" >
+                                                <span t-field="s.por_escalatoria" t-options='{"widget": "float", "precision": 2}'/>%
+                                            </td>
+
+                                            <td class="text-left" >
+                                               $ &#160; <span t-field="s.sub_total_esc_h" style="float:right;" t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <br/>
+
+                            <div style="float:right; width:25%; margin-left:5px; height:50px; ">
+                                <table  width="100%" border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="50%">SUB TOTAL</td>
+                                            <td width="50%">$ &#160;<span t-field="o.sub_total_esc_h" style="float:right;" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>IVA</td>
+                                            <td>$ &#160;<span t-field="o.estimacion_iva" style="float:right;" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>TOTAL</td>
+                                            <td>$ &#160;<span t-field="o.estimacion_facturado" style="float:right;" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <t t-set="foo" t-value=" '     '.replace(' ',u'\xa0').encode('utf-8') "/>
+                            <t t-esc="foo"/>
+
+                            <div style="margin-top:150px;">
+
+                                <table width="100%" border="0" cellpadding="2" cellspacing="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="33.33%">&#160;</td>
+                                            <td width="33.33%">&#160;</td>
+                                            <td width="33.33%">&#160;</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="center">
+                                                <span t-foreach="o.obra.residente_obra" t-as="s" t-field="s.name" />
+                                                <br/>
+                                                SUPERVISOR
+                                                <br/>
+                                                SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO
+
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.obra.representante_legal" t-if="o.obra.representante_legal"/>
+                                                <span t-field="o.contratista_contrato.nombre_representante" t-if="not o.obra.representante_legal"/>
+                                                <br/>
+                                                <span t-field="o.contratista_contrato"/>
+                                                <br/>
+                                                CONTRATISTA
+                                                <br/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.obra.director_obras"/>
+                                                <br/>
+                                                DIRECTOR GENERAL DE EJECUCIÓN DE OBRA
+                                                <br/>
+                                                SECRETARIA DE INFRAESTRUCTURA Y DESARROLLO URBANO
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="clear:both; height:1%;"></div>
+
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

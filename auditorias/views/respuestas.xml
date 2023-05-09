@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <record id="respuestas" model="ir.actions.act_window">
+            <field name="name">Respuestas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">auditorias.respuestas</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="respuestas_tree_view" model="ir.ui.view">
+            <field name="name">Respuestas</field>
+            <field name="model">auditorias.respuestas</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="observacion"/>
+                    <field name="oficio"/>
+                    <field name="oficio_precierre"/>
+                    <field name="oficio_ciere"/>
+                    <field name="medida_solventacion"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="respuestas_search" model="ir.ui.view">
+            <field name="name">Respuestas</field>
+            <field name="model">auditorias.respuestas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="observacion"/>
+                    <field name="oficio"/>
+                    <field name="oficio_precierre"/>
+                    <field name="oficio_ciere"/>
+                    <field name="medida_solventacion"/>
+                    <field name="capturista"/>
+                    <field name="fecha_captura"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="respuestas_form" model="ir.ui.view">
+            <field name="name">Respuestas</field>
+            <field name="model">auditorias.respuestas</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="observacion" widget="char" placeholder="Observación"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Información General">
+                                <group>
+                                    <field name="oficio"/>
+                                    <field name="oficio_precierre"/>
+                                    <field name="oficio_ciere"/>
+                                    <field name="medida_solventacion"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Respuestas" id="respuestas_menuitem"
+              parent="menu_auditorias"
+              action="respuestas" sequence="6"/>
+    </data>
+</odoo>
