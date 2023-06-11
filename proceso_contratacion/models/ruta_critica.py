@@ -305,7 +305,7 @@ class informe_avance(models.Model):
 
     avance_programado_fecha = fields.Float(store=True)
 
-    @api.multi
+    '''@api.multi
     @api.onchange('fecha_actual')
     def porProgramado(self):
         if not self.fecha_actual:
@@ -376,7 +376,7 @@ class informe_avance(models.Model):
                                 porcentajeProgramado = rr
                                 self.avance_programado_fecha = rr
                             else:
-                                pass
+                                pass'''
                         
     @api.multi
     @api.onchange('ruta_critica', 'fecha_actual')

@@ -666,11 +666,13 @@
         <field name="name">Información de avance</field>
         <field name="model">proceso.iavance</field>
         <field name="arch" type="xml">
-             <search>
-                <field name="numero_contrato" />
-                <field name="com_avance_obra" string="Comentario de Avance" />
-                <field name="situacion_contrato" />
-             </search>
+          <search>
+            <filter name="group_contrato" string="Contrato" context="{'group_by':'numero_contrato'}"/>
+            <field name="numero_contrato" />
+            <field name="fecha_actual" />
+            <field name="com_avance_obra" string="Comentario de Avance" />
+            <field name="situacion_contrato" />
+          </search>
         </field>
       </record>
 
@@ -700,6 +702,8 @@
             <separator/>
             <filter string=" --- Ejercicio ---" name="ejercicio"/>
                  <separator orientation="vertical" />
+            <filter string="2023" name="ejercicio" domain="[('ejercicio.name', '=', '2023')]" />
+            <filter string="2022" name="ejercicio" domain="[('ejercicio.name', '=', '2022')]" />
             <filter string="2021" name="ejercicio" domain="[('ejercicio.name', '=', '2021')]" />
             <filter string="2020" name="ejercicio" domain="[('ejercicio.name', '=', '2020')]" />
             <filter string="2019" name="ejercicio" domain="[('ejercicio.name', '=', '2019')]"/>
@@ -932,14 +936,18 @@
     <menuitem name="Supervisión de Obra" id="supervicion_obra" parent="supervision_obra.menu_root"
               action="supervision_obra_proceso_supervicion_obra" sequence="1"/>
 
+    <menuitem name="Informes de avance" id="informe_avance_consulta" parent="supervision_obra.menu_root"
+              action="supervision_obra_proceso_informe_avance" sequence="2"/>
+              
+
       <!--menuitem name="Avances Físicos Financieros" id="avances_fisicos_financieros_menu" parent="supervision_obra.menu_root"
               action="supervision_obra_avances_fisicos_financieros_action" sequence="5"/-->
 
               <!-- menuitem name="IMPORT CAT RUTA" id="cat_ruta2" parent="ejecucion_obra.menu_root"
-              action="supervision_obra_cat_supervision_obra_ruta_action" sequence="7"/>
+              action="supervision_obra_cat_supervision_obra_ruta_action" sequence="7"/-->
 
-              <menuitem name="IMPORT RUTA" id="cat_ruta" parent="ejecucion_obra.menu_root"
-              action="supervision_obra_ruta_action" sequence="8"/ -->
+      <menuitem name="Registro Ruta rc, Debug de desarrollo" id="cat_ruta" parent="ejecucion_obra.menu_root"
+      action="supervision_obra_ruta_action" sequence="8"/>
 
       <!--menuitem name="IMPORT RCA" id="supervision_obra_rca_Actione" parent="ejecucion_obra.menu_root"
               action="supervision_obra_rca_Action" sequence="9"/-->
